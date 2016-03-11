@@ -1,16 +1,23 @@
+// CAUTION!!! THIS FILE USES HTTPS as SERVER USES SSL
+// CHANGE https TO http IF YOUR WEB SERVER IS NOT ON SSL
+
 var fs = require('fs');
 
+/** THIS IS ONLY FOR SSL **/
 var privateKey = fs.readFileSync('../ssl/fastest_ml.key').toString();
 var certificate = fs.readFileSync('../ssl/fastest_ml.crt').toString();
 var ca = fs.readFileSync('../ssl/fastest_ml.ca-bundle').toString();
+/** END **/
 
 
-var http = require('http');
-var https = require('https');
+var http = require('http'); // FOR HTTPS
+var https = require('https'); // FOR SSL
 var server = https.createServer({key:privateKey,cert:certificate,ca:ca}, function(req, res){
 
 });
-
+//var server = https.createServer({key:privateKey,cert:certificate,ca:ca}, function(req, res){ //// FOR HTTP
+//
+//});
 var io = require('socket.io').listen(server);
 var redis = require("redis"),
     client = redis.createClient();
