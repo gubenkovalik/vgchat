@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Events\EventServiceProvider;
+
 return [
 
     /*
@@ -52,7 +54,7 @@ return [
     |
     */
 
-    'timezone' => 'Europe/Kiev',
+    'timezone' => 'GMT',
 
     /*
     |--------------------------------------------------------------------------
@@ -157,6 +159,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
+        EventServiceProvider::class,
 
     ],
 

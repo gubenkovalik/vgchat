@@ -15,9 +15,6 @@ var io = require('socket.io').listen(server);
 var redis = require("redis"),
     client = redis.createClient();
 
-
-
-
 var activeUsers = 0;
 var typingUsers = 0;
 
@@ -55,7 +52,7 @@ server.listen(3000, function () {
 });
 io.on('connection', function (socket) {
 
-
+    onlineUpdater();
     activeUsers++;
     socket.on('disconnect', function (msg) {
         activeUsers--;
@@ -117,11 +114,16 @@ io.on('connection', function (socket) {
                 var msg = data.msg;
                 var nickname = data.nickname;
                 var avatar = data.avatar;
+                var loclink = data.loclink;
 
-                io.emit('user notify', {uid: uid, msg: msg, nickname: nickname, avatar: avatar});
+                io.emit('user notify', {uid: uid, msg: msg, nickname: nickname, avatar: avatar, loclink: loclink});
 
             }
         });
+    });
+    socket.on('broadcast', function(data){
+        console.log("Broadcast: "+data.msg);
+        io.emit('broadcast', {msg: data.msg})
     });
 });
 setInterval(function () {
@@ -141,11 +143,10 @@ setInterval(function () {
     console.log(activeUsers+" active users");
     console.log(osize(nicknames)+" typing users");
     console.log(importantMsg);
-}, 500);
+}, 3000);
+var onlineUpdater = function(){
 
-setInterval(function(){
-
-	if(activeUsers < 1) return;
+    if(activeUsers < 1) return;
 
     var req = https.get('https://fastest.ml/users/online/get', function(res){
 
@@ -168,5 +169,6 @@ setInterval(function(){
     req.on('error', function(e){
         console.log(e);
     });
-}, 5000);
+};
+setInterval(onlineUpdater, 5000);
 

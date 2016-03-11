@@ -10,7 +10,7 @@ class Auth {
     {
 
 
-        if (!$request->session()->has('uid')) return redirect()->to('/');
+        if (!$request->session()->has('uid')) return $next(redirect()->to('/'));
 
 
 

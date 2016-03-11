@@ -55,9 +55,8 @@ Route::group(['middleware' => ['web','locale','online']], function () {
     Route::get('/android/remind', 'AndroidController@remind');
 
 
-    Route::patch('dsd', function () {
-        echo "you are banned";
-        exit;
+    Route::get('/test', function (\Illuminate\Http\Request $request) {
+        echo Carbon\Carbon::now()->toDateTimeString();
     });
-    // your routes here
+
 });

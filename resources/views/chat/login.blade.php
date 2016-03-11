@@ -44,7 +44,7 @@
 
 @section('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-jkit/1.1.8/jquery.jkit.min.js"></script>
-<script type='text/javascript' src='//dsms0mj1bbhn4.cloudfront.net/assets/pub/shareaholic.js' data-shr-siteid='c93fd8e7b80c9f21677b5ed578f76294' data-cfasync='false' async='async'></script>
+
 <script>
     function hideJumb(){
         $('.jumbotron').slideUp(400);
@@ -64,9 +64,4 @@
     });
 </script>
 
-@endsection
-
-@section('head_scriptss')
-
- <script src="//fast.eager.io/sS_AOD1HyY.js"></script>
 @endsection

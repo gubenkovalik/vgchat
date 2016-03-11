@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Files;
 use App\Http\FileShares;
 use App\Http\User;
+use Event;
 use File;
 use Hash;
 use Illuminate\Http\Request;
@@ -117,13 +118,24 @@ class FilesController extends Controller
         if(FALSE == Files::where('user_id', $this->uid)->where('id', $file_id)->exists()) {
             return response()->json(['fuck'=>true]);
         }
-        FileShares::where('file_id', $file_id)->forceDelete();
+        $file = Files::where('user_id', $this->uid)->where('id', $file_id)->first();
 
         if(!is_array($users) || count($users) == 0){
+            FileShares::where('file_id', $file_id)->forceDelete();
             return response()->json(['success'=>true]);
         }
+        foreach($users as $uid){
+            if(!FileShares::where('file_id','=' , $file_id)->where('user_id', '=', $uid)->exists()){
+                Event::fire(new \App\Events\FileSharedEvent($file->file_name, $this->getUser()->nickname, $request->session()->get('sessid'), $uid));
+            }
+        }
+
+        FileShares::where('file_id', $file_id)->forceDelete();
+
+
 
         foreach($users as $uid){
+
             $share = new FileShares();
             $share->file_id = $file_id;
             $share->user_id = $uid;

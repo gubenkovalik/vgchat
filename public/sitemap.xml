@@ -6,15 +6,15 @@
             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
 <url>
-  <loc>http://cjsuspend.tk/</loc>
+  <loc>https://fastest.ml/</loc>
   <priority>1.00</priority>
 </url>
 <url>
-  <loc>http://cjsuspend.tk/register</loc>
+  <loc>https://fastest.ml/register</loc>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>http://cjsuspend.tk/remind</loc>
+  <loc>https://fastest.ml/remind</loc>
   <priority>0.70</priority>
 </url>
 </urlset>

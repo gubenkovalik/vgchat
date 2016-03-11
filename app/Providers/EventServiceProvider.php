@@ -16,6 +16,12 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\SomeEvent' => [
             'App\Listeners\EventListener',
         ],
+        'App\Events\UserLoggedInEvent' => [
+            'App\Listeners\BroadcastSocket'
+        ],
+        'App\Events\FileSharedEvent' => [
+            'App\Listeners\FileSharedListener'
+        ],
     ];
 
     /**

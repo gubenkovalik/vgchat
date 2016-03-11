@@ -139,9 +139,11 @@ var loaderTask = function($scope, Chat){
                 } else if(e.which){ // Netscape/Firefox/Opera
                     keynum = e.which;
                 }
-                if(isCharacterKeyPress(e)){
+                if(isCharacterKeyPress(e) || keynum != 13){
                     
                     socket.emit('chat typing', {nickname: _nickname, sessid: _sessid});
+                } else if(keynum == 13){
+                    socket.emit('chat notyping', {nickname: _nickname, sessid: _sessid});
                 }
             });
         });

@@ -114,7 +114,7 @@ return [
 
     'redis' => [
 
-        'cluster' => false,
+        'cluster' => true,
 
         'default' => [
             'host'     => env('REDIS_HOST', 'localhost'),

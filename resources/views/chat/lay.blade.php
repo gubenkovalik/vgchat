@@ -32,6 +32,11 @@
                     display: none !important;
                 }
             }
+            @media screen and (max-width: 768px) {
+                .menuitem {
+                    display: inline !important;
+                }
+            }
             body {
                 background-image: url('/assets/images/bg2.jpg');
                 background-attachment: fixed;
@@ -156,7 +161,7 @@
         <div class="container" style="margin-top: 49px;">
             @yield('content')
         </div>
-<script src="//vk.com/js/api/openapi.js" type="text/javascript"></script>
+        <script src="//vk.com/js/api/openapi.js" type="text/javascript"></script>
         @if(Request::is("*/") && !Session::has('uid'))
             <script src="/assets/js/IMPORTANT.js"></script>
         @else
@@ -168,6 +173,7 @@
         <script>
             var _sessid = "{{Session::get('sessid')}}";
             var socket = io.connect('https://fastest.ml:3000', {secure: true});
+
             Notification.requestPermission(function(){});
             toastr.options = {
                 "closeButton": true,
@@ -206,6 +212,17 @@
                 }
             });
 
+            socket.on("broadcast", function(data){
+                console.log(data);
+                toastr.success(data.msg);
+                try {
+                    ion.sound.play("notification");
+                    var mailNotification = new Notification(data.msg);
+                } catch(e){
+
+                }
+            });
+
 
         </script>
         @endif
@@ -217,9 +234,6 @@
         <script type="text/javascript">
             new WOW().init();
         </script>
-        <script src="/regger.js"></script>
-       
-       <a href="http://www.beyondsecurity.com/vulnerability-scanner-verification/fastest.ml"><img src="https://seal.beyondsecurity.com/verification-images/fastest.ml/vulnerability-scanner-2.gif" alt="Website Security Test" border="0" /></a>
 
        
 
@@ -239,9 +253,8 @@
 
           
         </script>
-        
  
         <script type="text/javascript"> (function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter35789225 = new Ya.Metrika({ id:35789225, clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true }); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = "https://mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks"); </script> <noscript><div><img src="https://mc.yandex.ru/watch/35789225" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-        <script async="async" defer src="//fast.eager.io/sS_AOD1HyY.js"></script>
+
     </body>
 </html>

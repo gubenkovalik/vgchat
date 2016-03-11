@@ -18,7 +18,3 @@
     </div>
 
 @endsection
-@section('head_scriptss')
-
- <script src="//fast.eager.io/sS_AOD1HyY.js"></script>
-@endsection

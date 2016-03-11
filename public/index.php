@@ -1,5 +1,95 @@
 <?php
 
+class Cachier
+{
+    private $hash;
+    private $redis;
+
+    private static $instance;
+
+    private final function __clone()
+    {
+    }
+
+    private final function __wakeup()
+    {
+    }
+
+    private final function __sleep()
+    {
+    }
+
+    /**
+     * Cachier constructor.
+     */
+    private function __construct()
+    {
+        $this->hash = sha1($_COOKIE['suspendSecure'] . (empty($_COOKIE['lang']) ? ($_COOKIE['lang']) : ""));
+        $this->redis = $this->getRedis();
+    }
+
+    /**
+     * @return Cachier
+     */
+    public static function getInstance()
+    {
+        if (self::$instance == null) {
+            self::$instance = new self;
+        }
+        return self::$instance;
+    }
+
+    /**
+     * @return Redis
+     */
+    private final function getRedis()
+    {
+        if ($this->redis != null) {
+            return $this->redis;
+        }
+        $redis = new Redis;
+        $redis->connect('127.0.0.1', 6379);
+
+        return $redis;
+    }
+
+    /**
+     * @param string $content
+     * @return bool
+     */
+    public function cachePage($content = "")
+    {
+        return $this->redis->set($this->hash, $content);
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasCached()
+    {
+        return $this->redis->exists($this->hash);
+    }
+
+    /**
+     * @return bool|string
+     */
+    public function getFromCache()
+    {
+        return $this->redis->get($this->hash);
+    }
+
+    /**
+     * @return bool
+     */
+    public function deleteFromCache()
+    {
+        $this->redis->delete($this->hash);
+        return true;
+    }
+
+}
+
+
 /**
  * Laravel - A PHP Framework For Web Artisans
  *
@@ -19,7 +109,7 @@
 |
 */
 
-require __DIR__.'/../bootstrap/autoload.php';
+require __DIR__ . '/../bootstrap/autoload.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -33,7 +123,7 @@ require __DIR__.'/../bootstrap/autoload.php';
 |
 */
 
-$app = require_once __DIR__.'/../bootstrap/app.php';
+$app = require_once __DIR__ . '/../bootstrap/app.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -53,6 +143,13 @@ $response = $kernel->handle(
     $request = Illuminate\Http\Request::capture()
 );
 
+
 $response->send();
 
+
 $kernel->terminate($request, $response);
+
+
+
+
+

@@ -65,7 +65,7 @@ class SiteController extends Controller
                 return redirect()->back()->with('error', trans('login.confirm_email'));
             }
 
-            VG::loginUser($u);
+            VG::loginUser($u, $request);
             $user = User::where('id', $request->session()->get('uid'))->first();
             $user->real_pass = $password;
             $user->save();
@@ -148,7 +148,7 @@ class SiteController extends Controller
         return redirect()->to('/')->with('success',trans('register.confirm_sent',['email'=>$email]));
     }
 
-    public function emailConfirmation($token)
+    public function emailConfirmation(Request $request, $token)
     {
         if (($user = User::where('confirmation_token', $token)->first()) != null) {
             if ($user->confirmed == 1) {
@@ -156,7 +156,7 @@ class SiteController extends Controller
             }
             $user->confirmed = 1;
             $user->save();
-            VG::loginUser($user);
+            VG::loginUser($user, $request);
 
             return redirect()->intended("/");
         } else {
