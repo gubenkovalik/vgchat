@@ -12,7 +12,7 @@ var ca = fs.readFileSync('../ssl/fastest_ml.ca-bundle').toString();
 
 var http = require('http'); // FOR HTTPS
 var https = require('https'); // FOR SSL
-var server = https.createServer({key:privateKey,cert:certificate,ca:ca}, function(req, res){
+var server = https.createServer({key: privateKey, cert: certificate, ca: ca}, function (req, res) {
 
 });
 //var server = https.createServer({key:privateKey,cert:certificate,ca:ca}, function(req, res){ //// FOR HTTP
@@ -39,7 +39,7 @@ function removeA(arr) {
     }
     return arr;
 }
-osize = function(obj) {
+osize = function (obj) {
     var size = 0, key;
     for (key in obj) {
         if (obj.hasOwnProperty(key)) size++;
@@ -112,7 +112,7 @@ io.on('connection', function (socket) {
     });
 
     socket.on('user notify', function (data) {
-        console.log("Notification: "+data.uid+" "+data.msg);
+        console.log("Notification: " + data.uid + " " + data.msg);
         var sessid = data.sessid;
         client.get('secure:' + sessid, function (err, reply) {
             if (reply != null) {
@@ -128,8 +128,8 @@ io.on('connection', function (socket) {
             }
         });
     });
-    socket.on('broadcast', function(data){
-        console.log("Broadcast: "+data.msg);
+    socket.on('broadcast', function (data) {
+        console.log("Broadcast: " + data.msg);
         io.emit('broadcast', {msg: data.msg})
     });
 });
@@ -147,33 +147,33 @@ setInterval(function () {
 var importantMsg = "";
 setInterval(function () {
     console.reset();
-    console.log(activeUsers+" active users");
-    console.log(osize(nicknames)+" typing users");
+    console.log(activeUsers + " active users");
+    console.log(osize(nicknames) + " typing users");
     console.log(importantMsg);
 }, 3000);
-var onlineUpdater = function(){
+var onlineUpdater = function () {
 
-    if(activeUsers < 1) return;
+    if (activeUsers < 1) return;
 
-    var req = https.get('https://fastest.ml/users/online/get', function(res){
+    var req = https.get('https://fastest.ml/users/online/get', function (res) {
 
         var bodyChunks = [];
-        res.on('data', function(chunk) {
+        res.on('data', function (chunk) {
             // You can process streamed parts here...
             bodyChunks.push(chunk);
-        }).on('end', function() {
+        }).on('end', function () {
 
             try {
                 var body = JSON.parse(Buffer.concat(bodyChunks));
                 io.emit("users online", body);
                 importantMsg = "";
-            } catch(e){
+            } catch (e) {
                 importantMsg = "Server error...";
             }
         })
     });
 
-    req.on('error', function(e){
+    req.on('error', function (e) {
         console.log(e);
     });
 };
