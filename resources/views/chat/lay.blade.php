@@ -18,7 +18,7 @@
         <link rel="icon" href="/assets/images/favicon.ico" type="image/x-icon">
         <link rel="shortcut icon" href="/assets/images/favicon.ico" type="image/x-icon">
         <link rel="stylesheet" href="/assets/css/bootstrap.min.css"/>
-        <link rel="stylesheet" href="/assets/css/bootstrap-theme.min.css"/>
+
         <link rel="stylesheet" href="/assets/css/bootstrap-material-design.min.css"/>
         <link rel="stylesheet" href="/assets/css/ripples.min.css"/>
         <link rel="stylesheet" href="/assets/css/jquery-ui.min.css"/>

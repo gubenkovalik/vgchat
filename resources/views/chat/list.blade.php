@@ -11,7 +11,7 @@
 
     <div class="panel panel">
         <div class="panel-heading">
-            <h3 class="panel-title text-primary"><a href="#" onclick="$('#uplpanel').slideToggle(600);" class="btn btn-primary btn-raised">{{Lang::get('files.upload')}}</a></h3>
+            <h3 class="panel-title text-primary"><a href="#" onclick="$('#uplpanel').slideToggle(600);" class="btn btn-inverse">{{Lang::get('files.upload')}}</a></h3>
         </div>
         <div class="panel-body" style="display:none;" id="uplpanel">
             <form action="/files/upload" class="dropzone" id="uplf" enctype="multipart/form-data">

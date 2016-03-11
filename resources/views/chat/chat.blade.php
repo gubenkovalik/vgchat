@@ -9,7 +9,7 @@
                     <label class="control-label" for="message">{{Lang::get('chat.message')}}..</label>
                     <input autocomplete="off" ng-model="chatData.message" name="message" type="text" id="message" class="form-control">
                     <span class="input-group-btn">
-                      <button type="submit" class="btn btn-primary btn-fab btn-fab-mini">
+                      <button type="submit" class="btn btn-inverse btn-fab btn-fab-mini">
                           <i class="material-icons">send</i>
                       </button>
                         &nbsp;
