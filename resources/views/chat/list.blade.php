@@ -11,7 +11,7 @@
 
     <div class="panel panel">
         <div class="panel-heading">
-            <h3 class="panel-title text-primary"><a href="#" onclick="$('#uplpanel').slideToggle(600);" class="btn btn-inverse">{{Lang::get('files.upload')}}</a></h3>
+            <h3 class="panel-title text-primary"><a href="javascript:void(0);" onclick="$('#uplpanel').slideToggle(600);" class="btn btn-inverse">{{Lang::get('files.upload')}}</a></h3>
         </div>
         <div class="panel-body" style="display:none;" id="uplpanel">
             <form action="/files/upload" class="dropzone" id="uplf" enctype="multipart/form-data">
@@ -19,6 +19,9 @@
                     <input name="file" type="file" multiple />
                 </div>
             </form>
+            <div class="progress progress-striped active">
+                <div class="progress-bar" id="uplbar" style="width: 0%"></div>
+            </div>
         </div>
     </div>
 
@@ -29,7 +32,7 @@
             <div class="row-action-primary">
                 <i class="material-icons" id="icon2{{$file->id}}">{{$file->user_id == Session::get('uid') ? $file->public == 0 ? "lock" : "done" : "folder_shared"}}</i>
             </div>
-            <div class="row-content">
+            <div class="row-content" style="width:100% !important;">
                 <?php
                     $f = new Symfony\Component\HttpFoundation\File\File($file->path);
                     $mime = $f->getMimeType();
@@ -114,10 +117,7 @@
             "showMethod": "fadeIn",
             "hideMethod": "fadeOut"
         };
-        socket.on('chat message', function(msg){
 
-            toastr.warning(msg.message, msg.nickname);
-        });
         var myDropzone = new Dropzone("#uplf", { url: "/files/upload"});
         myDropzone.on("complete", function(file) {
             setTimeout(function(){
@@ -125,6 +125,9 @@
                 location.reload(true);
             }, 2000);
 
+        });
+        myDropzone.on("uploadprogress", function(obj, PROGRESS) {
+            $("#uplbar").width(PROGRESS+"%");
         });
         $(function() {
             $("img.lazy").lazyload();

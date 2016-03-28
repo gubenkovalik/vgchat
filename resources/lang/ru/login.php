@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'register_and_chat' => 'Регистрируйся и общайся!',
+    'register_and_chat' => 'Скачай приложение для Android для большего удобства чата!',
     'register'=>'Регистрация',
     'close'=>'Закрыть',
     'login'=>'Вход',

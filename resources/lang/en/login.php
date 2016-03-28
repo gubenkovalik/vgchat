@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'register_and_chat' => 'Register and chat!',
+    'register_and_chat' => 'Download android application to chat easier!',
     'register'=>'Register',
     'close'=>'Close',
     'login'=>'Login',

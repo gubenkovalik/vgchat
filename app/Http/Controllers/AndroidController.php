@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Http\Helper;
 use App\Http\Messages;
 use App\Http\User;
 use Hash;
@@ -17,7 +18,7 @@ class AndroidController extends Controller
     public function __construct(Request $request)
     {
         $this->middleware('android-auth', ['except' => ['login', 'register', 'remind']]);
-        $this->user = User::where('access_token', '=', $request->get('access_token'));
+        $this->user = User::where('access_token', '=', $request->get('access_token'))->first();
     }
 
     public function get(Request $request)
@@ -31,9 +32,16 @@ class AndroidController extends Controller
             ->leftJoin('users', 'messages.user_id', '=', 'users.id')
             ->orderBy('messages.id', 'DESC')
             ->limit(30)
-            ->get();
+            ->get()->toArray();
 
-        return response()->json($messages);
+
+        foreach($messages as $key=>$msg){
+            $messages[$key]['created_at'] = Helper::getGoodDate($msg['created_at']);
+        }
+
+
+
+        return response()->json(array_reverse($messages));
     }
 
     public function send(Request $request)
@@ -70,7 +78,9 @@ class AndroidController extends Controller
         $u->access_token = md5(rand()).md5($u->id.time().rand().mt_rand());
         $u->save();
 
-        return response()->json(['access_token'=>$u->access_token]);
+        VG::loginUser($u, $request);
+
+        return response()->json(['access_token'=>$u->access_token, 'avatar'=>$u->avatar, 'nickname'=>$u->nickname, 'user_id'=>$u->id, 'sessid'=>$request->session()->get('sessid')]);
     }
 
     public function register(Request $request)
@@ -107,8 +117,5 @@ class AndroidController extends Controller
         return response()->json(['success'=>true]);
     }
 
-    public function remind(Request $request)
-    {
 
-    }
 }

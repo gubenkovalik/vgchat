@@ -8,19 +8,31 @@
 
       <p>{{Lang::get('login.register_and_chat')}}! </p>
 
-      <p><a href="/register" class="btn btn-inverse btn-lg">{{Lang::get('login.register')}}</a> <a href="javascript:void(0);" class="btn btn-lg" onclick="hideJumb()">{{Lang::get('login.close')}}</a></p>
+      <p>
+        <a href="/extra/android/VG_Chat_latest.apk" class="btn btn-success btn-success btn-raised"><i class="material-icons">file_download</i> <b style="text-transform:none">VG_Chat_v_1.0.apk</b></a>
+        <a href="/register" class="btn btn-inverse btn-lg">{{Lang::get('login.register')}}</a>
+        
+    </p>
     </div>
 
     <div class="">
         <h2>{{Lang::get('login.login')}}</h2>
-        @if(Session::has('error')) <span class="text-danger">{{Session::get('error')}}</span>@endif
-        @if(Session::has('success')) <span class="text-success">{{Session::get('success')}}</span>@endif
+
         <br>
         <div class="col-md-4 well well-lg">
-            <div class="bs-callout bs-callout-warning hidden">
-                <h4>Oh snap!</h4>
-                <p>{{trans('register.all_fields')}}</p>
-            </div>
+            @if(Session::has('error'))
+                <div class="alert alert-dismissible alert-danger">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    {{Session::get('error')}}
+
+                </div>
+            @endif
+            @if(Session::has('success'))
+                    <div class="alert alert-dismissible alert-success">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        {{Session::get('success')}}
+
+                    </div>@endif
             <form action="" id="loginForm" method="POST" data-parsley-validate>
                 <div class="form-group">
                     <input type="email" data-parsley-trigger="change" required="required" name="email" class="form-control" id="email" placeholder="E-mail">

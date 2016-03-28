@@ -57,12 +57,5 @@ interface EngineInterface
 
     /** Gets the name of the engine */
     public function getName();
-
-    /** 
-     * Sets the namespace for the next messages
-     *
-     * @param string $namespace the namespace
-     */
-    public function of($namespace);
 }
 

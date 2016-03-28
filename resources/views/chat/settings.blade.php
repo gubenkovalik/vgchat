@@ -4,9 +4,20 @@
 @section('content')
     <h1></h1>
 
-    @if(Session::has('error')) <span class="text-danger">{{Session::get('error')}}</span>@endif
-    @if(Session::has('success')) <span class="text-success">{{Session::get('success')}}</span>@endif
     <form class="form-horizontal well" action="" method="post" enctype="multipart/form-data">
+        @if(Session::has('error'))
+            <div class="alert alert-dismissible alert-danger">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                {{Session::get('error')}}
+
+            </div>
+        @endif
+            @if(Session::has('success'))
+                <div class="alert alert-dismissible alert-success">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    {{Session::get('success')}}
+
+                </div>@endif
         <fieldset>
             <legend>{{Lang::get('settings.settings')}}</legend>
             <div class="form-group">

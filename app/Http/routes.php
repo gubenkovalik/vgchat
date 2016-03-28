@@ -1,10 +1,14 @@
 <?php
 /** MAIN ROUTER **/
+use App\Http\User;
+
 Route::group(['middleware' => ['web','locale','online']], function () {
 
     Route::get("/", 'SiteController@index');
 
     Route::post("/", array('before' => 'csrf', 'uses' => 'SiteController@login'));
+
+    Route::get('/policy', 'SiteController@policy');
 
     Route::get('/register', 'SiteController@register');
     Route::post("/register", array('before' => 'csrf', 'uses' => 'SiteController@reg'));
@@ -37,12 +41,19 @@ Route::group(['middleware' => ['web','locale','online']], function () {
 
     Route::post('/jumb', 'SiteController@jumb');
 
+    Route::get('/audio', 'ChatController@audios');
+    Route::get('/audio/search', 'ChatController@searchAudio');
+    Route::post('/audio/add', 'ChatController@addToPlaylist');
+    Route::get('/audio/download/{data}', 'ChatController@download');
+    Route::patch('/audio/getlink', 'ChatController@getlink');
 
     Route::post('/tracking', 'SiteController@tracking');
 
     Route::get('/lang/{lang}', 'SiteController@lang');
     Route::get('/users', 'ChatController@getUsers');
     Route::any('/users/online/get', 'NodeController@users_status_get');
+
+    Route::get('/secure/{uid}', 'ChatController@secureChat');
 
     Route::any('/api/send', 'ApiController@send');
 
@@ -56,7 +67,9 @@ Route::group(['middleware' => ['web','locale','online']], function () {
 
 
     Route::get('/test', function (\Illuminate\Http\Request $request) {
-        echo Carbon\Carbon::now()->toDateTimeString();
+        for($i = 0; $i < 10; $i++){
+            header('Hashed-'.$i.":".hash('whirlpool', $i));
+        }
     });
 
 });

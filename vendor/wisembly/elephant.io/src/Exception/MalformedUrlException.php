@@ -11,8 +11,8 @@
 
 namespace ElephantIO\Exception;
 
-use Exception;
-use InvalidArgumentException;
+use Exception,
+    InvalidArgumentException;
 
 class MalformedUrlException extends InvalidArgumentException
 {

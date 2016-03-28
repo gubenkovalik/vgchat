@@ -11,19 +11,19 @@
 
 namespace ElephantIO\Engine\SocketIO;
 
-use DomainException;
-use InvalidArgumentException;
-use UnexpectedValueException;
+use DomainException,
+    InvalidArgumentException,
+    UnexpectedValueException;
 
 use Psr\Log\LoggerInterface;
 
-use ElephantIO\EngineInterface;
-use ElephantIO\Payload\Encoder;
-use ElephantIO\Engine\AbstractSocketIO;
+use ElephantIO\EngineInterface,
+    ElephantIO\Payload\Encoder,
+    ElephantIO\Engine\AbstractSocketIO,
 
-use ElephantIO\Exception\SocketException;
-use ElephantIO\Exception\UnsupportedTransportException;
-use ElephantIO\Exception\ServerConnectionFailureException;
+    ElephantIO\Exception\SocketException,
+    ElephantIO\Exception\UnsupportedTransportException,
+    ElephantIO\Exception\ServerConnectionFailureException;
 
 /**
  * Implements the dialog with Socket.IO version 1.x
@@ -54,10 +54,10 @@ class Version1X extends AbstractSocketIO
             $host = 'ssl://' . $host;
         }
 
-        $this->stream = stream_socket_client($host, $errors[0], $errors[1], $this->options['timeout'], STREAM_CLIENT_CONNECT, stream_context_create($this->context));
+        $this->stream = stream_socket_client($host, $errors[0], $errors[1], $this->options['timeout'], STREAM_CLIENT_CONNECT, stream_context_create($this->options['context']));
 
         if (!is_resource($this->stream)) {
-            throw new SocketException($errors[0], $errors[1]);
+            throw new SocketException($error[0], $error[1]);
         }
 
         stream_set_timeout($this->stream, $this->options['timeout']);
@@ -76,26 +76,12 @@ class Version1X extends AbstractSocketIO
 
         fclose($this->stream);
         $this->stream = null;
-        $this->session = null;
     }
 
     /** {@inheritDoc} */
     public function emit($event, array $args)
     {
-        $namespace = $this->namespace;
-
-        if ('' !== $namespace) {
-            $namespace .= ',';
-        }
-
-        return $this->write(EngineInterface::MESSAGE, static::EVENT . $namespace . json_encode([$event, $args]));
-    }
-
-    /** {@inheritDoc} */
-    public function of($namespace) {
-        parent::of($namespace);
-
-        $this->write(EngineInterface::MESSAGE, static::CONNECT . $namespace);
+        return $this->write(EngineInterface::MESSAGE, static::EVENT . json_encode([$event, $args]));
     }
 
     /** {@inheritDoc} */
@@ -151,16 +137,8 @@ class Version1X extends AbstractSocketIO
             $query = array_replace($query, $this->url['query']);
         }
 
-        $context = $this->context;
-
-        if (!isset($context[$this->url['secured'] ? 'ssl' : 'http'])) {
-            $context[$this->url['secured'] ? 'ssl' : 'http'] = [];
-        }
-
-        $context[$this->url['secured'] ? 'ssl' : 'http']['timeout'] = (float) $this->options['timeout'];
-
         $url    = sprintf('%s://%s:%d/%s/?%s', $this->url['scheme'], $this->url['host'], $this->url['port'], trim($this->url['path'], '/'), http_build_query($query));
-        $result = @file_get_contents($url, false, stream_context_create($context));
+        $result = @file_get_contents($url, false, stream_context_create(['http' => ['timeout' => (float) $this->options['timeout']]]));
 
         if (false === $result) {
             throw new ServerConnectionFailureException;
@@ -186,25 +164,13 @@ class Version1X extends AbstractSocketIO
         $url = sprintf('/%s/?%s', trim($this->url['path'], '/'), http_build_query($query));
         $key = base64_encode(sha1(uniqid(mt_rand(), true), true));
 
-        $origin = '*';
-        $headers = isset($this->context['headers']) ? (array) $this->context['headers'] : [] ;
-
-        foreach ($headers as $header) {
-            $matches = [];
-
-            if (preg_match('`^Origin:\s*(.+?)$`', $header, $matches)) {
-                $origin = $matches[1];
-                break;
-            }
-        }
-
         $request = "GET {$url} HTTP/1.1\r\n"
                  . "Host: {$this->url['host']}\r\n"
                  . "Upgrade: WebSocket\r\n"
                  . "Connection: Upgrade\r\n"
                  . "Sec-WebSocket-Key: {$key}\r\n"
                  . "Sec-WebSocket-Version: 13\r\n"
-                 . "Origin: {$origin}\r\n\r\n";
+                 . "Origin: *\r\n\r\n";
 
         fwrite($this->stream, $request);
         $result = fread($this->stream, 12);
@@ -217,9 +183,6 @@ class Version1X extends AbstractSocketIO
         while ('' !== trim(fgets($this->stream)));
 
         $this->write(EngineInterface::UPGRADE);
-
-        //remove message '40' from buffer, emmiting by socket.io after receiving EngineInterface::UPGRADE
-        $this->read();
     }
 }
 

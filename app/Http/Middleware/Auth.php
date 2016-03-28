@@ -8,9 +8,12 @@ use Illuminate\Http\Request;
 class Auth {
     public function handle(Request $request, Closure $next)
     {
+        if (!$request->session()->has('uid')){
+
+            return $next(redirect()->to('/'));
+        }
 
 
-        if (!$request->session()->has('uid')) return $next(redirect()->to('/'));
 
 
 

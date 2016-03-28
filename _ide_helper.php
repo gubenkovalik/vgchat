@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.2.22 on 2016-03-09.
+ * Generated for Laravel 5.2.23 on 2016-03-18.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -107,6 +107,16 @@ namespace {
          */
         public static function basePath(){
             return \Illuminate\Foundation\Application::basePath();
+        }
+        
+        /**
+         * Get the path to the bootstrap directory.
+         *
+         * @return string 
+         * @static 
+         */
+        public static function bootstrapPath(){
+            return \Illuminate\Foundation\Application::bootstrapPath();
         }
         
         /**
@@ -227,7 +237,7 @@ namespace {
          * Get or check the current application environment.
          *
          * @param mixed
-         * @return string 
+         * @return string|bool 
          * @static 
          */
         public static function environment(){
@@ -649,6 +659,17 @@ namespace {
          */
         public static function setLocale($locale){
             \Illuminate\Foundation\Application::setLocale($locale);
+        }
+        
+        /**
+         * Determine if application locale is the given locale.
+         *
+         * @param string $locale
+         * @return bool 
+         * @static 
+         */
+        public static function isLocale($locale){
+            return \Illuminate\Foundation\Application::isLocale($locale);
         }
         
         /**
@@ -5121,6 +5142,28 @@ namespace {
         }
         
         /**
+         * Extract the trailing name component from a file path.
+         *
+         * @param string $path
+         * @return string 
+         * @static 
+         */
+        public static function basename($path){
+            return \Illuminate\Filesystem\Filesystem::basename($path);
+        }
+        
+        /**
+         * Extract the parent directory from a file path.
+         *
+         * @param string $path
+         * @return string 
+         * @static 
+         */
+        public static function dirname($path){
+            return \Illuminate\Filesystem\Filesystem::dirname($path);
+        }
+        
+        /**
          * Extract the file extension from a file path.
          *
          * @param string $path
@@ -6244,6 +6287,17 @@ namespace {
          */
         public static function after($callback){
             \Illuminate\Queue\QueueManager::after($callback);
+        }
+        
+        /**
+         * Register an event listener for the exception occurred job event.
+         *
+         * @param mixed $callback
+         * @return void 
+         * @static 
+         */
+        public static function exceptionOccurred($callback){
+            \Illuminate\Queue\QueueManager::exceptionOccurred($callback);
         }
         
         /**

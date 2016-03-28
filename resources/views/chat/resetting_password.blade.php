@@ -2,12 +2,18 @@
 
 @section('content')
     <h1>{{Lang::get('resetting.setting_passwor')}}</h1>
-    @if(Session::has('error')) <span class="text-danger">{{Session::get('error')}}</span>@endif
+
     <br/>
 
 
     <div class="col-md-6">
+        @if(Session::has('error'))
+            <div class="alert alert-dismissible alert-danger">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                {{Session::get('error')}}
 
+            </div>
+        @endif
         <form action="" method="POST">
             <div class="form-group">
                 <input type="password" name="password" class="form-control" id="password" placeholder="{{Lang::get('resetting.enter_new')}}">

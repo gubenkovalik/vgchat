@@ -7,9 +7,9 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1.0, user-scalable=no"/>
-        <meta name="description" content="VG Chat - @yield('title') бесплатный чат и файлообменник"/>
+        <meta name="description" content="VG Chat -  @yield('title') бесплатный чат и файлообменник"/>
         <meta name="keywords" content="VG Chat, chat, чат, файлообменник, Валик Губенко, cj suspend"/>
-        <meta name="og:description" content="VG Chat - @yield('title') бесплатный чат и файлообменник"/>
+        <meta name="og:description" content="VG Chat -  @yield('title') бесплатный чат и файлообменник"/>
         <meta name="og:title" content="VG Chat"/>
         <meta name="og:image" content="https://fastest.ml/assets/images/logo.jpg"/>
         <!--[if lt IE 9]>
@@ -18,21 +18,22 @@
         <link rel="icon" href="/assets/images/favicon.ico" type="image/x-icon">
         <link rel="shortcut icon" href="/assets/images/favicon.ico" type="image/x-icon">
         <link rel="stylesheet" href="/assets/css/bootstrap.min.css"/>
-
+        <script src="/assets/js/menu.js"></script>
         <link rel="stylesheet" href="/assets/css/bootstrap-material-design.min.css"/>
         <link rel="stylesheet" href="/assets/css/ripples.min.css"/>
         <link rel="stylesheet" href="/assets/css/jquery-ui.min.css"/>
         <link rel="stylesheet" href="/assets/css/jquery-ui.theme.min.css"/>
         <link rel="stylesheet" href="/assets/css/animate.min.css"/>
+        <link rel="stylesheet" href="/assets/css/menu.css"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.2/toastr.min.css"/>
         <link href='https://fonts.googleapis.com/css?family=Didact+Gothic&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
         <style>
-            @media screen and (max-width: 850px) {
+            @media screen and (max-width: 915px) {
                 .menuitem {
                     display: none !important;
                 }
             }
-            @media screen and (max-width: 768px) {
+            @media screen and (max-width: 767px) {
                 .menuitem {
                     display: inline !important;
                 }
@@ -54,8 +55,13 @@
                 text-shadow: rgba(0, 0, 0, 0.18) 1px 1px 1px;
                 -webkit-text-shadow: rgba(0, 0, 0, 0.18) 1px 1px 1px;
             }
+		img.emoji {  
+		  // Override any img styles to ensure Emojis are displayed inline
+		  margin: 0px !important;
+		  display: inline !important;
+		}
         </style>
-         
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/8.3.0/nouislider.min.css" rel="stylesheet"/>
         <link rel="stylesheet" href="/assets/css/material-icons.min.css">
 <meta name="google-site-verification" content="aAevCYBNHbnj-nOUS2bE0Qg6YD0crti-jJm_0Yh6cqA" />
         <link rel="stylesheet" href="/assets/css/chat.css"/>
@@ -71,9 +77,8 @@
             } ] }
         </script>
 
-         
 
-        
+
 
     </head>
     <body ng-controller="chatCtrl" data-jkit="[background]">
@@ -114,7 +119,7 @@
           </span>
           Product #: <span itemprop="mpn">5415433</span>
           <span itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
-            <span itemprop="ratingValue">5.0</span> stars, based on <span itemprop="reviewCount">784
+            <span itemprop="ratingValue">5.0</span> stars, based on <span itemprop="reviewCount">984
               </span> reviews
           </span>
 
@@ -129,11 +134,13 @@
                     </button>
                     <h1 style="display:inline;margin:0;padding:0; font-size:inherit;">
                         <a class="navbar-brand" href="https://fastest.ml">
-                            <i class="material-icons text-primary" style="position: relative;top:-1px;">verified_user</i> VG Chat
+                            <i class="material-icons" style="position: relative;top:-1px;color:white;">verified_user</i> VG Chat
                         </a>
                     </h1>
                 </div>
                 <div class="navbar-collapse collapse navbar-primary-collapse">
+                    <div id="sse1">
+                        <div id="sses1">
                     <ul class="nav navbar-nav">
                         <li class="dropdown">
                             <a href="javascript:void(0);" data-target="#" class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">language</i> <span class="menuitem">{{Lang::get('master.language')}}</span>
@@ -144,22 +151,28 @@
                             </ul>
                         </li>
                         @if(Session::has('uid'))
-                        <li data-no-instant @if(Request::is("*/"))class="active" @endif><a href="/"><i class="material-icons">chat</i> <span class="menuitem">{{Lang::get('master.chat')}}</span></a></li>
-                        <li data-no-instant @if(Request::is("*files*"))class="active" @endif ><a href="/files"><i class="material-icons">folder_open</i> <span class="menuitem">{{Lang::get('master.files')}}</span></a></li>
-                        <li data-no-instant @if(Request::is("*users*"))class="active" @endif ><a href="/users"><i class="material-icons">supervisor_account</i> <span class="menuitem">{{Lang::get('master.users')}}</span></a></li>
-                        <li data-no-instant @if(Request::is("*settings*"))class="active" @endif ><a href="/settings"><i class="material-icons">settings</i> <span class="menuitem">{{Lang::get('master.settings')}}</span></a></li>
+                        <li data-no-instant @if(Request::is("*/"))class="active" @endif><a data-pjax href="/"><i class="material-icons">chat</i> <span class="menuitem">{{Lang::get('master.chat')}}</span></a></li>
+                        <li data-no-instant @if(Request::is("*files*"))class="active" @endif ><a data-pjax href="/files"><i class="material-icons">folder_open</i> <span class="menuitem">{{Lang::get('master.files')}}</span></a></li>
+                        <li data-no-instant @if(Request::is("*audio*"))class="active" @endif ><a data-pjax href="/audio"><i class="material-icons">volume_up</i> <span class="menuitem">{{trans('master.music')}}</span></a></li>
+                        <li data-no-instant @if(Request::is("*users*"))class="active" @endif ><a data-pjax href="/users"><i class="material-icons">supervisor_account</i> <span class="menuitem">{{Lang::get('master.users')}}</span></a></li>
+                        <li data-no-instant @if(Request::is("*settings*"))class="active" @endif ><a data-pjax href="/settings"><i class="material-icons">settings</i> <span class="menuitem">{{Lang::get('master.settings')}}</span></a></li>
                         <li><a data-no-instant href="/logout"><i class="material-icons">power_settings_new</i> <span class="menuitem">{{Lang::get('master.logout')}}</span></a></li>
                         @else
                         <li @if(Request::is("*/"))class="active"@endif><a href="/"><i class="material-icons">input</i> <span class="menuitem">{{Lang::get('master.login')}}</span></a></li>
                         <li @if(Request::is("*register"))class="active" @endif><a href="/register"><i class="material-icons">add_circle_outline</i> <span class="menuitem">{{Lang::get('master.register')}}</span></a></li>
+                        <li @if(Request::is("*policy"))class="active" @endif><a href="/policy"><i class="material-icons">subject</i> <span class="menuitem">{{Lang::get('master.policy')}}</span></a></li>
                         @endif
-
+                        {{--<li style="vertical-align:middle;display:table-row;"><img style="margin:3px" src="/assets/images/rsz_comodo.png" alt="COMODO SECURE"/></li>--}}
                     </ul>
+                            </div></div>
                 </div>
             </div>
         </div>
-        <div class="container" style="margin-top: 49px;">
+        <div class="container" style="margin-top: 49px;" id="pjaxContainer">
             @yield('content')
+
+
+
         </div>
         <script src="//vk.com/js/api/openapi.js" type="text/javascript"></script>
         @if(Request::is("*/") && !Session::has('uid'))
@@ -172,7 +185,10 @@
         <script data-no-instant src="/assets/js/socket/io.js"></script>
         <script>
             var _sessid = "{{Session::get('sessid')}}";
+
+
             var socket = io.connect('https://fastest.ml:3000', {secure: true});
+
 
             Notification.requestPermission(function(){});
             toastr.options = {
@@ -222,7 +238,12 @@
 
                 }
             });
+            @if(!Request::is("*/"))
+            socket.on('chat message', function(msg){
 
+                toastr.warning(msg.message, msg.nickname);
+            });
+            @endif
 
         </script>
         @endif
@@ -253,8 +274,23 @@
 
           
         </script>
- 
+ <script src="//twemoji.maxcdn.com/twemoji.min.js"></script>  
+<script>
+window.onload = function() {
+
+  // Set the size of the rendered Emojis
+  // This can be set to 16x16, 36x36, or 72x72
+  twemoji.size = '16x16';
+
+  // Parse the document body and
+  // insert <img> tags in place of Unicode Emojis
+  twemoji.parse(document.body);
+
+}
+</script>
+
         <script type="text/javascript"> (function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter35789225 = new Ya.Metrika({ id:35789225, clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true }); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = "https://mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks"); </script> <noscript><div><img src="https://mc.yandex.ru/watch/35789225" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
 
     </body>
 </html>

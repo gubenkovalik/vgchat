@@ -54,7 +54,7 @@ return [
     |
     */
 
-    'timezone' => 'GMT',
+    'timezone' => 'Europe/Kiev',
 
     /*
     |--------------------------------------------------------------------------
@@ -160,6 +160,7 @@ return [
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
         EventServiceProvider::class,
+        Yocmen\HtmlMinify\HtmlMinifyServiceProvider::class
 
     ],
 

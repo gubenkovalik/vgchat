@@ -36,7 +36,7 @@
                             <div class="row-picture">
 
                                 <span style="display: none" class="dataUserOnline_@{{ message.user_id }}">
-                                    <span style="font-size:14pt;color:green;vertical-align: middle; display:inline;">• </span>
+                                    <span style="color:green;vertical-align: middle; display:inline;">• </span>
                                 </span>
                                 <img style="display:inline" height="80px" class="circle avatarImage" data-src="@{{ message.avatar }}" alt="@{{ message.nickname }}">
                             </div>

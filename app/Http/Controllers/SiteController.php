@@ -47,7 +47,7 @@ class SiteController extends Controller
         $email = $request->get('email');
         $password = $request->get('password');
 
-        $u = User::where('email', $email)->first();
+        $u = User::whereEmail($email)->first();
 
         $rules =  [
             'g-recaptcha-response' => 'required|captcha'
@@ -311,16 +311,29 @@ class SiteController extends Controller
         return md5(rand()) . "<!>" . hash('whirlpool', md5(sha1(rand() . time())));
     }
 
-    public function lang($lang)
+    public function lang(Request $request, $lang)
     {
+        $cookie = null;
          switch ($lang) {
             case 'en':
-                return redirect()->to('/')->withCookie(Cookie::forever('lang', 'en'));
+                $cookie = Cookie::forever('lang', 'en');
+                break;
             case 'ru':
-                return redirect()->to('/')->withCookie(Cookie::forever('lang', 'ru'));
+                $cookie = Cookie::forever('lang', 'ru');
+                break;
             default:
-                return redirect()->to('/');
+                break;
         }
+
+        if($request->headers->get('referer') == null) {
+            return redirect()->to('/')->withCookie($cookie);
+        } else {
+            return redirect()->back(302)->withCookie($cookie);
+        }
+    }
+
+    public function policy(Request $request){
+        return view('chat.policy');
     }
 
 }

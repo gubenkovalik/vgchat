@@ -3,10 +3,16 @@
 @section('title') {{Lang::get('register.register')}} - @endsection
 @section('content')
     <h2>{{Lang::get('register.register')}}</h2>
-    @if(Session::has('error')) <span class="text-danger">{{Session::get('error')}}</span>@endif
+
     <br/>
     <div class="col-md-6 well well-lg">
+        @if(Session::has('error'))
+            <div class="alert alert-dismissible alert-danger">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                {{Session::get('error')}}
 
+            </div>
+        @endif
         <form action="" method="POST">
             <div class="form-group">
                 <input required type="text" name="nickname" class="form-control" id="nickname" placeholder="{{Lang::get('register.nickname')}}">

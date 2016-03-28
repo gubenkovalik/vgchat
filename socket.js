@@ -2,11 +2,12 @@
 // CHANGE https TO http IF YOUR WEB SERVER IS NOT ON SSL
 
 var fs = require('fs');
-
+var ss = require('socket.io-stream');
+var path = require('path');
 /** THIS IS ONLY FOR SSL **/
-var privateKey = fs.readFileSync('../ssl/fastest_ml.key').toString();
-var certificate = fs.readFileSync('../ssl/fastest_ml.crt').toString();
-var ca = fs.readFileSync('../ssl/fastest_ml.ca-bundle').toString();
+var privateKey = fs.readFileSync('../ssl/www.fastest.ml/privkey1.pem').toString();
+var certificate = fs.readFileSync('../ssl/www.fastest.ml/cert1.pem').toString();
+var ca = fs.readFileSync('../ssl/www.fastest.ml/chain1.pem').toString();
 /** END **/
 
 
@@ -18,6 +19,7 @@ var server = https.createServer({key: privateKey, cert: certificate, ca: ca}, fu
 //var server = https.createServer({key:privateKey,cert:certificate,ca:ca}, function(req, res){ //// FOR HTTP
 //
 //});
+
 var io = require('socket.io').listen(server);
 var redis = require("redis"),
     client = redis.createClient();
@@ -27,7 +29,7 @@ var typingUsers = 0;
 
 console.reset = function () {
     return process.stdout.write('\033c');
-}
+};
 var nicknames = {};
 function removeA(arr) {
     var what, a = arguments, L = a.length, ax;
@@ -64,7 +66,11 @@ io.on('connection', function (socket) {
     socket.on('disconnect', function (msg) {
         activeUsers--;
     });
+
+
+
     socket.on('chat message', function (msg) {
+        console.log(msg);
         var sessid = msg.sessid;
         client.get('secure:' + sessid, function (err, reply) {
             if (reply != null) {
@@ -131,6 +137,11 @@ io.on('connection', function (socket) {
     socket.on('broadcast', function (data) {
         console.log("Broadcast: " + data.msg);
         io.emit('broadcast', {msg: data.msg})
+    });
+    socket.on('gps', function (data) {
+        var imei = data.imei;
+	console.log(imei);
+        io.emit('gps '+imei);
     });
 });
 setInterval(function () {

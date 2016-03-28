@@ -1,0 +1,33 @@
+#sses1 li.highlight {
+
+    display: none;
+}
+#sse1, #sses1 {
+    display: inline;
+    margin: 0;
+    padding: 0;
+}
+
+/*CSS for background bubble*/
+#sses1 li a {
+    transition: all linear 0.4s;
+}
+
+#sses1 li a:hover {
+    background: #fdfdfd;
+
+    color: #333;
+
+}
+
+@media(min-width: 768px) {
+    #sses1 li.highlight {
+
+        display: inline;
+        height: 2px;
+        border-bottom: solid 3px #e149b5;
+        z-index: 1;
+        position: absolute;
+        overflow: hidden;
+    }
+}

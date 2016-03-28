@@ -11,7 +11,7 @@
                 <div class="row-picture">
                      @if($user->online == true)
                     <span>
-                        <span style="font-size:14pt;color:#409a4c;vertical-align: middle; display:inline;">• </span>
+                        <span style="color:#409a4c;vertical-align: middle; display:inline;">• </span>
                     </span>
                     @endif
                     <img style="display:inline" height="80px" class="circle" src="{{$user->avatar}}" alt="{{$user->nickname}}">
