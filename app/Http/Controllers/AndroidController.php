@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Http\Helper;
 use App\Http\Messages;
 use App\Http\User;
+use Carbon\Carbon;
 use Hash;
 use Illuminate\Http\Request;
 use Mail;
@@ -26,6 +27,7 @@ class AndroidController extends Controller
         $messages = Messages::select([
             'users.avatar',
             'users.nickname',
+            'users.id as user_id',
             'messages.message',
             'messages.created_at'
         ])
@@ -40,6 +42,8 @@ class AndroidController extends Controller
         }
 
 
+        $this->user->last_seen = Carbon::now()->toDateTimeString();
+        $this->user->save();
 
         return response()->json(array_reverse($messages));
     }
@@ -54,6 +58,9 @@ class AndroidController extends Controller
             $m->message = $message;
             return response()->json(['success'=>boolval($m->save())]);
         }
+        $this->user->last_seen = Carbon::now()->toDateTimeString();
+        $this->user->save();
+
         return response()->json(['error'=>'Empty message']);
     }
 

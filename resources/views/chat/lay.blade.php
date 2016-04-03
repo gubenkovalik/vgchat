@@ -27,6 +27,8 @@
         <link rel="stylesheet" href="/assets/css/menu.css"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.2/toastr.min.css"/>
         <link href='https://fonts.googleapis.com/css?family=Didact+Gothic&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+        {!! \Roumen\Feed\Feed::link(url('/rss/atom'), 'atom', 'Fastest ML News', 'ru') !!}
+        {!! \Roumen\Feed\Feed::link(url('/rss/rss'), 'rss', 'Fastest ML News', 'ru') !!}
         <style>
             @media screen and (max-width: 915px) {
                 .menuitem {
@@ -162,6 +164,7 @@
                         <li @if(Request::is("*register"))class="active" @endif><a href="/register"><i class="material-icons">add_circle_outline</i> <span class="menuitem">{{Lang::get('master.register')}}</span></a></li>
                         <li @if(Request::is("*policy"))class="active" @endif><a href="/policy"><i class="material-icons">subject</i> <span class="menuitem">{{Lang::get('master.policy')}}</span></a></li>
                         @endif
+                        <li @if(Request::is("*news"))class="active" @endif><a href="/news"><i class="material-icons">subject</i> <span class="menuitem">{{Lang::get('master.news')}}</span></a></li>
                         {{--<li style="vertical-align:middle;display:table-row;"><img style="margin:3px" src="/assets/images/rsz_comodo.png" alt="COMODO SECURE"/></li>--}}
                     </ul>
                             </div></div>

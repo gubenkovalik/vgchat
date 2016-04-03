@@ -11,7 +11,8 @@
         "predis/predis": "^1.0",
         "anhskohbo/no-captcha": "2.*",
         "wisembly/elephant.io": "~3.0",
-        "yocmen/html-minify": "2.*"
+        "yocmen/html-minify": "2.*",
+        "roumen/feed": "^2.10"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

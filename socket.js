@@ -134,6 +134,18 @@ io.on('connection', function (socket) {
             }
         });
     });
+
+    socket.on('activity', function (data) {
+        var sessid = data.sessid;
+        client.get('secure:' + sessid, function (err, reply) {
+            if (reply != null) {
+
+                var id = data.id;
+                io.emit('activity', {active: data.active, id: id});
+            }
+        });
+    });
+
     socket.on('broadcast', function (data) {
         console.log("Broadcast: " + data.msg);
         io.emit('broadcast', {msg: data.msg})

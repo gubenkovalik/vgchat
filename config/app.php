@@ -160,7 +160,8 @@ return [
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
         EventServiceProvider::class,
-        Yocmen\HtmlMinify\HtmlMinifyServiceProvider::class
+        Yocmen\HtmlMinify\HtmlMinifyServiceProvider::class,
+        Roumen\Feed\FeedServiceProvider::class
 
     ],
 
@@ -207,7 +208,7 @@ return [
         'URL'       => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
-
+        'Feed'      => Roumen\Feed\Feed::class,
     ],
 
 ];

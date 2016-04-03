@@ -72,4 +72,67 @@ Route::group(['middleware' => ['web','locale','online']], function () {
         }
     });
 
+    Route::get('/news', function(\Illuminate\Http\Request $request) {
+	
+        $news = DB::table('news')->orderBy('created_at')->get();
+        return view('chat.news', ['news'=>$news]);
+	
+    });
+
+    Route::any('/news/add', function(\Illuminate\Http\Request $request){
+        if($request->method() == \Illuminate\Http\Request::METHOD_POST) {
+
+            $title = $request->get('title');
+            $html = $request->get('html');
+            $image = null;
+
+            if($request->hasFile('image')){
+                $file = $request->file('image');
+                $newName = md5(md5($file->getClientMimeType().$file->getClientOriginalName()).rand()).".".$file->getClientOriginalExtension();
+                $file->move("feed", $newName);
+                $image = $request->getSchemeAndHttpHost()."/feed/".$newName;
+            }
+
+            $data = compact('title', 'html', 'image');
+
+            DB::table('news')->insert($data);
+
+            return redirect()->to('/news', 302);
+        }
+        if(Session::get('uid') == 2345) {
+            return view('chat.addNews');
+        } else {
+            app()->abort(404);
+        }
+    });
+
+
+    Route::get('/rss/{type}', function($type){
+        header("Pragma: no-cache");
+        $supported = ['atom', 'rss'];
+
+        if(!in_array($type, $supported)){
+
+            return response("<i>&laquo;".htmlspecialchars($type)."&raquo;</i> is not supported", 401);
+        }
+
+        /** @var \Roumen\Feed\Feed $feed **/
+        $feed = App::make("feed");
+
+        $feed->title = "Fastest ML Feed";
+        $news = DB::table('news')->orderBy('created_at')->get();
+        $lnk = "https://fastest.ml/news";
+
+        foreach($news as $n) {
+            if($n->image != null){
+                $n->html .= "<img src=\"".$n->image."\" alt=\"image\"/>";
+            }
+            $feed->add($n->title, 'V. Gubenko', $lnk, $n->created_at, htmlspecialchars($n->html), htmlspecialchars($n->html));
+        }
+
+
+        return $feed->render('atom');
+    });
+	
+
 });

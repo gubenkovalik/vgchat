@@ -9,7 +9,7 @@
       <p>{{Lang::get('login.register_and_chat')}}! </p>
 
       <p>
-        <a href="/extra/android/VG_Chat_latest.apk" class="btn btn-success btn-success btn-raised"><i class="material-icons">file_download</i> <b style="text-transform:none">VG_Chat_v_1.0.apk</b></a>
+        <a href="/extra/android/VG_Chat_latest.apk" class="btn btn-success btn-success btn-raised"><i class="material-icons">file_download</i> <b style="text-transform:none">VG_Chat_v_1.1.apk</b></a>
         <a href="/register" class="btn btn-inverse btn-lg">{{Lang::get('login.register')}}</a>
         
     </p>

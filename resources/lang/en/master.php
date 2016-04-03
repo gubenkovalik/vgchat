@@ -11,5 +11,5 @@ return [
     'settings' => 'Settings',
     'users' => 'Users',
     'music' => 'Music',
-
+    'news' => 'News'
 ];

@@ -92,6 +92,17 @@
                 ion.sound.play("notification");
             
         });
+        socket.on('activity', function(data){
+            console.log(data);
+
+            var filter = {
+                '-webkit-filter': 'blur('+(data.active == true ? '0' : '2') +'px)',
+                '-moz-filter': 'blur('+(data.active == true ? '0' : '2') +'px)',
+                'filter': 'blur('+(data.active == true ? '0' : '2') +'px)',
+            };
+            console.log($('.dataUserOnline_'+data.id).parent().css(filter));
+
+        });
         socket.on('users online', function(data){
             $.each(data, function(index, value) {
 
@@ -104,7 +115,29 @@
             socket.emit('chat bell', {sessid: _sessid, nickname: _nickname});
         }
 
-        
+        var vis = (function(){
+            var stateKey, eventKey, keys = {
+                hidden: "visibilitychange",
+                webkitHidden: "webkitvisibilitychange",
+                mozHidden: "mozvisibilitychange",
+                msHidden: "msvisibilitychange"
+            };
+            for (stateKey in keys) {
+                if (stateKey in document) {
+                    eventKey = keys[stateKey];
+                    break;
+                }
+            }
+            return function(c) {
+                if (c) document.addEventListener(eventKey, c);
+                return !document[stateKey];
+            }
+        })();
+
+        vis(function(){
+            console.log(vis());
+            socket.emit('activity', {sessid: _sessid, id: _user_id, active: vis()});
+        });
     </script>
 
 
