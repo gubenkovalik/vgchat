@@ -1,9 +1,12 @@
 Elephant.io
 ===========
-[![Build Status](https://travis-ci.org/Wisembly/elephant.io.png?branch=master)](https://travis-ci.org/Wisembly/elephant.io)
+[![Build Status](https://travis-ci.org/Wisembly/elephant.io.svg?branch=master)](https://travis-ci.org/Wisembly/elephant.io)
+[![Latest Stable Version](https://poser.pugx.org/wisembly/elephant.io/v/stable.svg)](https://packagist.org/packages/wisembly/elephant.io)
+[![Total Downloads](https://poser.pugx.org/wisembly/elephant.io/downloads.svg)](https://packagist.org/packages/wisembly/elephant.io) 
+[![License](https://poser.pugx.org/wisembly/elephant.io/license.svg)](https://packagist.org/packages/wisembly/elephant.io)
 
 ```
-        ___     _,.--.,_         Elephant.io is a rought websocket client
+        ___     _,.--.,_         Elephant.io is a rough websocket client
       .-~   ~--"~-.   ._ "-.     written in PHP. Its goal is to ease the
      /      ./_    Y    "-. \    communications between your PHP Application and
     Y       :~     !         Y   a real-time server.
@@ -24,6 +27,11 @@ Installation
 ============
 You have multiple ways to install Elephant.io. If you are unsure what to do, go with
 [the archive release](#archive-release).
+
+Once the library is downloaded and extracted wherever you want it to be, it
+should be loaded through a [PSR-4](http://www.php-fig.org/psr/psr-4/) autoload
+mecanism, with a `Wisembly\ElepehantIO` prefix. This is not necessary with the
+composer way, as it is handling this part by itself.
 
 Archive Release
 ---------------

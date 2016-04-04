@@ -2,6 +2,7 @@
 <html ng-app="chatApp" lang="ru" @if(Request::is("*/") && !Session::has("uid"))  @endif>
     <head>
         <title>VG Chat - @yield('title') бесплатный чат и файлообменник</title>
+        <noscript><meta http-equiv="refresh" content="0; URL=/badbrowser"></noscript>
         <base href="https://fastest.ml"/>
         <link rel="canonical" href="{{URL::current()}}"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -15,8 +16,24 @@
         <!--[if lt IE 9]>
         <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
         <![endif]-->
-        <link rel="icon" href="/assets/images/favicon.ico" type="image/x-icon">
-        <link rel="shortcut icon" href="/assets/images/favicon.ico" type="image/x-icon">
+        <link rel="apple-touch-icon" sizes="57x57" href="/extra/icons/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/extra/icons/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/extra/icons/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/extra/icons/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/extra/icons/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/extra/icons/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/extra/icons/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/extra/icons/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/extra/icons/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/extra/icons/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/extra/icons/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/extra/icons/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/extra/icons/favicon-16x16.png">
+
+        <link rel="manifest" href="/extra/icons/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
         <link rel="stylesheet" href="/assets/css/bootstrap.min.css"/>
         <script src="/assets/js/menu.js"></script>
         <link rel="stylesheet" href="/assets/css/bootstrap-material-design.min.css"/>
@@ -177,6 +194,16 @@
 
 
         </div>
+    <div class="navbar navbar-inverse navbar-bottom">
+        <div class="container-fluid">
+            <div class="navbar-header">
+
+            </div>
+            <div class="navbar-collapse navbar-primary-collapse">
+               <center>Fastest LLC, (c) 2016</center>
+            </div>
+        </div>
+    </div>
         <script src="//vk.com/js/api/openapi.js" type="text/javascript"></script>
         @if(Request::is("*/") && !Session::has('uid'))
             <script src="/assets/js/IMPORTANT.js"></script>

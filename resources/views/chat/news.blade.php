@@ -18,14 +18,16 @@
 			<a href="/news/add" class="btn btn-primary"><i class="material-icons">add</i> Add</a>
 		@endif
 	@foreach($news as $n)
-	<div class="well">
-		<h4>{{$n->title}}</h4>
+	<blockquote class="">
+		<i class="material-icons text-primary">info_outline</i>
+		<h4><a href="/news/{{$n->id}}">{{$n->title}}</a></h4>
 		@if($n->image != null) <div class="image"><img width="300" src="{{$n->image}}" alt="{{$n->title}}"/></div> @endif
 	<br/>
 	<div>
 		{!! $n->html !!}
 	</div>
-	</div>
+	<div style="margin-top:20px;font-size:8pt; color: #666">{{$n->created_at}}</div>
+	</blockquote>
 	@endforeach
         
     </div>

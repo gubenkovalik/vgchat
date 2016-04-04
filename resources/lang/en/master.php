@@ -11,5 +11,7 @@ return [
     'settings' => 'Settings',
     'users' => 'Users',
     'music' => 'Music',
-    'news' => 'News'
+    'news' => 'News',
+    'bb_head'=>'To view this site requires Javascript and Cookies.',
+    'bb_desc' => 'To use all site features, download and install one of these browsers:'
 ];

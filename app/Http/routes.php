@@ -59,11 +59,11 @@ Route::group(['middleware' => ['web','locale','online']], function () {
 
     Route::get('/api/get', 'ApiController@get');
 
-    Route::get('/android/login', 'AndroidController@login');
-    Route::get('/android/register', 'AndroidController@register');
-    Route::get('/android/send', 'AndroidController@send');
-    Route::get('/android/get', 'AndroidController@get');
-    Route::get('/android/remind', 'AndroidController@remind');
+    Route::any('/android/login', 'AndroidController@login');
+    Route::any('/android/register', 'AndroidController@register');
+    Route::any('/android/send', 'AndroidController@send');
+    Route::any('/android/get', 'AndroidController@get');
+    Route::any('/android/remind', 'AndroidController@remind');
 
 
     Route::get('/test', function (\Illuminate\Http\Request $request) {
@@ -74,10 +74,20 @@ Route::group(['middleware' => ['web','locale','online']], function () {
 
     Route::get('/news', function(\Illuminate\Http\Request $request) {
 	
-        $news = DB::table('news')->orderBy('created_at')->get();
+        $news = DB::table('news')->orderBy('created_at', 'DESC')->get();
         return view('chat.news', ['news'=>$news]);
 	
     });
+
+    Route::get('/news/{id}', function($id){
+        $n = DB::table('news')->find($id);
+
+        if($n == null) {
+            app()->abort(404);
+        } else {
+            return view('chat.newsSingle', compact('n'));
+        }
+    })->where('id', '[0-9]');
 
     Route::any('/news/add', function(\Illuminate\Http\Request $request){
         if($request->method() == \Illuminate\Http\Request::METHOD_POST) {
@@ -127,11 +137,15 @@ Route::group(['middleware' => ['web','locale','online']], function () {
             if($n->image != null){
                 $n->html .= "<img src=\"".$n->image."\" alt=\"image\"/>";
             }
-            $feed->add($n->title, 'V. Gubenko', $lnk, $n->created_at, htmlspecialchars($n->html), htmlspecialchars($n->html));
+            $feed->add($n->title, 'V. Gubenko', $lnk."/".$n->id, $n->created_at, $n->html, $n->html);
         }
 
 
         return $feed->render('atom');
+    });
+
+    Route::any('/badbrowser', function(){
+       return view('general.badbrowser');
     });
 	
 

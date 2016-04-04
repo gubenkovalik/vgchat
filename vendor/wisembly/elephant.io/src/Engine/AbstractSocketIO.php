@@ -12,12 +12,13 @@
 namespace ElephantIO\Engine;
 
 use DomainException;
+use RuntimeException;
 
 use Psr\Log\LoggerInterface;
 
-use ElephantIO\EngineInterface,
-    ElephantIO\Payload\Decoder,
-    ElephantIO\Exception\UnsupportedActionException;
+use ElephantIO\EngineInterface;
+use ElephantIO\Payload\Decoder;
+use ElephantIO\Exception\UnsupportedActionException;
 
 abstract class AbstractSocketIO implements EngineInterface
 {
@@ -41,10 +42,20 @@ abstract class AbstractSocketIO implements EngineInterface
     /** @var resource Resource to the connected stream */
     protected $stream;
 
+    /** @var string the namespace of the next message */
+    protected $namespace = '';
+
+    /** @var mixed[] Array of php stream context options */
+    protected $context;
+
     public function __construct($url, array $options = [])
     {
-        $this->url     = $this->parseUrl($url);
+        $this->url = $this->parseUrl($url);
         $this->options = array_replace($this->getDefaultOptions(), $options);
+
+        if (isset($this->options['context'])) {
+            $this->context = &$this->options['context'];
+        }
     }
 
     /** {@inheritDoc} */
@@ -63,6 +74,11 @@ abstract class AbstractSocketIO implements EngineInterface
     public function close()
     {
         throw new UnsupportedActionException($this, 'close');
+    }
+
+    /** {@inheritDoc} */
+    public function of($namespace) {
+        $this->namespace = $namespace;
     }
 
     /**
@@ -94,13 +110,13 @@ abstract class AbstractSocketIO implements EngineInterface
         /*
          * The first byte contains the FIN bit, the reserved bits, and the
          * opcode... We're not interested in them. Yet.
+         * the second byte contains the mask bit and the payload's length
          */
-        $data = fread($this->stream, 1);
+        $data = fread($this->stream, 2);
+        $bytes = unpack('C*', $data);
 
-        // the second byte contains the mask bit and the payload's length
-        $data  .= $part = fread($this->stream, 1);
-        $length = (int)  (bin2hex($part) & ~0x80); // removing the mask bit
-        $mask   = (bool) (bin2hex($part) &  0x80);
+        $mask = ($bytes[2] & 0b10000000) >> 7;
+        $length = $bytes[2] & 0b01111111;
 
         /*
          * Here is where it is getting tricky :
@@ -118,7 +134,14 @@ abstract class AbstractSocketIO implements EngineInterface
             break;
 
             case 0x7E: // 126
-                $length = unpack('n', fread($this->stream, 2));
+                $data .= $bytes = fread($this->stream, 2);
+                $bytes = unpack('n', $bytes);
+
+                if (empty($bytes[1])) {
+                    throw new RuntimeException('Invalid extended packet len');
+                }
+
+                $length = $bytes[1];
             break;
 
             case 0x7F: // 127
@@ -133,7 +156,8 @@ abstract class AbstractSocketIO implements EngineInterface
                  *
                  * {@link http://stackoverflow.com/questions/14405751/pack-and-unpack-64-bit-integer}
                  */
-                list($left, $right) = array_values(unpack('N2', fread($this->stream, 8)));
+                $data .= $bytes = fread($this->stream, 8);
+                list($left, $right) = array_values(unpack('N2', $bytes));
                 $length = $left << 32 | $right;
             break;
         }
@@ -198,10 +222,10 @@ abstract class AbstractSocketIO implements EngineInterface
      */
     protected function getDefaultOptions()
     {
-        return ['context' => [],
-                'debug'   => false,
-                'wait'    => 100*1000,
-                'timeout' => ini_get("default_socket_timeout")];
+        return ['context'   => [],
+                'debug'     => false,
+                'wait'      => 100*1000,
+                'timeout'   => ini_get("default_socket_timeout")];
     }
 }
 

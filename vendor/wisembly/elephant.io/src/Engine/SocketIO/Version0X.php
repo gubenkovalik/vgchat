@@ -11,19 +11,19 @@
 
 namespace ElephantIO\Engine\SocketIO;
 
-use DomainException,
-    InvalidArgumentException,
-    UnexpectedValueException;
+use DomainException;
+use InvalidArgumentException;
+use UnexpectedValueException;
 
 use Psr\Log\LoggerInterface;
 
-use ElephantIO\EngineInterface,
-    ElephantIO\Payload\Encoder,
-    ElephantIO\Engine\AbstractSocketIO,
+use ElephantIO\EngineInterface;
+use ElephantIO\Payload\Encoder;
+use ElephantIO\Engine\AbstractSocketIO;
 
-    ElephantIO\Exception\SocketException,
-    ElephantIO\Exception\UnsupportedTransportException,
-    ElephantIO\Exception\ServerConnectionFailureException;
+use ElephantIO\Exception\SocketException;
+use ElephantIO\Exception\UnsupportedTransportException;
+use ElephantIO\Exception\ServerConnectionFailureException;
 
 
 /**
@@ -65,7 +65,7 @@ class Version0X extends AbstractSocketIO
             $host = 'ssl://' . $host;
         }
 
-        $this->stream = stream_socket_client($host, $errors[0], $errors[1], $this->options['timeout'], STREAM_CLIENT_CONNECT, stream_context_create($this->options['context']));
+        $this->stream = stream_socket_client($host, $errors[0], $errors[1], $this->options['timeout'], STREAM_CLIENT_CONNECT, stream_context_create($this->context));
 
         if (!is_resource($this->stream)) {
             throw new SocketException($error[0], $error[1]);
@@ -83,8 +83,10 @@ class Version0X extends AbstractSocketIO
             return;
         }
 
+        $this->write(static::CLOSE);
         fclose($this->stream);
         $this->stream = null;
+        $this->session = null;
     }
 
     /** {@inheritDoc} */
@@ -104,13 +106,20 @@ class Version0X extends AbstractSocketIO
             throw new InvalidArgumentException('Wrong message type when trying to write on the socket');
         }
 
-        $payload = new Encoder($code . ':::' . $message, Encoder::OPCODE_TEXT, true);
+        $payload = new Encoder($code . '::' . $this->namespace . ':' . $message, Encoder::OPCODE_TEXT, true);
         $bytes = fwrite($this->stream, (string) $payload);
 
         // wait a little bit of time after this message was sent
         usleep($this->options['wait']);
 
         return $bytes;
+    }
+
+    /** {@inheritDoc} */
+    public function of($namespace) {
+        parent::of($namespace);
+
+        $this->write(static::OPEN);
     }
 
     /** {@inheritDoc} */
@@ -137,13 +146,21 @@ class Version0X extends AbstractSocketIO
             return;
         }
 
+        $context = $this->context;
+
+        if (!isset($context[$this->url['secured'] ? 'ssl' : 'http'])) {
+            $context[$this->url['secured'] ? 'ssl' : 'http'] = [];
+        }
+
+        $context[$this->url['secured'] ? 'ssl' : 'http']['timeout'] = (float) $this->options['timeout'];
+
         $url = sprintf('%s://%s:%d/%s/%d', $this->url['scheme'], $this->url['host'], $this->url['port'], trim($this->url['path'], '/'), $this->options['protocol']);
 
         if (isset($this->url['query'])) {
             $url .= '/?' . http_build_query($this->url['query']);
         }
 
-        $result = @file_get_contents($url, false, stream_context_create(['http' => ['timeout' => (float) $this->options['timeout']]]));
+        $result = @file_get_contents($url, false, stream_context_create($context));
 
         if (false === $result) {
             throw new ServerConnectionFailureException;
@@ -176,13 +193,25 @@ class Version0X extends AbstractSocketIO
 
         $key = base64_encode(sha1(uniqid(mt_rand(), true), true));
 
+        $origin = '*';
+        $headers = isset($this->context['headers']) ? (array) $this->context['headers'] : [] ;
+
+        foreach ($headers as $header) {
+            $matches = [];
+
+            if (preg_match('`^Origin:\s*(.+?)$`', $header, $matches)) {
+                $origin = $matches[1];
+                break;
+            }
+        }
+
         $request = "GET {$url} HTTP/1.1\r\n"
                  . "Host: {$this->url['host']}\r\n"
                  . "Upgrade: WebSocket\r\n"
                  . "Connection: Upgrade\r\n"
                  . "Sec-WebSocket-Key: {$key}\r\n"
                  . "Sec-WebSocket-Version: 13\r\n"
-                 . "Origin: *\r\n\r\n";
+                 . "Origin: {$origin}\r\n\r\n";
 
         fwrite($this->stream, $request);
         $result = fread($this->stream, 12);
