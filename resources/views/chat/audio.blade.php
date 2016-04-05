@@ -114,18 +114,19 @@
             </div>
 
     </div>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.min.css">
     <link rel="stylesheet" href="/assets/css/drop.css"/>
-    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/6.2.0/jquery.nouislider.min.js"></script>
 
 
-    <script src="/assets/js/audio.js"></script>
-    <script src="/assets/js/libs/drop.js"></script>
+
+
     <script>
         var addToPlaylist;
         var loadPlaylist;
         var loadSearch;
+        slidersInit();
         angular.module('audioService', [])
                 .factory('Audio', function ($http) {
                     $http.defaults.withCredentials = true;

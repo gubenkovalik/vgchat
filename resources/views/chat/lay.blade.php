@@ -211,6 +211,122 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.pjax/1.9.6/jquery.pjax.min.js"></script>
     <script src="https://rawgit.com/danmartens/angular-pjax/master/angular-pjax.js"></script>
     @if(Session::has('uid'))
+        <script>
+            var player;
+            var playing_id;
+            var state = "stopped";
+            var updater;
+            var slider;
+
+            var slidersInit = function(){
+                $("div.player-controls > div.slider").each(function () {
+
+                    $(this).empty().slider({
+                        value: 0,
+                        min:0,
+                        range: "max",
+                        disabled: true,
+                        animate: true
+                    });
+                });
+                if(state == "playing") {
+                    playTrack($("[data-aid='"+playing_id+"'").children().eq(0), true);
+                }
+            };
+            var updaterTask = function(){
+                slider.slider({
+                    value: player.currentTime
+                });
+                var minutes = Math.floor(player.currentTime / 60);
+
+                var seconds = Math.floor(player.currentTime - minutes * 60);
+
+                if(minutes < 10) minutes = "0"+minutes;
+                if(seconds < 10) seconds = "0"+seconds;
+
+                $("[data-aid='"+playing_id+"'] .ui-slider-handle").attr('title', minutes+":"+seconds);
+                $("[data-aid='"+playing_id+"'] .currentTime").html(minutes+":"+seconds);
+            };
+
+            var playTrack = function(cl, dontPause) {
+
+                var el = $(cl).parent();
+                var id = $(el).attr('data-aid');
+                $(cl).blur();
+                $(cl).mouseleave();
+
+                if(dontPause == true) {
+                    clearInterval(updater);
+                    $(cl).children().eq(0).html('pause');
+                    updater = setInterval(updaterTask, 1000);
+                    state = "playing";
+                } else {
+                    if(state == "playing") {
+
+                        if (playing_id == id) {
+                            player.pause();
+                            $(cl).children().eq(0).html('play_arrow');
+                            clearInterval(updater);
+                            state = "stopped";
+                            return;
+                        }
+                    } else if(state == "stopped"){
+
+                        if(playing_id == id){
+                            player.play();
+                            $(cl).children().eq(0).html('pause');
+                            updater = setInterval(updaterTask, 1000);
+                            state = "playing";
+                            return
+                        }
+                    }
+                    slidersInit();
+                }
+
+
+
+
+
+
+                var src = $(el).attr('src');
+                var duration = $(el).attr('data-duration');
+                console.log(duration);
+                slider = $(el).children().eq(1);
+                slider.empty().slider({
+                    max: duration,
+                    value:0,
+                    disabled:false,
+                    animate: true,
+                    range: "max",
+                    min: 0,
+                    slide: function(ui, val){
+                        player.currentTime = val.value
+                    }
+                });
+                if(dontPause == true) {
+                    return;
+                }
+                if(player != null){
+                    player.pause();
+                    clearInterval(updater);
+                }
+                $('.playbtnind').html('play_arrow');
+                $('.currentTime').html('00:00');
+
+                player = new Audio(src);
+                player.play();
+                state = "playing";
+                playing_id = id;
+                $(cl).children().eq(0).html('pause');
+                console.log(slider);
+
+                updater = setInterval(updaterTask, 1000);
+            };
+
+
+
+            var playing;
+        </script>
         <script data-no-instant src="/assets/js/socket/io.js"></script>
         <script>
             var _sessid = "{{Session::get('sessid')}}";
@@ -373,7 +489,7 @@
 </script>
         <script type="text/javascript"> (function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter35789225 = new Ya.Metrika({ id:35789225, clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true }); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = "https://mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks"); </script> <noscript><div><img src="https://mc.yandex.ru/watch/35789225" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 
-
+    <script src="/assets/js/libs/drop.js"></script>
 
     </body>
 </html>
