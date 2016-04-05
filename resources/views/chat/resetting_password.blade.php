@@ -23,4 +23,4 @@
         </form>
     </div>
 
-@endsection
+@stop

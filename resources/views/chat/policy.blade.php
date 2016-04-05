@@ -11,4 +11,4 @@
         {!! trans('policy.text') !!}
     </div>
 
-@endsection
+@stop

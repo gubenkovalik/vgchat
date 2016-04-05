@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="chatApp" lang="ru" @if(Request::is("*/") && !Session::has("uid"))  @endif>
+<html lang="ru" @if(Request::is("*/") && !Session::has("uid"))  @endif>
     <head>
         <title>VG Chat - @yield('title') бесплатный чат и файлообменник</title>
         <noscript><meta http-equiv="refresh" content="0; URL=/badbrowser"></noscript>
@@ -36,6 +36,7 @@
         <meta name="theme-color" content="#ffffff">
         <link rel="stylesheet" href="/assets/css/bootstrap.min.css"/>
         <script src="/assets/js/menu.js"></script>
+
         <link rel="stylesheet" href="/assets/css/bootstrap-material-design.min.css"/>
         <link rel="stylesheet" href="/assets/css/ripples.min.css"/>
         <link rel="stylesheet" href="/assets/css/jquery-ui.min.css"/>
@@ -95,12 +96,15 @@
               "contactType" : "customer service"
             } ] }
         </script>
-
+        <script>
+            var GLOBAL_CHAT_LOADED = false;
+            var GLOBAL_AUDIO_LOADED = false;
+        </script>
 
 
 
     </head>
-    <body ng-controller="chatCtrl" data-jkit="[background]">
+    <body  data-jkit="[background]" ng-class="{ contentLoading: loading }">
 
     <div style="display: none; visibility: hidden">
     
@@ -188,34 +192,28 @@
                 </div>
             </div>
         </div>
-        <div class="container" style="margin-top: 49px;" id="pjaxContainer">
-            @yield('content')
+    <script src="//vk.com/js/api/openapi.js" type="text/javascript"></script>
+    @if(Request::is("*/") && !Session::has('uid'))
+        <script src="/assets/js/IMPORTANT.js"></script>
+    @else
+        <script src="/assets/js/LIBRARIES-min.js"></script>
+    @endif
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-sanitize.min.js"></script>
+
+    <script src="/assets/js/libs/parsley.min.js"></script>
+    @yield('head_scriptss')
 
 
-
-        </div>
-    <div class="navbar navbar-inverse navbar-bottom">
-        <div class="container-fluid">
-            <div class="navbar-header">
-
-            </div>
-            <div class="navbar-collapse navbar-primary-collapse">
-               <center>Fastest LLC, (c) 2016</center>
-            </div>
-        </div>
-    </div>
-        <script src="//vk.com/js/api/openapi.js" type="text/javascript"></script>
-        @if(Request::is("*/") && !Session::has('uid'))
-            <script src="/assets/js/IMPORTANT.js"></script>
-        @else
-            <script src="/assets/js/LIBRARIES-min.js"></script>
-        @endif
-    
+    <script type="text/javascript">
+        new WOW().init();
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.pjax/1.9.6/jquery.pjax.min.js"></script>
+    <script src="https://rawgit.com/danmartens/angular-pjax/master/angular-pjax.js"></script>
     @if(Session::has('uid'))
         <script data-no-instant src="/assets/js/socket/io.js"></script>
         <script>
             var _sessid = "{{Session::get('sessid')}}";
-
 
             var socket = io.connect('https://fastest.ml:3000', {secure: true});
 
@@ -270,23 +268,71 @@
             });
             @if(!Request::is("*/"))
             socket.on('chat message', function(msg){
-
-                toastr.warning(msg.message, msg.nickname);
+                if(msg.nickname != _nickname){
+                    toastr.warning(msg.message, msg.nickname);
+                }
             });
             @endif
 
         </script>
-        @endif
-        
-        <script src="/assets/js/libs/parsley.min.js"></script>
-        @yield('head_scriptss')
-     
+    @endif
 
-        <script type="text/javascript">
-            new WOW().init();
-        </script>
+    <script>
+        function tpl(data){
+            return '<div class="msg ng-scope wow lightSpeedIn"   data-wow-duration="0.5s"  style="background-color:rgba(255, 156, 13, 0.05);" ng-hide="loading" ng-repeat="message in messages">\
+\
+                    <div ng-hide="loading" class="list-group-item " >\
+                    <div class="row-picture">\
+                       \
+                        <span style="display: inline" class="dataUserOnline_'+data.user_id+'">\
+                            <span style="color:green;vertical-align: middle; display:inline;">• </span>\
+                        </span>\
+            <img style="display: inline" height="80px" class="circle avatarImage" src="'+data.avatar+'" alt="'+data.nickname+'">\
+                    </div>\
+                    <div class="row-content">\
+                    <h4 class="list-group-item-heading">'+data.nickname+'</h4>\
+            \
+                <p class="list-group-item-text" ng-bind-html="message.message | to_trusted">'+data.message+'</p>\
+                <span style="float:right;font-size:8pt;color:#888" class="msg-right">'+data.date+'</span>\
+                </div>\
+                </div>\
+            \
+            <'+'script'+'>\
+            setTimeout(function(){\
+                $(".msg").animate({backgroundColor: "white"}, 2200);\
+            }, 2000);\
+            <'+'/script'+'>\
+                <div class="list-group-separator"></div>\
+                </div>';
+        }
 
-       
+        function rebootstrap(){
+            $('[ng-app').each(function(){
+                angular.bootstrap(this, [$(this).attr('ng-app')])
+            });
+            $('[ng-controller] .ng-deferred').show();
+            $('[ng-controller] .ng-loading').hide();
+        }
+    </script>
+        <div class="container" pjax-container style="margin-top: 49px;" id="pjaxContainer">
+            @yield('content')
+
+
+
+        </div>
+   <!-- <div class="navbar navbar-inverse navbar-bottom">
+        <div class="container-fluid">
+            <div class="navbar-header">
+
+            </div>
+            <div class="navbar-collapse navbar-primary-collapse">
+               <center>Fastest LLC, (c) 2016</center>
+            </div>
+        </div>
+    </div> -->
+
+
+
 
         @yield('scripts')
         <script>
@@ -304,22 +350,29 @@
 
           
         </script>
- <script src="//twemoji.maxcdn.com/twemoji.min.js"></script>  
 <script>
-window.onload = function() {
+    if ($.support.pjax) {
+        $.pjax.defaults.timeout = 4000;
+    }
+    $(document).pjax('a', '#pjaxContainer');
+    $(document).on('click', 'a', function(event) {
+        $('li').removeClass('active');
+        $(this).parent().addClass('active');
 
-  // Set the size of the rendered Emojis
-  // This can be set to 16x16, 36x36, or 72x72
-  twemoji.size = '16x16';
+        setTimeout(function(){
+            console.log('moving');
+            sse1.move(document.querySelector('li.active'));
+            $('[data-toggle="collapse"]').click();
+        }, 600);
+        var container = $(this).closest('[data-pjax-container]');
+        $.pjax.click(event, {container: container});
 
-  // Parse the document body and
-  // insert <img> tags in place of Unicode Emojis
-  twemoji.parse(document.body);
+        event.preventDefault();
+    })
 
-}
 </script>
-
         <script type="text/javascript"> (function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter35789225 = new Ya.Metrika({ id:35789225, clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true }); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = "https://mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks"); </script> <noscript><div><img src="https://mc.yandex.ru/watch/35789225" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
 
 
     </body>

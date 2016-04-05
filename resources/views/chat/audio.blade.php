@@ -60,7 +60,7 @@
     }
 }
     </style>
-    <div class="col-md-8 well" style="margin-top:30px">
+    <div ng-app="chatApp" ng-controller="audioCtrl" class="col-md-8 well" style="margin-top:30px">
 
 
             <div class="form-group">
@@ -114,20 +114,114 @@
             </div>
 
     </div>
-
-
-@endsection
-
-@section('scripts')
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="/assets/css/drop.css"/>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/6.2.0/jquery.nouislider.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-sanitize.min.js"></script>
-    <script src="/assets/js/audio.load.js"></script>
+
+
     <script src="/assets/js/audio.js"></script>
     <script src="/assets/js/libs/drop.js"></script>
     <script>
+        var addToPlaylist;
+        var loadPlaylist;
+        var loadSearch;
+        angular.module('audioService', [])
+                .factory('Audio', function ($http) {
+                    $http.defaults.withCredentials = true;
+                    return {
+                        get: function (q) {
+                            return $http.get('/audio/search?q=' + q);
+                        }
+                    }
+                });
+
+        angular.module('audioController', [])
+                .controller('audioCtrl', function ($scope, $http, Audio, $sce) {
+                    $scope.audios = {};
+                    $scope.loading = true;
+                    $scope.trustSrc = function (src) {
+                        return $sce.trustAsResourceUrl(src);
+                    };
+                    $("#loadingInd").show(0);
+                    Audio.get($("#q").val().trim()).success(function (data) {
+
+                        $scope.audios = data;
+                        $scope.loading = false;
+                        $("#loadingInd").hide(0);
+                        $("#allAudio").show();
+                        setTimeout(slidersInit, 1000);
+                    });
+
+                    $scope.doSearch = function () {
+                        if ($("#q").val().trim().length == 0) return;
+
+                        history.pushState(null, null, "audio?q="+encodeURIComponent($("#q").val().trim()));
+                        $("#loadingInd").show(0);
+                        Audio.get($("#q").val().trim()).success(function (data) {
+                            $scope.audios = data;
+                            $scope.loading = false;
+                            $("#loadingInd").hide(0);
+                            setTimeout(slidersInit, 1000);
+                        });
+                    };
+                    addToPlaylist = function(el){
+                        var aid = $(el).attr('data-aid');
+                        var oid = $(el).attr('data-oid');
+                        if($(el).html() == "done") {
+                            console.log("already added");
+                            return;
+                        }
+
+                        $.ajax({
+                            url:'/audio/add',
+                            data: {aid: aid, oid: oid},
+                            type:'POST'
+                        }).done(function(r){
+                            $(el).children().eq(0).html('done');
+
+                        })
+                    };
+
+                    loadPlaylist = function(){
+                        $scope.loading = true;
+                        $("#loadingInd").show(0);
+
+                        Audio.get("get_added_audios_secret_query").success(function (data) {
+
+                            $scope.audios = data;
+                            $scope.loading = false;
+                            $("#loadingInd").hide(0);
+                            $("#allAudio").show();
+                            setTimeout(slidersInit, 1000);
+                        });
+                    };
+
+                    loadSearch = function() {
+                        $scope.audios = {};
+                        $scope.loading = true;
+                        $("#loadingInd").show(0);
+
+                        Audio.get($("#q").val().trim()).success(function (data) {
+
+                            $scope.audios = data;
+                            $scope.loading = false;
+                            $("#loadingInd").hide(0);
+                            $("#allAudio").show();
+                            setTimeout(slidersInit, 1000);
+                        });
+                    };
+
+
+                });
+
+        var chatApp = angular.module('chatApp', ['audioController', 'audioService', 'ngSanitize','ngPJAX'])
+                .filter('to_trusted', ['$sce', function ($sce) {
+                    return function (src) {
+                        return $sce.trustAsResourceUrl(src);
+                    };
+                }]);
+
         $("#src").dropdown();
         $("#src").change(function(){
             switch (this.value) {
@@ -139,6 +233,8 @@
                     break;
             }
         });
+        rebootstrap();
+        GLOBAL_AUDIO_LOADED = true;
     </script>
 
-@endsection
+@stop

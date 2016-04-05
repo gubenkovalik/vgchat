@@ -67,7 +67,7 @@ function afterLoad(){
     $('.avatarImage').each(function(k, v){
         console.log("doing");
         $(this).attr('src', $(this).attr('data-src'));
-        
+
     });
 }
 var loaderTask = function($scope, Chat){
@@ -77,13 +77,13 @@ var loaderTask = function($scope, Chat){
             $scope.loading = false;
             cached = data;
             setTimeout(function(){
-                
+
                 $('#chatContainer').perfectScrollbar('update');
                 afterLoad();
             }, 1000);
 
-            
-            
+
+
             socket.on('chat message', function(msg){
 
                 if(msg.nickname != _nickname){
@@ -140,7 +140,7 @@ var loaderTask = function($scope, Chat){
                     keynum = e.which;
                 }
                 if(isCharacterKeyPress(e) || keynum != 13){
-                    
+
                     socket.emit('chat typing', {nickname: _nickname, sessid: _sessid});
                 } else if(keynum == 13){
                     socket.emit('chat notyping', {nickname: _nickname, sessid: _sessid});
@@ -149,9 +149,12 @@ var loaderTask = function($scope, Chat){
         });
 };
 var loadMore;
+(function(){
 
+})();
 angular.module('chatCtrl', [])
     .controller('chatCtrl', function($scope, $http, Chat) {
+
         $scope.chatData = {};
         $scope.loading = true;
 
@@ -159,7 +162,7 @@ angular.module('chatCtrl', [])
             console.log("loading");
             loaderTask($scope, Chat);
         }, 80);
-        
+
 
         loadMore = function (){
             $("#loadingMoreDig").show(0);
@@ -168,12 +171,12 @@ angular.module('chatCtrl', [])
                     cached = $.merge(cached, data);
                     $scope = cached;
 
-                    
+
                     setTimeout(function(){
                         afterLoad();
                     }, 1500);
             });
-        }
+        };
 
         $scope.submitComment = function() {
             var inp = $("#message");

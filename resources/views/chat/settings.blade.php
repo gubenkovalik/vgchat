@@ -1,6 +1,6 @@
 @extends('chat.lay')
 
-@section('title') {{Lang::get('settings.settings')}} - @endsection
+@section('title') {{Lang::get('settings.settings')}} - @stop
 @section('content')
     <h1></h1>
 
@@ -72,9 +72,7 @@
             </div>
         </fieldset>
     </form>
-@endsection
 
-@section('scripts')
     <link rel="stylesheet" href="/assets/css/croppie.css" />
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
 
@@ -146,15 +144,6 @@
             "showMethod": "fadeIn",
             "hideMethod": "fadeOut"
         };
-        socket.on('chat message', function(msg){
 
-            toastr.warning(msg.message, msg.nickname);
-        });
-        socket.on("user notify", function(data){
-            console.log(data);
-            if(data.uid == '{{Session::get('uid')}}'){
-                toastr.info(data.msg, data.nickname);
-            }
-        });
     </script>
-@endsection
+@stop

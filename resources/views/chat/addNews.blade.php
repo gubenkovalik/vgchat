@@ -17,4 +17,4 @@
             <button type="submit" class="btn btn-success btn-raised">Add<   /button>
         </div>
     </form>
-@endsection
+@stop

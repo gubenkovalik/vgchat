@@ -74,10 +74,6 @@
         @endforeach
     </div>
 
-@endsection
-
-@section('scripts')
-
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/min/dropzone.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css"/>
@@ -132,11 +128,6 @@
         $(function() {
             $("img.lazy").lazyload();
         });
-        socket.on("user notify", function(data){
-            console.log(data);
-            if(data.uid == '{{Session::get('uid')}}'){
-                toastr.info(data.msg, data.nickname);
-            }
-        });
+
     </script>
-@endsection
+@stop

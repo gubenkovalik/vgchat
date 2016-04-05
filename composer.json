@@ -12,7 +12,8 @@
         "anhskohbo/no-captcha": "2.*",
         "wisembly/elephant.io": "~3.0",
         "yocmen/html-minify": "2.*",
-        "roumen/feed": "^2.10"
+        "roumen/feed": "^2.10",
+        "jacobbennett/pjax": "~1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

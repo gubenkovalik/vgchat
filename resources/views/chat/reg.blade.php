@@ -1,6 +1,6 @@
 @extends('chat.lay')
 
-@section('title') {{Lang::get('register.register')}} - @endsection
+@section('title') {{Lang::get('register.register')}} - @stop
 @section('content')
     <h2>{{Lang::get('register.register')}}</h2>
 
@@ -32,4 +32,4 @@
         </form>
     </div>
 
-@endsection
+@stop

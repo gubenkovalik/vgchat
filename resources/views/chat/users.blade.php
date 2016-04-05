@@ -60,7 +60,6 @@
 
 
     <script data-no-instant>
-
         var _sessid = "{{Session::get('sessid')}}";
 
         function notifyUser(){
@@ -76,4 +75,4 @@
 
 
     </script>
-@endsection
+@stop

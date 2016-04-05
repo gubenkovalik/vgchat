@@ -52,28 +52,13 @@
 
         </div>
     </div>
-@endsection
 
-@section('scripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-jkit/1.1.8/jquery.jkit.min.js"></script>
 
 <script>
-    function hideJumb(){
-        $('.jumbotron').slideUp(400);
-        $.ajax({
-            url: '/jumb',
-            type: 'POST'
-        });
-
-    }
-
-    if(document.cookie.indexOf("jumb") != -1){
-        $('.jumbotron').hide(0);
-    }
     $(function () {
-        $('body').jKit('parallax', { 'strength': '3', 'axis': 'both' });
+
         $('#loginForm').parsley();
     });
 </script>
 
-@endsection
+@stop
