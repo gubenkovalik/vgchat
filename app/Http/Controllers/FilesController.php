@@ -29,7 +29,7 @@ class FilesController extends Controller
 
     public function __construct()
     {
-        $this->middleware('loggedin', ['except' => ['download']]);
+        VG::checkAuth();
 	
         $user = User::where('id', session()->get('uid'))->first();
 	if($user == null) return;

@@ -94,14 +94,14 @@
 
                                     </p>
                                     <div data-aid="@{{ track.aid }}" data-duration="@{{ track.duration_seconds }}" ng-src="@{{ trustSrc(track.url) }}" class="player-controls">
-                                        <a href="javascript:void(0);" class="btn btn-fab btn-fab-mini btn-inverse" onclick="playTrack(this)"><i class="playbtnind material-icons">play_arrow</i> </a>
+                                        <button class="btn btn-fab btn-fab-mini btn-inverse" onclick="playTrack(this)"><i class="playbtnind material-icons">play_arrow</i> </button>
 
                                         <div class="slider progress">
                                             <div class="progress-bar progress-bar-inverse" style="width: 0%"></div>
                                         </div>
 
-                                        <a class="btn btn-sm btn-inverse" onclick="downloadTrack(this)" data-name="@{{ track.artist }} - @{{ track.title }}" data-secure="@{{ trustSrc(track.url) }}"><i class="material-icons">file_download</i></a>
-                                        <a class="btn btn-sm btn-primary btn-fab btn-fab-mini" onclick="addToPlaylist(this)" data-aid="@{{ track.aid }}" data-oid="@{{ track.owner_id }}"><i class="material-icons">@{{ track.added }}</i></a>
+                                        <button class="btn btn-sm btn-inverse" onclick="downloadTrack(this)" data-name="@{{ track.artist }} - @{{ track.title }}" data-secure="@{{ trustSrc(track.orig_url) }}"><i class="material-icons">file_download</i></button>
+                                        <button class="btn btn-sm btn-primary btn-fab btn-fab-mini" onclick="addToPlaylist(this)" data-aid="@{{ track.aid }}" data-oid="@{{ track.owner_id }}"><i class="material-icons">@{{ track.added }}</i></button>
                                         <div style="color: #888; font-size: 9pt"><span style="color: #888; font-size: 9pt" class="currentTime">00:00</span> / @{{ track.duration }}</div>
                                     </div>
 

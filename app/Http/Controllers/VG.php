@@ -31,4 +31,11 @@ class VG {
         $redis->set("secure:".$sessid, true);
         $redis->close();
     }
+
+    public static final function checkAuth(){
+        if(FALSE === Session::has('uid')) {
+            header("Location: /", true, 302);
+            exit;
+        }
+    }
 }

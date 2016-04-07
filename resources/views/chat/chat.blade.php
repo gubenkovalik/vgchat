@@ -75,42 +75,35 @@
         Notification.requestPermission(perm);
 
 
-            
-
-
-
-
         function perm(permission) {
             if( permission != "granted" ) return false;
         }
-        if(GLOBAL_CHAT_LOADED == false) {
-            $('#chatContainer').perfectScrollbar();
-            socket.on('chat bell', function(data){
+        $('#chatContainer').perfectScrollbar();
+        socket.on('chat bell', function(data){
 
 
-                ion.sound.play("notification");
+            ion.sound.play("notification");
 
-            });
-            socket.on('activity', function(data){
-                console.log(data);
+        });
+        socket.on('activity', function(data){
+            var filter = {
+                '-webkit-filter': 'blur('+(data.active == true ? '0' : '2') +'px)',
+                '-moz-filter': 'blur('+(data.active == true ? '0' : '2') +'px)',
+                'filter': 'blur('+(data.active == true ? '0' : '2') +'px)',
+            };
+            $('.dataUserOnline_'+data.id).parent().css(filter);
 
-                var filter = {
-                    '-webkit-filter': 'blur('+(data.active == true ? '0' : '2') +'px)',
-                    '-moz-filter': 'blur('+(data.active == true ? '0' : '2') +'px)',
-                    'filter': 'blur('+(data.active == true ? '0' : '2') +'px)',
-                };
-                console.log($('.dataUserOnline_'+data.id).parent().css(filter));
+        });
+        socket.on('users online', function(data){
+            $.each(data, function(index, value) {
 
-            });
-            socket.on('users online', function(data){
-                $.each(data, function(index, value) {
-
-                    $('.dataUserOnline_'+index).css({display: (value == true ? 'inline' : 'none')})
-
-                });
+                $('.dataUserOnline_'+index).css({display: (value == true ? 'inline' : 'none')})
 
             });
-        }
+
+        });
+
+
 
         function bell(){
             socket.emit('chat bell', {sessid: _sessid, nickname: _nickname});
@@ -285,7 +278,7 @@
                     $scope.loading = true;
 
                     setTimeout(function () {
-                        console.log("loading");
+
                         loaderTask($scope, Chat);
                     }, 80);
 
@@ -328,7 +321,7 @@
 
                                 })
                                 .error(function (data) {
-                                    console.log(data);
+
                                 });
                     };
                 });
@@ -347,9 +340,9 @@
                             return $http({
                                 method: 'POST',
                                 url: '/api/send',
+                                withCredentials: true,
                                 headers: {
                                     'Content-Type': 'application/x-www-form-urlencoded',
-                                    'Cookie': document.location
                                 },
                                 data: $.param(chatData)
                             });
@@ -361,7 +354,7 @@
         if (typeof chatApp != "undefined") {
             delete chatApp;
         }
-        console.log("chat page");
+
         var chatApp = angular.module('chatApp', ['chatCtrl', 'chatService', 'ngPJAX'])
                 .filter('to_trusted', ['$sce', function ($sce) {
                     return function (text) {

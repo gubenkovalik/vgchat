@@ -47,6 +47,8 @@ Route::group(['middleware' => ['web','locale','online']], function () {
     Route::get('/audio/download/{data}', 'ChatController@download');
     Route::patch('/audio/getlink', 'ChatController@getlink');
 
+    Route::any('/audio/play', 'ChatController@getLinkToPlay');
+
     Route::post('/tracking', 'SiteController@tracking');
 
     Route::get('/lang/{lang}', 'SiteController@lang');

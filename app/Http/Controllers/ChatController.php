@@ -22,7 +22,9 @@ class ChatController extends Controller
 
     public function __construct()
     {
-        $this->middleware('loggedin', ['except' => ['download']]);
+
+        VG::checkAuth();
+
         $user = User::whereId(Session::get('uid'))->first();
         $this->uid = $user->id;
     }
@@ -91,7 +93,10 @@ class ChatController extends Controller
         }
 
         foreach($data as $k=>$v){
-            $data[$k]['url'] = str_replace("https://", "http://", $v['url']);
+            $url = str_replace("https://", "http://", $v['url']);
+	    $data[$k]['url'] = "/audio/play?link=".urlencode($url);
+
+            $data[$k]['orig_url'] = $url;
             $data[$k]['duration_seconds'] = $v['duration'];
             $data[$k]['duration'] = gmdate("i:s", $v['duration']);
             $data[$k]['added'] = in_array($v['aid'], $added_ids) ? "done" : "add";
@@ -142,6 +147,15 @@ class ChatController extends Controller
 
         return response(hash('whirlpool', $data[0].$data[1]));
     }
+
+	
+    public function getLinkToPlay(Request $request) {
+	
+        $link = $request->get('link');
+
+        readfile($link);
+        exit;
+    }
     public function download(Request $request, $whirlpool)
     {
         $url = $request->session()->get('dnlink');
@@ -154,22 +168,19 @@ class ChatController extends Controller
             return redirect()->to('/audio');
         }
 
-        $binary = file_get_contents($url);
+
 
 
 
         header('Content-Description: File Transfer');
         header('Content-Type: application/octet-stream');
-        header('Content-Disposition: attachment; filename=' . $fname);
+        header('Content-Disposition: attachment; filename=' . $fname.".mp3");
         header('Content-Transfer-Encoding: binary');
         header('Expires: 0');
         header('Cache-Control: must-revalidate');
         header('Pragma: public');
-        header('Content-Length: ' . strlen($binary));
 
-        ob_start();
-        print $binary;
-        ob_end_flush();
+        readfile($url);
 
         $request->session()->forget(['dnlink', 'dnname']);
         exit;

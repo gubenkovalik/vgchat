@@ -39,7 +39,7 @@ class Kernel extends HttpKernel
         ],
         'api' => [
             'throttle:60,1',
-        ],
+        ]
     ];
 
     /**
@@ -50,11 +50,12 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
+        'loggedin' => \App\Http\Middleware\Auth::class,
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'loggedin' => \App\Http\Middleware\Auth::class,
+
         'android-auth' => \App\Http\Middleware\AndroidAuth::class,
     ];
 }
