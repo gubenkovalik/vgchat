@@ -15,8 +15,6 @@
 //}
 
 $.pjax.defaults.timeout = 6000;
-$.pjax.defaults.maxCacheLength = 4800000000;
-
 
 //$(document).pjax('a', '#pjaxContainer');
 $(document).on('click', 'a', function (e) {
@@ -67,11 +65,6 @@ $(document)
 
     })
     .on('pjax:end', function () {
-        setTimeout(function(){
-            console.info("Saving to cache "+md5(document.location.pathname));
-            XCache.put(md5(document.location.pathname), $("#pjaxContainer").html());
-
-        },1500);
         afterLoadPjax();
 
     });
