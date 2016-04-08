@@ -19,10 +19,12 @@ return [
         'app/Http/Controllers/ChatController.php',
         'app/Http/Controllers/FilesController.php',
         'app/Http/Controllers/NodeController.php',
+        'app/Http/Controllers/ApiController.php',
         'app/Http/Controllers/VG.php',
         'app/Http/Middleware/Locale.php',
         'app/Http/Middleware/Online.php',
         'app/Http/Middleware/RedirectIfAuthenticated.php',
+        'app/Http/Requests/Request.php',
         'app/Http/Files.php',
         'app/Http/FileShares.php',
         'app/Http/Helper.php',
@@ -31,7 +33,14 @@ return [
         'app/Http/Messages.php',
         'app/Http/Resetting.php',
         'app/Http/SimpleImage.php',
+        'app/Http/SocketIO.php',
+        'app/Http/Playlists.php',
         'app/Http/User.php',
+        'app/Events/Event.php',
+        'app/Events/FileSharedEvent.php',
+        'app/Events/UserLoggedInEvent.php',
+        'app/Listeners/BroadcastSocket.php',
+        'app/Listeners/FileSharedListener.php'
 
     ],
 

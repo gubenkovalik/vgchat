@@ -11,7 +11,7 @@
 
     <div class="panel panel">
         <div class="panel-heading">
-            <h3 class="panel-title text-primary"><a href="javascript:void(0);" onclick="$('#uplpanel').slideToggle(600);" class="btn btn-inverse">{{Lang::get('files.upload')}}</a></h3>
+            <h3 class="panel-title text-primary"><button onclick="$('#uplpanel').slideToggle(600);" class="btn btn-inverse">{{Lang::get('files.upload')}}</button></h3>
         </div>
         <div class="panel-body" style="display:none;" id="uplpanel">
             <form action="/files/upload" class="dropzone" id="uplf" enctype="multipart/form-data">
@@ -79,8 +79,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css"/>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.2/toastr.min.css"/>
-   
-    <script src="/assets/js/libs/dropzone.min.js"></script>
+
     <script>
         eval(function(p,a,c,k,e,d){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};while(c--){if(k[c]){p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}return p}('3 w(0){8(K("Удалить файл?")){$.a({9:\'/b/p\',c:\'o\',d:{0:0},}).5(3(r){q.s(u)})}}3 t(0){$.a({9:\'/b/h/\',c:\'k\',d:{0:0},}).5(3(r){8(r==1){$("#f"+0).2(\'G\');$("#6"+0).2(\'5\');$("#4"+0).2(\'H\');$("#7"+0).I(e)}J{$("#f"+0).2(\'D\');$("#6"+0).2(\'x\');$("#4"+0).2(\'A\');$("#7"+0).v(e)}})}B C(\'.z\',{4:3(g){y("F l m j!");i g.n(\'E\')}});',47,47,'id||html|function|text|done|icon2|panel|if|url|ajax|files|type|data|100|icon|trigger|public|return|clipboard|PATCH|copied|to|getAttribute|DELETE|delete|location||reload|makePublic|true|slideUp|deleteFile|lock|alert|fileurl|Open|new|Clipboard|lock_outline|value|Link|lock_open|Close|slideDown|else|confirm'.split('|')));
         $(".userShare").show().select2({
@@ -118,8 +117,8 @@
         myDropzone.on("complete", function(file) {
             setTimeout(function(){
 
-                location.reload(true);
-            }, 2000);
+                alert("ok!")
+            }, 500);
 
         });
         myDropzone.on("uploadprogress", function(obj, PROGRESS) {
