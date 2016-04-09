@@ -159,20 +159,22 @@ io.on('connection', function (socket) {
 setInterval(function () {
     for (var index in nicknames) {
         var attr = nicknames[index];
-        if ((new Date().getTime() - attr) > 5000) {
+        if ((new Date().getTime() - attr) > 4000) {
 
             delete nicknames[index];
 
         }
     }
+    console.log(nicknames);
+    io.emit('chat typing', nicknames);
 
-}, 2000);
+}, 3000);
 var importantMsg = "";
 setInterval(function () {
-    console.reset();
-    console.log(activeUsers + " active users");
-    console.log(osize(nicknames) + " typing users");
-    console.log(importantMsg);
+    //console.reset();
+    //console.log(activeUsers + " active users");
+    //console.log(osize(nicknames) + " typing users");
+    //console.log(importantMsg);
 }, 3000);
 var onlineUpdater = function () {
 

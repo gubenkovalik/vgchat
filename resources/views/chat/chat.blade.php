@@ -2,7 +2,7 @@
 
 @section('content')
     @if(Session::has('error')) <span class="text-danger">{{Session::get('error')}}</span>@endif
-    <div ng-app="chatApp" class="col-md-12" ng-controller="chatCtrl">
+    <div ng-app="chatApp" class="col-md-6" style="margin-top:30px;margin: 0 auto;" ng-controller="chatCtrl">
         <form ng-submit="submitComment()">
             <div class="form-group label-floating">
                 <div class="input-group">
@@ -28,7 +28,7 @@
 
             <div class="panel-body">
                 <p class="text-center" ng-show="loading"><img src="/assets/images/preloader.gif"/></p>
-                <p class="text-center" style="font-size:9pt; color: #888;" id="indicator"></p>
+                <p class="" style="background: url('/extra/anim/typing.gif') 0 2px no-repeat; margin: 0 144px 0px 30px; padding: 1px 0 0 20px;font-size:9pt; color: #888;opacity:0;" id="indicator">Text</p>
                 <div class="list-group" id="messagesList">
                     <div class="msg wow slideInRight" data-wow-duration="0.5s" style="display:none" ng-hide="loading" ng-repeat="message in messages">
 
@@ -134,12 +134,7 @@
         });
     </script>
 
-
-    <script data-no-instant src="/assets/js/controllers/chatCtrl.js"></script>
-    <script data-no-instant src="/assets/js/services/chatService.js"></script>
     <script data-no-instant src="/assets/js/ion.sound.min.js"></script>
-    <script data-no-instant src="/assets/js/app.js"></script>
-
 
     <script>
         var cached = {};
@@ -234,13 +229,19 @@
                             socket.on('chat typing', function (nicknames) {
 
                                 var al = $("#indicator");
+
                                 if (osize(nicknames) == 0) {
-                                    al.html("");
+                                    requestAnimationFrame(function(){
+
+                                        al.animate({opacity: 0}, 500);
+                                    });
+
                                     return;
                                 }
                                 var keys = [];
                                 for (var k in nicknames) keys.push(k);
                                 al.html(keys.join(", ") + " " + _typingLang);
+                                al.animate({opacity: 1}, 500);
 
                                 clearTimeout(tmt);
                                 tmt = setTimeout(function () {
