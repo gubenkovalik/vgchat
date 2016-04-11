@@ -165,16 +165,16 @@ setInterval(function () {
 
         }
     }
-    console.log(nicknames);
+  
     io.emit('chat typing', nicknames);
 
 }, 3000);
 var importantMsg = "";
 setInterval(function () {
-    //console.reset();
-    //console.log(activeUsers + " active users");
-    //console.log(osize(nicknames) + " typing users");
-    //console.log(importantMsg);
+    console.reset();
+    console.log(activeUsers + " active users");
+    console.log(osize(nicknames) + " typing users");
+    console.log(importantMsg);
 }, 3000);
 var onlineUpdater = function () {
 
