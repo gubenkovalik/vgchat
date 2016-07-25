@@ -5,9 +5,9 @@ var fs = require('fs');
 var ss = require('socket.io-stream');
 var path = require('path');
 /** THIS IS ONLY FOR SSL **/
-var privateKey = fs.readFileSync('../ssl/www.fastest.ml/privkey1.pem').toString();
-var certificate = fs.readFileSync('../ssl/www.fastest.ml/cert1.pem').toString();
-var ca = fs.readFileSync('../ssl/www.fastest.ml/chain1.pem').toString();
+var privateKey = fs.readFileSync('/home/valik/ssl/domain.key').toString();
+var certificate = fs.readFileSync('/home/valik/ssl/jencat.ml.crt').toString();
+var ca = fs.readFileSync('/home/valik/ssl/inter.crt').toString();
 /** END **/
 
 
