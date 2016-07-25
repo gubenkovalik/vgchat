@@ -19,7 +19,7 @@ class SiteController extends Controller
 {
 
     private function domain_exists($email, $record = 'MX'){
-        list($user, $domain) = split('@', $email);
+        list($user, $domain) = str_split('@', $email);
         return checkdnsrr($domain, $record);
     }
     private function cleanUpHtml($html){
