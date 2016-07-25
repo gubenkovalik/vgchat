@@ -1,5 +1,5 @@
 .idea/
-/vendor
+vendor/
 /node_modules
 /public/storage
 /public/u/pics/*
