@@ -127,7 +127,7 @@
 <script>
     var _sessid = "{{Session::get('sessid')}}";
 
-    var socket = io.connect('https://fastest.ml:3000', {secure: true});
+    var socket = io.connect('https://jencat.ml:3000', {secure: true});
 
 
     Notification.requestPermission(function(){});

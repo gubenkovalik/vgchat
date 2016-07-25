@@ -133,7 +133,7 @@ Route::group(['middleware' => ['web','locale','online']], function () {
 
         $feed->title = "Fastest ML Feed";
         $news = DB::table('news')->orderBy('created_at')->get();
-        $lnk = "https://fastest.ml/news";
+        $lnk = "https://jencat.ml/news";
 
         foreach($news as $n) {
             if($n->image != null){

@@ -6,15 +6,15 @@
             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
 <url>
-  <loc>https://fastest.ml/</loc>
+  <loc>https://jencat.ml/</loc>
   <priority>1.00</priority>
 </url>
 <url>
-  <loc>https://fastest.ml/register</loc>
+  <loc>https://jencat.ml/register</loc>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://fastest.ml/remind</loc>
+  <loc>https://jencat.ml/remind</loc>
   <priority>0.70</priority>
 </url>
 </urlset>

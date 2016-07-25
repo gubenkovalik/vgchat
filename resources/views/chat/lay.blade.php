@@ -3,7 +3,7 @@
     <head>
         <title>VG Chat - @yield('title') бесплатный чат и файлообменник</title>
         <noscript><meta http-equiv="refresh" content="0; URL=/badbrowser"></noscript>
-        <base href="https://fastest.ml"/>
+        <base href="https://jencat.ml"/>
         <link rel="canonical" href="{{URL::current()}}"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -12,7 +12,7 @@
         <meta name="keywords" content="VG Chat, chat, чат, файлообменник, Валик Губенко, cj suspend"/>
         <meta name="og:description" content="VG Chat -  @yield('title') бесплатный чат и файлообменник"/>
         <meta name="og:title" content="VG Chat"/>
-        <meta name="og:image" content="https://fastest.ml/assets/images/logo.jpg"/>
+        <meta name="og:image" content="https://jencat.ml/assets/images/logo.jpg"/>
         <!--[if lt IE 9]>
         <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
         <![endif]-->
@@ -55,7 +55,7 @@
         <script type="application/ld+json">
         { "@context" : "http://schema.org",
           "@type" : "Organization",
-          "url" : "https://fastest.ml",
+          "url" : "https://jencat.ml",
           "sameAs" : [ "http://vk.com/id38008511"],
           "contactPoint" : [
             { "@type" : "ContactPoint",
@@ -106,25 +106,25 @@
     <div style="display: none; visibility: hidden">
     
         <div itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
-          <a href="https://fastest.ml/" itemprop="url">
+          <a href="https://jencat.ml/" itemprop="url">
             <span itemprop="title">Fastest</span>
           </a> ›
         </div>
         @if(Request::is("*/"))
         <div itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
-          <a href="https://fastest.ml/" itemprop="url">
+          <a href="https://jencat.ml/" itemprop="url">
             <span itemprop="title">{{Lang::get('login.login')}}</span>
           </a> ›
         </div>
         @elseif(Request::is("*register"))
         <div itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
-          <a href="https://fastest.ml/register" itemprop="url">
+          <a href="https://jencat.ml/register" itemprop="url">
             <span itemprop="title">{{Lang::get('register.register')}}</span>
           </a> ›
         </div>
         @elseif(Request::is("*remind"))
         <div itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
-          <a href="https://fastest.ml/remind" itemprop="url">
+          <a href="https://jencat.ml/remind" itemprop="url">
             <span itemprop="title">{{Lang::get('resetting.remind')}}</span>
           </a> ›
         </div>
@@ -153,7 +153,7 @@
                         <span class="icon-bar"></span>
                     </button>
                     <h1 style="display:inline;margin:0;padding:0; font-size:inherit;">
-                        <a class="navbar-brand" href="https://fastest.ml" no-data-pjax>
+                        <a class="navbar-brand" href="https://jencat.ml" no-data-pjax>
                             <i class="material-icons" style="position: relative;top:-1px;color:white;">verified_user</i> VG Chat
 
                         </a>

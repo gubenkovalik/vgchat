@@ -63,7 +63,7 @@
                                 @endforeach
                             </select>
                         </div>
-                      <input onclick="this.setSelectionRange(0, this.value.length)" class="form-control text-primary fileurl" value="https://fastest.ml/files/download/{{$file->access_token}}"/>
+                      <input onclick="this.setSelectionRange(0, this.value.length)" class="form-control text-primary fileurl" value="https://jencat.ml/files/download/{{$file->access_token}}"/>
                     </div>
 
                 </div>

@@ -180,7 +180,7 @@ var onlineUpdater = function () {
 
     if (activeUsers < 1) return;
 
-    var req = https.get('https://fastest.ml/users/online/get', function (res) {
+    var req = https.get('https://jencat.ml/users/online/get', function (res) {
 
         var bodyChunks = [];
         res.on('data', function (chunk) {

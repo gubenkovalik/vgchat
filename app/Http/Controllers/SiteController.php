@@ -289,7 +289,7 @@ class SiteController extends Controller
 
     public function jumb()
     {
-        return response()->make("ok")->withCookie(Cookie::make('jumb', false, 1440, '/', 'fastest.ml', true, false));
+        return response()->make("ok")->withCookie(Cookie::make('jumb', false, 1440, '/', 'jencat.ml', true, false));
     }
 
     public function tracking(Request $request)

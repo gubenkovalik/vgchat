@@ -34,7 +34,7 @@ class SocketIO {
     }
 
     public function send($event = '', array $args = []){
-        $elephant = new Elephant(new Version1X("https://fastest.ml:3000"));
+        $elephant = new Elephant(new Version1X("https://jencat.ml:3000"));
         $elephant->initialize(false)
             ->getEngine()
             ->emit($event, $args);
