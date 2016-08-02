@@ -1,5 +1,5 @@
 @extends('chat.lay')
-@section('title') {{Lang::get('resetting.remind')}} - @stop
+@section('title') {{$n->title}} - @stop
 @section('content')
     <h2>News</h2>
 

@@ -14,7 +14,7 @@
 
             </div>
         @endif
-		@if(Session::get('uid') == 2345)
+		@if(Session::get('uid') == 1)
 			<a href="/news/add" class="btn btn-primary"><i class="material-icons">add</i> Add</a>
 		@endif
 	@foreach($news as $n)
