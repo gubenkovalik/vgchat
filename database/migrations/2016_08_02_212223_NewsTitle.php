@@ -12,8 +12,13 @@ class NewsTitle extends Migration
      */
     public function up()
     {
-        Schema::table('news', function(Blueprint $table) {
-           $table->string('title')->after('id');
+        Schema::dropIfExists('news');
+        Schema::create('news', function(Blueprint $table) {
+            $table->increments('id');
+            $table->string('title');
+            $table->text('html');
+            $table->string('image');
+            $table->timestampsTz();
 
         });
     }
@@ -25,9 +30,6 @@ class NewsTitle extends Migration
      */
     public function down()
     {
-        Schema::table('news', function(Blueprint $table) {
-            $table->dropColumn('title');
-
-        });
+        Schema::dropIfExists('news');
     }
 }
