@@ -17,38 +17,38 @@
 $.pjax.defaults.timeout = 6000;
 
 //$(document).pjax('a', '#pjaxContainer');
-$(document).on('click', 'a', function (e) {
-    var _this = this;
-    var url = $(this).attr('href');
-
-    var noPjax = $(this).attr("no-data-pjax") != null;
-
-    if (noPjax) {
-        location.href = url;
-        return;
-    }
-
-
-
-    e.preventDefault();
-    e.stopImmediatePropagation();
-    e.stopPropagation();
-    $("#preloader").fadeIn(200);
-    $('#pjaxContainer').fadeOut(200);
-    setTimeout(function () {
-        $('li').removeClass('active');
-        $(_this).parent().addClass('active');
-        $.pjax({url: url, container: '#pjaxContainer'});
-        afterLoadPjax();
-
-    }, 200)
-
-
-});
-function afterLoadPjax(){
-    $('#pjaxContainer').fadeIn(200);
-    $("#preloader").fadeOut(200);
-}
+// $(document).on('click', 'a', function (e) {
+//     var _this = this;
+//     var url = $(this).attr('href');
+//
+//     var noPjax = $(this).attr("no-data-pjax") != null;
+//
+//     if (noPjax) {
+//         location.href = url;
+//         return;
+//     }
+//
+//
+//
+//     e.preventDefault();
+//     e.stopImmediatePropagation();
+//     e.stopPropagation();
+//     $("#preloader").fadeIn(200);
+//     $('#pjaxContainer').fadeOut(200);
+//     setTimeout(function () {
+//         $('li').removeClass('active');
+//         $(_this).parent().addClass('active');
+//         // $.pjax({url: url, container: '#pjaxContainer'});
+//         // afterLoadPjax();
+//
+//     }, 200)
+//
+//
+// });
+// function afterLoadPjax(){
+//     $('#pjaxContainer').fadeIn(200);
+//     $("#preloader").fadeOut(200);
+// }
 $.fn.extend({
     animateCss: function (animationName) {
         var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
