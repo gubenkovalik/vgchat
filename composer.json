@@ -5,6 +5,7 @@
     "license": "MIT",
     "type": "project",
     "version": "2.0",
+
     "homepage": "https://jencat.ml",
     "require": {
         "php": ">=5.6",
