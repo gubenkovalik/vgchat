@@ -1,11 +1,13 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "name": "gubenkovalik/vgchat",
+    "description": "JenCat Chat",
+    "keywords": ["vgchat", "джен кот", "chat", "jencat", "jen", "cat"],
     "license": "MIT",
     "type": "project",
+    "version": "2.0",
+    "homepage": "https://jencat.ml",
     "require": {
-        "php": ">=5.5.9",
+        "php": ">=5.6",
         "laravel/framework": "5.2.*",
         "barryvdh/laravel-ide-helper": "^2.1",
         "predis/predis": "^1.0",

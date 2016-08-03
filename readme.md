@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/gubenkovalik/vgchat.svg)](https://travis-ci.org/gubenkovalik/vgchat)
+[![StyleCI](https://styleci.io/repos/53651849/shield)](https://styleci.io/repos/53651849)
 
 ## INSTALLATION ##
 Run ````composer install```` first, and then ````php artisan migrate```` and at the end import to database the __vgchat.sql__ file.
