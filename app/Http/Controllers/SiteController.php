@@ -50,14 +50,6 @@ class SiteController extends Controller
 
         $u = User::whereEmail($email)->first();
 
-        $rules =  [
-            'g-recaptcha-response' => 'required|captcha'
-        ];
-        $validator = Validator::make($request->all(), $rules);
-        if ($validator->fails())
-        {
-            return redirect()->back()->with('error', 'Incorrect CAPTCHA');
-        }
 
         if ($u == null || Hash::check($password, $u->password) === FALSE) {
             return redirect()->back()->with('error', trans('login.wrong_credentials'));

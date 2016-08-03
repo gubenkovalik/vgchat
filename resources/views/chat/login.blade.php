@@ -43,9 +43,6 @@
                 <div class="form-group">
                     <a class="btn" href="/remind">{{Lang::get('login.remind')}}</a>
                 </div>
-                <div class="form-group">
-                    {!! app('captcha')->display() !!}
-                </div>
                 <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                 <button type="submit" class="msg-right btn btn-inverse">{{Lang::get('login.login')}}</button>
             </form>
