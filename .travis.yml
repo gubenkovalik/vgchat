@@ -21,7 +21,6 @@ services:
   - php5-fpm
 
 before_install:
-  - travis_retry sudo phpdismod xdebug
   - travis_retry composer self-update
   - travis_retry composer install
   - travis_retry composer update --prefer-stable --no-interaction
