@@ -21,7 +21,7 @@ services:
 before_install:
   - travis_retry composer self-update
   - travis_retry cp .env.travis .env
-  - travis_retry composer php artisan key:generate
+  - travis_retry php artisan key:generate
 
 install:
   - if [[ $setup = 'basic' ]]; then travis_retry composer install --no-interaction --prefer-dist; fi
