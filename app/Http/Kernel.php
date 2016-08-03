@@ -15,7 +15,7 @@ class Kernel extends HttpKernel
      */
     protected $middleware = [
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
-        \JacobBennett\Pjax\PjaxMiddleware::class
+        \JacobBennett\Pjax\PjaxMiddleware::class,
     ];
 
     /**
@@ -32,14 +32,14 @@ class Kernel extends HttpKernel
 
         ],
         'locale' => [
-            \App\Http\Middleware\Locale::class
+            \App\Http\Middleware\Locale::class,
         ],
         'online' => [
-            \App\Http\Middleware\Online::class
+            \App\Http\Middleware\Online::class,
         ],
         'api' => [
             'throttle:60,1',
-        ]
+        ],
     ];
 
     /**
@@ -50,11 +50,11 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        'loggedin' => \App\Http\Middleware\Auth::class,
-        'auth' => \App\Http\Middleware\Authenticate::class,
+        'loggedin'   => \App\Http\Middleware\Auth::class,
+        'auth'       => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
-        'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
-        'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'guest'      => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        'throttle'   => \Illuminate\Routing\Middleware\ThrottleRequests::class,
 
         'android-auth' => \App\Http\Middleware\AndroidAuth::class,
     ];

@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Http;
+
 class LinkFinder
 {
     public static function replace($text)
@@ -14,7 +16,8 @@ class LinkFinder
         return preg_replace_callback("&\\b$rexProtocol$rexDomain$rexPort$rexPath$rexQuery$rexFragment(?=[?.!,;:\"]?(\s|$))&",
             function ($match) {
                 $completeUrl = $match[1] ? $match[0] : "http://{$match[0]}";
-                return '<a target="_blank" href="' . $completeUrl . '">' . $match[2] . $match[3] . $match[4] . '</a>';
+
+                return '<a target="_blank" href="'.$completeUrl.'">'.$match[2].$match[3].$match[4].'</a>';
             }, htmlspecialchars($text));
     }
 }

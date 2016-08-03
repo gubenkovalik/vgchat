@@ -7,15 +7,15 @@ class Cachier
 
     private static $instance;
 
-    private final function __clone()
+    final private function __clone()
     {
     }
 
-    private final function __wakeup()
+    final private function __wakeup()
     {
     }
 
-    private final function __sleep()
+    final private function __sleep()
     {
     }
 
@@ -24,7 +24,7 @@ class Cachier
      */
     private function __construct()
     {
-        $this->hash = sha1($_COOKIE['suspendSecure'] . (empty($_COOKIE['lang']) ? ($_COOKIE['lang']) : ""));
+        $this->hash = sha1($_COOKIE['suspendSecure'].(empty($_COOKIE['lang']) ? ($_COOKIE['lang']) : ''));
         $this->redis = $this->getRedis();
     }
 
@@ -34,20 +34,21 @@ class Cachier
     public static function getInstance()
     {
         if (self::$instance == null) {
-            self::$instance = new self;
+            self::$instance = new self();
         }
+
         return self::$instance;
     }
 
     /**
      * @return Redis
      */
-    private final function getRedis()
+    final private function getRedis()
     {
         if ($this->redis != null) {
             return $this->redis;
         }
-        $redis = new Redis;
+        $redis = new Redis();
         $redis->connect('127.0.0.1', 6379);
 
         return $redis;
@@ -55,9 +56,10 @@ class Cachier
 
     /**
      * @param string $content
+     *
      * @return bool
      */
-    public function cachePage($content = "")
+    public function cachePage($content = '')
     {
         return $this->redis->set($this->hash, $content);
     }
@@ -84,16 +86,15 @@ class Cachier
     public function deleteFromCache()
     {
         $this->redis->delete($this->hash);
+
         return true;
     }
-
 }
 
 
 /**
- * Laravel - A PHP Framework For Web Artisans
+ * Laravel - A PHP Framework For Web Artisans.
  *
- * @package  Laravel
  * @author   Taylor Otwell <taylorotwell@gmail.com>
  */
 
@@ -109,7 +110,7 @@ class Cachier
 |
 */
 
-require __DIR__ . '/../bootstrap/autoload.php';
+require __DIR__.'/../bootstrap/autoload.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -123,7 +124,7 @@ require __DIR__ . '/../bootstrap/autoload.php';
 |
 */
 
-$app = require_once __DIR__ . '/../bootstrap/app.php';
+$app = require_once __DIR__.'/../bootstrap/app.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -148,8 +149,3 @@ $response->send();
 
 
 $kernel->terminate($request, $response);
-
-
-
-
-

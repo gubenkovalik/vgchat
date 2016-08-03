@@ -1,12 +1,11 @@
 <?php
+
 namespace App\Events;
 
 class UserLoggedInEvent extends Event
 {
-
     private $username;
     private $sessid;
-
 
     public function __construct($username, $sessid)
     {
@@ -29,6 +28,4 @@ class UserLoggedInEvent extends Event
     {
         return $this->sessid;
     }
-
-
 }

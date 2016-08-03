@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Middleware;
 
 use App\Http\User;
@@ -9,8 +10,6 @@ class AndroidAuth
 {
     public function handle(Request $request, Closure $next)
     {
-
-
         $access_token = $request->get('access_token');
 
         if ($access_token == null) {

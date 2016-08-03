@@ -2,7 +2,7 @@
 
 return [
     'register_confirm' => 'Register confirmation',
-    'link'=>'Link for confirmation register',
+    'link'             => 'Link for confirmation register',
 
 
 ];

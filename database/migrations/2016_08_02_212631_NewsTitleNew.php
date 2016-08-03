@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class NewsTitleNew extends Migration
 {
@@ -12,16 +12,13 @@ class NewsTitleNew extends Migration
      */
     public function up()
     {
-
         Schema::dropIfExists('news');
-        Schema::create('news', function(Blueprint $table) {
-
+        Schema::create('news', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
             $table->text('html');
             $table->string('image');
             $table->timestampsTz();
-
         });
     }
 

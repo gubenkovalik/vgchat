@@ -2,7 +2,7 @@
 
 return [
     'message' => 'Message',
-    'typing' => ' typing...',
+    'typing'  => ' typing...',
 
 
 ];

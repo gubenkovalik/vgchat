@@ -1,6 +1,6 @@
 <?php
-namespace App\Http\Controllers;
 
+namespace App\Http\Controllers;
 
 use App\Http\Files;
 use App\Http\FileShares;
@@ -16,7 +16,6 @@ define('DESC', 'DESC');
 
 class FilesController extends Controller
 {
-
     private $uid;
 
     public function __construct()
@@ -24,13 +23,14 @@ class FilesController extends Controller
         VG::checkAuth();
 
         $user = User::where('id', session()->get('uid'))->first();
-        if ($user == null) return;
+        if ($user == null) {
+            return;
+        }
         $this->uid = $user->id;
     }
 
     public function get(Request $request)
     {
-
         $shares = FileShares::where('user_id', $this->uid)->get();
         $shared_ids = [];
         foreach ($shares as $share) {
@@ -40,7 +40,6 @@ class FilesController extends Controller
 
         return response(View::make('chat.list', ['files' => $files, 'users' => User::get()]))
             ->header('Pragma', 'no-cache');
-
     }
 
     public function upload(Request $request)
@@ -48,21 +47,19 @@ class FilesController extends Controller
         $file = $request->file('file');
 
         if ($file->isValid()) {
-            $storeName = sha1($file->getClientOriginalName() . md5(time()) . rand()) . ".storage";
+            $storeName = sha1($file->getClientOriginalName().md5(time()).rand()).'.storage';
             $f = new Files();
             $f->user_id = $this->uid;
             $f->file_name = $file->getClientOriginalName();
-            $f->path = "../private_storage/" . $storeName;
+            $f->path = '../private_storage/'.$storeName;
             $f->access_token = md5($storeName);
             $f->public = 0;
 
-            $file->move("../private_storage", $storeName);
+            $file->move('../private_storage', $storeName);
             $f->save();
 
-            echo "success";
+            echo 'success';
             exit;
-
-
         }
     }
 
@@ -73,15 +70,17 @@ class FilesController extends Controller
         $file = Files::where('id', $id)->first();
 
         if ($file != null) {
-            if ($this->uid != $file->user_id) die("access violation");
+            if ($this->uid != $file->user_id) {
+                die('access violation');
+            }
 
             File::delete($file->path);
 
             $file->forceDelete();
 
-            echo "ok";
+            echo 'ok';
         } else {
-            echo "not found";
+            echo 'not found';
         }
     }
 
@@ -109,13 +108,14 @@ class FilesController extends Controller
         $users = $request->get('users');
 
 
-        if (FALSE == Files::where('user_id', $this->uid)->where('id', $file_id)->exists()) {
+        if (false == Files::where('user_id', $this->uid)->where('id', $file_id)->exists()) {
             return response()->json(['fuck' => true]);
         }
         $file = Files::where('user_id', $this->uid)->where('id', $file_id)->first();
 
         if (!is_array($users) || count($users) == 0) {
             FileShares::where('file_id', $file_id)->forceDelete();
+
             return response()->json(['success' => true]);
         }
         foreach ($users as $uid) {
@@ -128,7 +128,6 @@ class FilesController extends Controller
 
 
         foreach ($users as $uid) {
-
             $share = new FileShares();
             $share->file_id = $file_id;
             $share->user_id = $uid;
@@ -150,7 +149,9 @@ class FilesController extends Controller
     {
         $file = Files::where('access_token', $token)->first();
 
-        if ($file == null) return response()->make('Not found', 404);
+        if ($file == null) {
+            return response()->make('Not found', 404);
+        }
 
         if ($file->public == 1) {
             return response()->download($file->path, $file->file_name);
@@ -169,7 +170,6 @@ class FilesController extends Controller
         }
     }
 
-
     public function settings()
     {
         return response()->view('chat.settings', ['user' => $this->getUser()]);
@@ -177,15 +177,13 @@ class FilesController extends Controller
 
     public function settingsSave(Request $request)
     {
-
-
         $user = $this->getUser();
         if ($request->has('newPass')) {
             $old = $request->get('oldPass');
 
             if (Hash::check($old, $user->password) == false) {
                 return redirect()->back()->with('error', trans('settings.wrong_current'));
-            } else if (strlen($request->get('newPass')) < 6) {
+            } elseif (strlen($request->get('newPass')) < 6) {
                 return redirect()->back()->with('error', trans('register.password_length'));
             } else {
                 $user->password = Hash::make($request->get('newPass'));
@@ -194,7 +192,6 @@ class FilesController extends Controller
 
         if ($request->has('nickname') && ($nickname = $request->get('nickname')) != $user->nickname) {
             if (User::where('nickname', $nickname)->exists()) {
-
                 return redirect()->back()->with('error', trans('register.nickname_taken'));
             } else {
                 $user->nickname = $nickname;
@@ -218,11 +215,9 @@ class FilesController extends Controller
         if ($request->hasFile('avatar')) {
             $file = $request->file('avatar');
 
-            $nn = md5(rand() . time()) . sha1($user->id . $user->nickname . $user->password) . "." . $file->getClientOriginalExtension();
-            $file->move("./u/pics", $nn);
-            $user->avatar = "/u/pics/" . $nn;
-
-
+            $nn = md5(rand().time()).sha1($user->id.$user->nickname.$user->password).'.'.$file->getClientOriginalExtension();
+            $file->move('./u/pics', $nn);
+            $user->avatar = '/u/pics/'.$nn;
         }
 
         $user->save();
@@ -238,26 +233,25 @@ class FilesController extends Controller
 
 
         if ($image != null) {
-            $image = explode("base64,", $image)[1];
+            $image = explode('base64,', $image)[1];
 
 
             $bin = base64_decode($image);
 
-            $new = md5(rand() . time()) . sha1($user->id . $user->nickname . $user->password) . ".jpg";
-            $f = fopen("./u/pics/" . $new, "wb");
+            $new = md5(rand().time()).sha1($user->id.$user->nickname.$user->password).'.jpg';
+            $f = fopen('./u/pics/'.$new, 'wb');
             fwrite($f, $bin);
             fclose($f);
 
 
-            $user->avatar = "/u/pics/" . $new;
+            $user->avatar = '/u/pics/'.$new;
             $user->save();
-            echo "1";
+            echo '1';
             exit;
         }
     }
 
     public function changePassword()
     {
-
     }
 }
