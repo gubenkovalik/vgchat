@@ -3,7 +3,7 @@
 @section('content')
 
 
-    <div class="jumbotron wow bounceInDown" data-wow-duration="1.8s" data-wow-delay="1s">
+    <div class="jumbotron wow fadeIn" data-wow-duration="0.5s">
       <h1>VG Chat</h1>
 
       <p>{{Lang::get('login.register_and_chat')}}! </p>

@@ -9,7 +9,7 @@ class Auth {
     public function handle(Request $request, Closure $next)
     {
 
-        dd(true);
+
         if (!$request->session()->has('uid')){
 
             return redirect()->to('/');
