@@ -1,7 +1,7 @@
 language: php
 
 php:
-  - 7.0
+  - 5.6
 
 env:
   global:
@@ -9,7 +9,7 @@ env:
 
 matrix:
   include:
-    - php: 7.0
+    - php: 5.6
       env: setup=basic
 
 sudo: required
@@ -17,6 +17,8 @@ sudo: required
 services:
   - redis-server
   - memcached
+  - nginx
+  - php5-fpm
 
 before_install:
   - travis_retry sudo phpdismod xdebug
