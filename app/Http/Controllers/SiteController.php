@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Http\Files;
@@ -15,16 +16,15 @@ use Mail;
 use Redis;
 use Validator;
 
-
 class SiteController extends Controller
 {
-
     public function index(Request $request)
     {
         if (!$request->session()->has('uid')) {
             return view('chat.login');
         } else {
             $user = User::find($request->session()->get('uid'));
+
             return view('chat.chat', compact('user'));
         }
     }
@@ -37,7 +37,7 @@ class SiteController extends Controller
         $u = User::whereEmail($email)->first();
 
 
-        if ($u == null || Hash::check($password, $u->password) === FALSE) {
+        if ($u == null || Hash::check($password, $u->password) === false) {
             return redirect()->back()->with('error', trans('login.wrong_credentials'));
         } else {
             if ($u->confirmed == 0) {
@@ -68,7 +68,7 @@ class SiteController extends Controller
 
 
         $rules = [
-            'g-recaptcha-response' => 'required|captcha'
+            'g-recaptcha-response' => 'required|captcha',
         ];
 
 
@@ -85,7 +85,7 @@ class SiteController extends Controller
             return redirect()->back()->with('error', 'Incorrect nickname');
         }
 
-        if (strpos("admin", $nickname) !== false) {
+        if (strpos('admin', $nickname) !== false) {
             return redirect()->back()->with('error', 'Incorrect nickname');
         }
         $userE = User::where('email', $email);
@@ -105,7 +105,7 @@ class SiteController extends Controller
         }
 
 
-        $token = sha1(md5(rand()) . rand() . time());
+        $token = sha1(md5(rand()).rand().time());
 
         $user = new User();
         $user->email = $email;
@@ -117,7 +117,7 @@ class SiteController extends Controller
 
 
         Mail::send('emails.confirmation', ['token' => $token], function ($message) use ($email) {
-            $message->subject(trans('email.register_confirm') . " - VG Chat")
+            $message->subject(trans('email.register_confirm').' - VG Chat')
                 ->to($email);
         });
 
@@ -128,6 +128,7 @@ class SiteController extends Controller
     {
         return true;
         list($user, $domain) = str_split('@', $email);
+
         return checkdnsrr($domain, $record);
     }
 
@@ -135,15 +136,15 @@ class SiteController extends Controller
     {
         if (($user = User::where('confirmation_token', $token)->first()) != null) {
             if ($user->confirmed == 1) {
-                return redirect()->to("/")->with('error', 'Ссылка неверна');
+                return redirect()->to('/')->with('error', 'Ссылка неверна');
             }
             $user->confirmed = 1;
             $user->save();
             VG::loginUser($user, $request);
 
-            return redirect()->intended("/");
+            return redirect()->intended('/');
         } else {
-            return redirect()->to("/")->with('error', 'Ссылка неверна');
+            return redirect()->to('/')->with('error', 'Ссылка неверна');
         }
     }
 
@@ -161,7 +162,7 @@ class SiteController extends Controller
         if ($user == null) {
             return redirect()->back()->with('error', 'Пользователь не существует');
         } else {
-            $token = Hash::make(md5(rand() . $email) . time());
+            $token = Hash::make(md5(rand().$email).time());
 
             $token = hash('whirlpool', $token);
 
@@ -171,7 +172,7 @@ class SiteController extends Controller
             $r->save();
 
             Mail::send('emails.resetting', ['token' => $token], function ($m) use ($email) {
-                $m->to($email)->subject('VG Chat ' . trans('resetting.remind'));
+                $m->to($email)->subject('VG Chat '.trans('resetting.remind'));
             });
 
             return redirect()->back()->with('email', $email);
@@ -180,19 +181,19 @@ class SiteController extends Controller
 
     public function logout(Request $request)
     {
-        header("Pragma: no-cache");
+        header('Pragma: no-cache');
         $sesid = $request->session()->get('sessid');
         $redis = new Redis();
         $redis->connect('127.0.0.1', 6379);
         //echo $redis->get("laravel:".$sesid);
-        $redis->delete("secure:" . $sesid);
+        $redis->delete('secure:'.$sesid);
         // echo $redis->get("laravel:".$sesid);
         $redis->close();
 
-        $request->session()->remove("uid");
-        $request->session()->forget("uid");
-        $request->session()->remove("sessid");
-        $request->session()->forget("sessid");
+        $request->session()->remove('uid');
+        $request->session()->forget('uid');
+        $request->session()->remove('sessid');
+        $request->session()->forget('sessid');
         $request->session()->clear();
         $request->session()->flush();
 
@@ -251,7 +252,9 @@ class SiteController extends Controller
     {
         $im = new SimpleImage();
         $f = Files::where('access_token', $token)->first();
-        if ($f == null) exit;
+        if ($f == null) {
+            exit;
+        }
 
 
         $im->load($f->path);
@@ -263,35 +266,34 @@ class SiteController extends Controller
         ob_end_clean();
 
         return response()->make($buffer)
-            ->header("Content-Type", "image/jpeg")
-            ->header("Content-Length", strlen($buffer))
-            ->header("Expires", Carbon::now()->addYears(3)->format("Y-m-d H:i:s"))
-            ->header("Cache-Control", "store,public,max-age=34141345313")
-            ->header("Last-Modified", "2016-03-01 00:00:00");
+            ->header('Content-Type', 'image/jpeg')
+            ->header('Content-Length', strlen($buffer))
+            ->header('Expires', Carbon::now()->addYears(3)->format('Y-m-d H:i:s'))
+            ->header('Cache-Control', 'store,public,max-age=34141345313')
+            ->header('Last-Modified', '2016-03-01 00:00:00');
     }
 
     public function jumb()
     {
-        return response()->make("ok")->withCookie(Cookie::make('jumb', false, 1440, '/', 'jencat.ml', true, false));
+        return response()->make('ok')->withCookie(Cookie::make('jumb', false, 1440, '/', 'jencat.ml', true, false));
     }
 
     public function tracking(Request $request)
     {
         $data = [
-            'ip' => $request->getClientIp(),
-            'url' => urldecode($request->get('url')),
+            'ip'               => $request->getClientIp(),
+            'url'              => urldecode($request->get('url')),
             'assigned_user_id' => $request->session()->get('uid'),
-            'vk_id' => $request->get('vk_id')
+            'vk_id'            => $request->get('vk_id'),
         ];
 
         try {
             DB::table('visits')->insert($data);
         } catch (Exception $e) {
-
-            return "err<!>" . crc32(rand()) . $e->getMessage();
+            return 'err<!>'.crc32(rand()).$e->getMessage();
         }
 
-        return md5(rand()) . "<!>" . hash('whirlpool', md5(sha1(rand() . time())));
+        return md5(rand()).'<!>'.hash('whirlpool', md5(sha1(rand().time())));
     }
 
     public function lang(Request $request, $lang)
@@ -329,8 +331,7 @@ class SiteController extends Controller
         // Clean Whitespace
         $output = preg_replace('/\s{2,}/', '', $output);
         $output = preg_replace('/(\r?\n)/', '', $output);
+
         return $output;
     }
-
 }
-

@@ -1,23 +1,22 @@
 <?php
+
 /** MAIN ROUTER **/
-
 Route::group(['middleware' => ['web', 'locale', 'online']], function () {
+    Route::get('/', 'SiteController@index');
 
-    Route::get("/", 'SiteController@index');
-
-    Route::post("/", array('before' => 'csrf', 'uses' => 'SiteController@login'));
+    Route::post('/', ['before' => 'csrf', 'uses' => 'SiteController@login']);
 
     Route::get('/policy', 'SiteController@policy');
 
     Route::get('/register', 'SiteController@register');
-    Route::post("/register", array('before' => 'csrf', 'uses' => 'SiteController@reg'));
+    Route::post('/register', ['before' => 'csrf', 'uses' => 'SiteController@reg']);
 
-    Route::any("/confirmation/{token}", 'SiteController@emailConfirmation');
+    Route::any('/confirmation/{token}', 'SiteController@emailConfirmation');
 
-    Route::get("/remind", 'SiteController@remind');
+    Route::get('/remind', 'SiteController@remind');
     Route::post('/remind', 'SiteController@doRemind');
 
-    Route::any("/logout", 'SiteController@logout');
+    Route::any('/logout', 'SiteController@logout');
 
     Route::get('/resetting/{token}', 'SiteController@resetting');
 
@@ -69,15 +68,14 @@ Route::group(['middleware' => ['web', 'locale', 'online']], function () {
 
     Route::get('/test', function (\Illuminate\Http\Request $request) {
         for ($i = 0; $i < 10; $i++) {
-            header('Hashed-' . $i . ":" . hash('whirlpool', $i));
+            header('Hashed-'.$i.':'.hash('whirlpool', $i));
         }
     });
 
     Route::get('/news', function (\Illuminate\Http\Request $request) {
-
         $news = DB::table('news')->orderBy('created_at', 'DESC')->get();
-        return view('chat.news', ['news' => $news]);
 
+        return view('chat.news', ['news' => $news]);
     });
 
     Route::get('/news/{id}', function ($id) {
@@ -92,16 +90,15 @@ Route::group(['middleware' => ['web', 'locale', 'online']], function () {
 
     Route::any('/news/add', function (\Illuminate\Http\Request $request) {
         if ($request->method() == \Illuminate\Http\Request::METHOD_POST) {
-
             $title = $request->get('title');
             $html = $request->get('html');
             $image = null;
 
             if ($request->hasFile('image')) {
                 $file = $request->file('image');
-                $newName = md5(md5($file->getClientMimeType() . $file->getClientOriginalName()) . rand()) . "." . $file->getClientOriginalExtension();
-                $file->move("feed", $newName);
-                $image = $request->getSchemeAndHttpHost() . "/feed/" . $newName;
+                $newName = md5(md5($file->getClientMimeType().$file->getClientOriginalName()).rand()).'.'.$file->getClientOriginalExtension();
+                $file->move('feed', $newName);
+                $image = $request->getSchemeAndHttpHost().'/feed/'.$newName;
             }
 
             $data = compact('title', 'html', 'image');
@@ -119,26 +116,25 @@ Route::group(['middleware' => ['web', 'locale', 'online']], function () {
 
 
     Route::get('/rss/{type}', function ($type) {
-        header("Pragma: no-cache");
+        header('Pragma: no-cache');
         $supported = ['atom', 'rss'];
 
         if (!in_array($type, $supported)) {
-
-            return response("<i>&laquo;" . htmlspecialchars($type) . "&raquo;</i> is not supported", 401);
+            return response('<i>&laquo;'.htmlspecialchars($type).'&raquo;</i> is not supported', 401);
         }
 
         /** @var \Roumen\Feed\Feed $feed * */
-        $feed = App::make("feed");
+        $feed = App::make('feed');
 
-        $feed->title = "Fastest ML Feed";
+        $feed->title = 'Fastest ML Feed';
         $news = DB::table('news')->orderBy('created_at')->get();
-        $lnk = "https://jencat.ml/news";
+        $lnk = 'https://jencat.ml/news';
 
         foreach ($news as $n) {
             if ($n->image != null) {
-                $n->html .= "<img src=\"" . $n->image . "\" alt=\"image\"/>";
+                $n->html .= '<img src="'.$n->image.'" alt="image"/>';
             }
-            $feed->add($n->title, 'V. Gubenko', $lnk . "/" . $n->id, $n->created_at, $n->html, $n->html);
+            $feed->add($n->title, 'V. Gubenko', $lnk.'/'.$n->id, $n->created_at, $n->html, $n->html);
         }
 
 
@@ -148,6 +144,4 @@ Route::group(['middleware' => ['web', 'locale', 'online']], function () {
     Route::any('/badbrowser', function () {
         return view('general.badbrowser');
     });
-
-
 });

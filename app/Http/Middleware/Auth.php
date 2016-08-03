@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Middleware;
 
 use Closure;
@@ -8,10 +9,7 @@ class Auth
 {
     public function handle(Request $request, Closure $next)
     {
-
-
         if (!$request->session()->has('uid')) {
-
             return redirect()->to('/');
         }
 

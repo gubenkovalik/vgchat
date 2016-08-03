@@ -129,9 +129,9 @@
 <div id="bad_browser">
     <div id="head" class="head"></div>
     <div id="wrap"><div id="content">
-            <?=trans('master.bb_head');?>
+            <?=trans('master.bb_head'); ?>
             <div>
-                <?=trans('master.bb_desc');?>
+                <?=trans('master.bb_desc'); ?>
                 <div id="browsers" style="width: 360px;"><a href="http://www.google.com/chrome/" target="_blank" style="background: url(https://vk.com/images/chrome.png?1) no-repeat 50% 17px;">Chrome</a><a href="http://www.opera.com/" target="_blank" style="background: url(https://vk.com/images/opera.png?1) no-repeat 50% 15px;">Opera</a><a href="http://www.mozilla-europe.org/" target="_blank" style="background: url(https://vk.com/images/firefox.png?1) no-repeat 50% 17px;">Firefox</a></div>
             </div>
         </div></div>

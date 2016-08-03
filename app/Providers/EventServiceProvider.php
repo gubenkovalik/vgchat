@@ -17,17 +17,18 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\EventListener',
         ],
         'App\Events\UserLoggedInEvent' => [
-            'App\Listeners\BroadcastSocket'
+            'App\Listeners\BroadcastSocket',
         ],
         'App\Events\FileSharedEvent' => [
-            'App\Listeners\FileSharedListener'
+            'App\Listeners\FileSharedListener',
         ],
     ];
 
     /**
      * Register any other events for your application.
      *
-     * @param  \Illuminate\Contracts\Events\Dispatcher $events
+     * @param \Illuminate\Contracts\Events\Dispatcher $events
+     *
      * @return void
      */
     public function boot(DispatcherContract $events)

@@ -1,9 +1,9 @@
 <?php
+
 namespace App\Events;
 
 class FileSharedEvent extends Event
 {
-
     /** @var string $username * */
     private $username;
 
@@ -16,10 +16,11 @@ class FileSharedEvent extends Event
 
     /**
      * FileSharedEvent constructor.
+     *
      * @param string $filename
      * @param string $username
      */
-    public function __construct($filename = '', $username = '', $sessid = '', $uid)
+    public function __construct($filename, $username, $sessid, $uid)
     {
         $this->username = $username;
         $this->filename = $filename;
@@ -58,6 +59,4 @@ class FileSharedEvent extends Event
     {
         return $this->uid;
     }
-
-
 }

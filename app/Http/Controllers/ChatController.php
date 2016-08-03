@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Http\Playlists;
@@ -9,12 +10,10 @@ use Session;
 
 class ChatController extends Controller
 {
-
     private $uid;
 
     public function __construct()
     {
-
         VG::checkAuth();
 
         $user = User::whereId(Session::get('uid'))->first();
@@ -23,34 +22,29 @@ class ChatController extends Controller
 
     public function getUsers()
     {
-        $users = DB::select(DB::raw("select id, nickname, avatar, last_seen, ((CURRENT_TIMESTAMP - last_seen) <= 900 ) as online from users ORDER BY last_seen DESC"));
+        $users = DB::select(DB::raw('select id, nickname, avatar, last_seen, ((CURRENT_TIMESTAMP - last_seen) <= 900 ) as online from users ORDER BY last_seen DESC'));
+
         return view('chat.users', compact('users'));
     }
 
     public function audios(Request $request)
     {
-
-
         $q = $request->get('q');
 
         return view('chat.audio', compact('q'));
-
     }
 
     public function searchAudio(Request $request)
     {
-
-
         $q = $request->get('q');
 
         $q = urlencode($q);
 
 
-        if ($q != "get_added_audios_secret_query") {
-
-            $url = "https://api.vk.com/method/audio.search?count=70&q=" . $q . "&access_token=" . env("VK_ACCESS_TOKEN");
+        if ($q != 'get_added_audios_secret_query') {
+            $url = 'https://api.vk.com/method/audio.search?count=70&q='.$q.'&access_token='.env('VK_ACCESS_TOKEN');
         } else {
-            $url = "https://api.vk.com/method/audio.get?owner_id=355067326&version=5.50&access_token=" . env("VK_ACCESS_TOKEN");
+            $url = 'https://api.vk.com/method/audio.get?owner_id=355067326&version=5.50&access_token='.env('VK_ACCESS_TOKEN');
         }
 
         $ch = curl_init();
@@ -78,18 +72,18 @@ class ChatController extends Controller
         }
 
         foreach ($data as $k => $v) {
-            $url = str_replace("https://", "http://", $v['url']);
-            $data[$k]['url'] = "/audio/play?link=" . urlencode($url);
+            $url = str_replace('https://', 'http://', $v['url']);
+            $data[$k]['url'] = '/audio/play?link='.urlencode($url);
 
             $data[$k]['orig_url'] = $url;
             $data[$k]['duration_seconds'] = $v['duration'];
-            $data[$k]['duration'] = gmdate("i:s", $v['duration']);
-            $data[$k]['added'] = in_array($v['aid'], $added_ids) ? "done" : "add";
+            $data[$k]['duration'] = gmdate('i:s', $v['duration']);
+            $data[$k]['added'] = in_array($v['aid'], $added_ids) ? 'done' : 'add';
         }
         $resp = json_encode($data);
 
-        header("Content-Type: application/json");
-        header("Content-Length: " . strlen($resp));
+        header('Content-Type: application/json');
+        header('Content-Length: '.strlen($resp));
         echo $resp;
         exit;
     }
@@ -103,7 +97,7 @@ class ChatController extends Controller
             return response()->json(['success' => true]);
         }
 
-        $url = "https://api.vk.com/method/audio.add?audio_id=" . $aid . "&owner_id=" . $oid . "&v=5.50&access_token=" . env("VK_ACCESS_TOKEN");
+        $url = 'https://api.vk.com/method/audio.add?audio_id='.$aid.'&owner_id='.$oid.'&v=5.50&access_token='.env('VK_ACCESS_TOKEN');
         $ch = curl_init();
 
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -120,23 +114,21 @@ class ChatController extends Controller
         $pl->save();
 
         return response()->json(['success' => true]);
-
     }
 
     public function getlink(Request $request)
     {
         $link = $request->get('link');
-        $data = explode("7Cy3Dh4%9)CjsdD", $link);
+        $data = explode('7Cy3Dh4%9)CjsdD', $link);
 
-        $request->session()->put("dnlink", $data[0]);
-        $request->session()->put("dnname", $data[1]);
+        $request->session()->put('dnlink', $data[0]);
+        $request->session()->put('dnname', $data[1]);
 
-        return response(hash('whirlpool', $data[0] . $data[1]));
+        return response(hash('whirlpool', $data[0].$data[1]));
     }
 
     public function getLinkToPlay(Request $request)
     {
-
         $link = $request->get('link');
 
         readfile($link);
@@ -148,8 +140,8 @@ class ChatController extends Controller
         $url = $request->session()->get('dnlink');
         $fname = $request->session()->get('dnname');
 
-        IF (hash('whirlpool', $url . $fname) != $whirlpool) {
-            die("Hmm.... something with hashes WRONG!");
+        if (hash('whirlpool', $url.$fname) != $whirlpool) {
+            die('Hmm.... something with hashes WRONG!');
         }
         if ($url == null || $fname == null) {
             return redirect()->to('/audio');
@@ -158,7 +150,7 @@ class ChatController extends Controller
 
         header('Content-Description: File Transfer');
         header('Content-Type: application/octet-stream');
-        header('Content-Disposition: attachment; filename=' . $fname . ".mp3");
+        header('Content-Disposition: attachment; filename='.$fname.'.mp3');
         header('Content-Transfer-Encoding: binary');
         header('Expires: 0');
         header('Cache-Control: must-revalidate');
@@ -172,8 +164,7 @@ class ChatController extends Controller
 
     public function secureChat(Request $request, $uid)
     {
-
-        $chatHash = md5($uid . $this->uid . time() . rand());
+        $chatHash = md5($uid.$this->uid.time().rand());
 
         return view('chat.secure', ['uid' => $uid, 'id' => $this->uid]);
     }
@@ -185,6 +176,4 @@ class ChatController extends Controller
     {
         return User::where('id', $this->uid)->first();
     }
-
 }
-

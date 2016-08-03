@@ -40,7 +40,7 @@ return [
         'app/Events/FileSharedEvent.php',
         'app/Events/UserLoggedInEvent.php',
         'app/Listeners/BroadcastSocket.php',
-        'app/Listeners/FileSharedListener.php'
+        'app/Listeners/FileSharedListener.php',
 
     ],
 

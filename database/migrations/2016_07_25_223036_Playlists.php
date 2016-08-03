@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class Playlists extends Migration
 {
@@ -12,12 +12,11 @@ class Playlists extends Migration
      */
     public function up()
     {
-        Schema::create('playlists', function(Blueprint $table) {
-           $table->increments('id');
+        Schema::create('playlists', function (Blueprint $table) {
+            $table->increments('id');
             $table->integer('audio_id');
             $table->integer('owner_id');
             $table->timestamps();
-
         });
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
   'text' => '
   <H1> Privacy Policy </h1>
     <P> <span> <b> Dear visitors and users! </B> </span> </p>
@@ -101,5 +101,5 @@ return array(
     <P> <b> Have a good and to spend time on our website! </B> </p>
     <P> Date of last update: 18/03/2016 y </p>.
     
-  '  
-);
+  ',
+];

@@ -2,7 +2,7 @@
 
 return [
    'search' => 'Search..',
-    'load'=>'Load playlist',
+    'load'  => 'Load playlist',
 
 
 ];

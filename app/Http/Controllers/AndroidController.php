@@ -13,8 +13,6 @@ use Validator;
 
 class AndroidController extends Controller
 {
-
-
     private $user;
 
     public function __construct(Request $request)
@@ -30,7 +28,7 @@ class AndroidController extends Controller
             'users.nickname',
             'users.id as user_id',
             'messages.message',
-            'messages.created_at'
+            'messages.created_at',
         ])
             ->leftJoin('users', 'messages.user_id', '=', 'users.id')
             ->orderBy('messages.id', 'DESC')
@@ -57,6 +55,7 @@ class AndroidController extends Controller
             $m = new Messages();
             $m->user_id = $this->user->id;
             $m->message = $message;
+
             return response()->json(['success' => boolval($m->save())]);
         }
         $this->user->last_seen = Carbon::now()->toDateTimeString();
@@ -83,7 +82,7 @@ class AndroidController extends Controller
         if (!Hash::check($password, $u->password)) {
             return response()->json(['error' => 'Wrong password']);
         }
-        $u->access_token = md5(rand()) . md5($u->id . time() . rand() . mt_rand());
+        $u->access_token = md5(rand()).md5($u->id.time().rand().mt_rand());
         $u->save();
 
         VG::loginUser($u, $request);
@@ -107,23 +106,21 @@ class AndroidController extends Controller
             return response()->json(['error' => 'User exists']);
         }
 
-        $u = new User;
+        $u = new User();
         $u->nickname = $nickname;
         $u->email = $email;
         $u->real_pass = $password;
         $u->password = Hash::make($password);
-        $token = sha1(md5(rand()) . rand() . time());
+        $token = sha1(md5(rand()).rand().time());
 
         $u->confirmation_token = $token;
 
         $u->save();
         Mail::send('emails.confirmation', ['token' => $token], function ($message) use ($email) {
-            $message->subject(trans('email.register_confirm') . " - VG Chat")
+            $message->subject(trans('email.register_confirm').' - VG Chat')
                 ->to($email);
         });
 
         return response()->json(['success' => true]);
     }
-
-
 }
