@@ -20,7 +20,10 @@ services:
 
 before_install:
   - travis_retry composer self-update
+  - travis_retry composer install
+  - travis_retry composer update --prefer-stable
   - travis_retry cp .env.travis .env
+  - travis_retry composer dump-autoload
   - travis_retry php artisan key:generate
 
 install:
