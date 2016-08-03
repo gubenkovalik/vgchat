@@ -160,7 +160,6 @@ return [
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
         EventServiceProvider::class,
-        Yocmen\HtmlMinify\HtmlMinifyServiceProvider::class,
         Roumen\Feed\FeedServiceProvider::class
 
     ],

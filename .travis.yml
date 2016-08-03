@@ -12,16 +12,17 @@ matrix:
     - php: 7.0
       env: setup=basic
 
-sudo: false
+sudo: required
 
 services:
   - redis-server
   - memcached
 
 before_install:
+  - travis_retry sudo phpdismod xdebug
   - travis_retry composer self-update
   - travis_retry composer install
-  - travis_retry composer update --prefer-stable
+  - travis_retry composer update --prefer-stable --no-interaction
   - travis_retry cp .env.travis .env
   - travis_retry composer dump-autoload
   - travis_retry php artisan key:generate
