@@ -4,7 +4,7 @@
 
 
     <div class="jumbotron wow fadeIn" data-wow-duration="0.5s">
-      <h1>VG Chat</h1>
+      <h1>Чат Джен Кота</h1>
 
       <p>{{Lang::get('login.register_and_chat')}}! </p>
 
