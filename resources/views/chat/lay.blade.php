@@ -154,7 +154,7 @@
                     </button>
                     <h1 style="display:inline;margin:0;padding:0; font-size:inherit;">
                         <a class="navbar-brand" href="https://jencat.ml" no-data-pjax>
-                            <i class="material-icons" style="position: relative;top:-1px;color:white;">verified_user</i> VG Chat
+                            <i class="material-icons" style="position: relative;top:-1px;color:white;">verified_user</i> Чат Джен Кота
 
                         </a>
 
