@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/gubenkovalik/vgchat.svg)](https://travis-ci.org/gubenkovalik/vgchat)
+
 ## INSTALLATION ##
 Run ````composer install```` first, and then ````php artisan migrate```` and at the end import to database the __vgchat.sql__ file.
 
