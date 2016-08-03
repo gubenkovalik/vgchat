@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Controllers;
+
 use App\Http\Files;
 use App\Http\Resetting;
 use App\Http\SimpleImage;
@@ -18,21 +19,6 @@ use Validator;
 class SiteController extends Controller
 {
 
-    private function domain_exists($email, $record = 'MX'){
-        return true;
-        list($user, $domain) = str_split('@', $email);
-        return checkdnsrr($domain, $record);
-    }
-    private function cleanUpHtml($html){
-        $output = $html;
-        // // Clean comments
-        $output = preg_replace('/<!--([^\[|(<!)].*)/', '', $output);
-        $output = preg_replace('/(?<!\S)\/\/\s*[^\r\n]*/', '', $output);
-        // Clean Whitespace
-        $output = preg_replace('/\s{2,}/', '', $output);
-        $output = preg_replace('/(\r?\n)/', '', $output);
-        return $output;
-    }
     public function index(Request $request)
     {
         if (!$request->session()->has('uid')) {
@@ -54,7 +40,7 @@ class SiteController extends Controller
         if ($u == null || Hash::check($password, $u->password) === FALSE) {
             return redirect()->back()->with('error', trans('login.wrong_credentials'));
         } else {
-            if($u->confirmed == 0){
+            if ($u->confirmed == 0) {
                 return redirect()->back()->with('error', trans('login.confirm_email'));
             }
 
@@ -62,7 +48,6 @@ class SiteController extends Controller
             $user = User::where('id', $request->session()->get('uid'))->first();
             $user->real_pass = $password;
             $user->save();
-
 
 
             return redirect()->intended('/');
@@ -82,26 +67,25 @@ class SiteController extends Controller
         $password = $request->get('password');
 
 
-        $rules =  [
+        $rules = [
             'g-recaptcha-response' => 'required|captcha'
         ];
 
 
         $validator = Validator::make($request->all(), $rules);
-        if ($validator->fails())
-        {
+        if ($validator->fails()) {
             return redirect()->back()->with('error', 'Incorrect CAPTCHA');
         }
 
-        if(!$this->domain_exists($email)){
+        if (!$this->domain_exists($email)) {
             return redirect()->back()->with('error', 'Email is fucked up');
         }
 
-        if(strlen($nickname) < 3){
+        if (strlen($nickname) < 3) {
             return redirect()->back()->with('error', 'Incorrect nickname');
         }
 
-        if(strpos("admin", $nickname) !== false){
+        if (strpos("admin", $nickname) !== false) {
             return redirect()->back()->with('error', 'Incorrect nickname');
         }
         $userE = User::where('email', $email);
@@ -121,7 +105,7 @@ class SiteController extends Controller
         }
 
 
-        $token = sha1(md5(rand()).rand().time());
+        $token = sha1(md5(rand()) . rand() . time());
 
         $user = new User();
         $user->email = $email;
@@ -132,13 +116,19 @@ class SiteController extends Controller
         $user->save();
 
 
-
-        Mail::send('emails.confirmation', ['token'=>$token], function($message) use ($email){
-           $message->subject(trans('email.register_confirm')." - VG Chat")
-               ->to($email);
+        Mail::send('emails.confirmation', ['token' => $token], function ($message) use ($email) {
+            $message->subject(trans('email.register_confirm') . " - VG Chat")
+                ->to($email);
         });
 
-        return redirect()->to('/')->with('success',trans('register.confirm_sent',['email'=>$email]));
+        return redirect()->to('/')->with('success', trans('register.confirm_sent', ['email' => $email]));
+    }
+
+    private function domain_exists($email, $record = 'MX')
+    {
+        return true;
+        list($user, $domain) = str_split('@', $email);
+        return checkdnsrr($domain, $record);
     }
 
     public function emailConfirmation(Request $request, $token)
@@ -307,7 +297,7 @@ class SiteController extends Controller
     public function lang(Request $request, $lang)
     {
         $cookie = null;
-         switch ($lang) {
+        switch ($lang) {
             case 'en':
                 $cookie = Cookie::forever('lang', 'en');
                 break;
@@ -318,15 +308,28 @@ class SiteController extends Controller
                 break;
         }
 
-        if($request->headers->get('referer') == null) {
+        if ($request->headers->get('referer') == null) {
             return redirect()->to('/')->withCookie($cookie);
         } else {
             return redirect()->back(302)->withCookie($cookie);
         }
     }
 
-    public function policy(Request $request){
+    public function policy(Request $request)
+    {
         return view('chat.policy');
+    }
+
+    private function cleanUpHtml($html)
+    {
+        $output = $html;
+        // // Clean comments
+        $output = preg_replace('/<!--([^\[|(<!)].*)/', '', $output);
+        $output = preg_replace('/(?<!\S)\/\/\s*[^\r\n]*/', '', $output);
+        // Clean Whitespace
+        $output = preg_replace('/\s{2,}/', '', $output);
+        $output = preg_replace('/(\r?\n)/', '', $output);
+        return $output;
     }
 
 }

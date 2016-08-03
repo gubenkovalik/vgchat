@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Controllers;
+
 use App\Http\LinkFinder;
 use App\Http\Messages;
 use App\Http\User;
@@ -13,7 +14,7 @@ class ApiController extends Controller
     public function get(Request $request)
     {
         if ($request->session()->has('uid') == false) {
-            return response()->json(['error'=>'Access denied'], 403, [
+            return response()->json(['error' => 'Access denied'], 403, [
                 'Access-Control-Allow-Origin' => '*',
                 'Access-Control-Allow-Credentials' => 'true'
             ]);
@@ -63,7 +64,7 @@ class ApiController extends Controller
     public function send(Request $request)
     {
         if ($request->session()->has('uid') == false) {
-            return response()->json(['error'=>'Access denied'], 403, [
+            return response()->json(['error' => 'Access denied'], 403, [
                 'Access-Control-Allow-Origin' => '*',
                 'Access-Control-Allow-Credentials' => 'true'
             ]);
@@ -100,7 +101,7 @@ class ApiController extends Controller
             header("Content-Type: application/json");
 
 
-            echo json_encode(['success'=>$messages->save(), 'message'=>$messages->message]);
+            echo json_encode(['success' => $messages->save(), 'message' => $messages->message]);
 
             exit;
         }

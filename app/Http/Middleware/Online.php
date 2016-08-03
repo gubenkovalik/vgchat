@@ -27,7 +27,6 @@ class Online
         }
 
 
-
         return $next($request);
     }
 }

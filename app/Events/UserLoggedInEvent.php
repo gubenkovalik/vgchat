@@ -1,7 +1,8 @@
 <?php
 namespace App\Events;
 
-class UserLoggedInEvent extends Event{
+class UserLoggedInEvent extends Event
+{
 
     private $username;
     private $sessid;

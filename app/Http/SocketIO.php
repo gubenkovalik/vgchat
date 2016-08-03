@@ -20,20 +20,22 @@ require_once("../vendor/wisembly/elephant.io/src/Payload/Decoder.php");
 require_once("../vendor/wisembly/elephant.io/src/Payload/Encoder.php");
 
 use ElephantIO\Client as Elephant;
-use ElephantIO\Engine\SocketIO\Version0X;
 use ElephantIO\Engine\SocketIO\Version1X;
 
-class SocketIO {
+class SocketIO
+{
 
     private function __construct()
     {
     }
 
-    public static function getInstance(){
+    public static function getInstance()
+    {
         return new self;
     }
 
-    public function send($event = '', array $args = []){
+    public function send($event = '', array $args = [])
+    {
         $elephant = new Elephant(new Version1X("https://jencat.ml:3000"));
         $elephant->initialize(false)
             ->getEngine()

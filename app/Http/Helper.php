@@ -1,7 +1,9 @@
 <?php
 namespace App\Http;
-class Helper {
-    public static function getLastSeen($last_seen){
+class Helper
+{
+    public static function getLastSeen($last_seen)
+    {
         $ts = strtotime($last_seen);
 
         $yest = date('d', time() - 86400);
@@ -11,10 +13,10 @@ class Helper {
 
         $str = "";
 
-        if($day == $yest){
-            $str .= trans('users.yesterday')." ".date("H:i:s", $ts);
-        } else if($day == $today) {
-            $str .= trans('users.today')." ".date("H:i:s", $ts);
+        if ($day == $yest) {
+            $str .= trans('users.yesterday') . " " . date("H:i:s", $ts);
+        } else if ($day == $today) {
+            $str .= trans('users.today') . " " . date("H:i:s", $ts);
         } else {
             $str .= date("d.m.Y H:i:s", $ts);
         }
@@ -23,7 +25,8 @@ class Helper {
 
     }
 
-    public static function getGoodDate($last_seen){
+    public static function getGoodDate($last_seen)
+    {
         $ts = strtotime($last_seen);
 
         $yest = date('d', time() - 86400);
@@ -33,7 +36,7 @@ class Helper {
 
         $str = "";
 
-        if($day == $today){
+        if ($day == $today) {
             $str .= date("H:i:s", $ts);
         } else {
             $str .= date("d.m.Y H:i:s", $ts);

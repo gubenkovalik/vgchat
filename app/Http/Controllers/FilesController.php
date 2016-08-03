@@ -19,20 +19,12 @@ class FilesController extends Controller
 
     private $uid;
 
-    /**
-     * @return User | null
-     */
-    private function getUser()
-    {
-        return User::where('id', $this->uid)->first();
-    }
-
     public function __construct()
     {
         VG::checkAuth();
-	
+
         $user = User::where('id', session()->get('uid'))->first();
-	if($user == null) return;
+        if ($user == null) return;
         $this->uid = $user->id;
     }
 
@@ -41,12 +33,12 @@ class FilesController extends Controller
 
         $shares = FileShares::where('user_id', $this->uid)->get();
         $shared_ids = [];
-        foreach($shares as $share){
+        foreach ($shares as $share) {
             $shared_ids[] = $share->file_id;
         }
         $files = Files::where('user_id', $this->uid)->orWhereIn('id', $shared_ids)->orderBy('id', DESC)->get();
 
-        return response(View::make('chat.list', ['files' => $files, 'users'=>User::get()]))
+        return response(View::make('chat.list', ['files' => $files, 'users' => User::get()]))
             ->header('Pragma', 'no-cache');
 
     }
@@ -111,22 +103,23 @@ class FilesController extends Controller
         }
     }
 
-    public function share(Request $request){
+    public function share(Request $request)
+    {
         $file_id = $request->get('file_id');
         $users = $request->get('users');
 
 
-        if(FALSE == Files::where('user_id', $this->uid)->where('id', $file_id)->exists()) {
-            return response()->json(['fuck'=>true]);
+        if (FALSE == Files::where('user_id', $this->uid)->where('id', $file_id)->exists()) {
+            return response()->json(['fuck' => true]);
         }
         $file = Files::where('user_id', $this->uid)->where('id', $file_id)->first();
 
-        if(!is_array($users) || count($users) == 0){
+        if (!is_array($users) || count($users) == 0) {
             FileShares::where('file_id', $file_id)->forceDelete();
-            return response()->json(['success'=>true]);
+            return response()->json(['success' => true]);
         }
-        foreach($users as $uid){
-            if(!FileShares::where('file_id','=' , $file_id)->where('user_id', '=', $uid)->exists()){
+        foreach ($users as $uid) {
+            if (!FileShares::where('file_id', '=', $file_id)->where('user_id', '=', $uid)->exists()) {
                 Event::fire(new \App\Events\FileSharedEvent($file->file_name, $this->getUser()->nickname, $request->session()->get('sessid'), $uid));
             }
         }
@@ -134,8 +127,7 @@ class FilesController extends Controller
         FileShares::where('file_id', $file_id)->forceDelete();
 
 
-
-        foreach($users as $uid){
+        foreach ($users as $uid) {
 
             $share = new FileShares();
             $share->file_id = $file_id;
@@ -143,8 +135,17 @@ class FilesController extends Controller
             $share->save();
         }
 
-        return response()->json(['success'=>true]);
+        return response()->json(['success' => true]);
     }
+
+    /**
+     * @return User | null
+     */
+    private function getUser()
+    {
+        return User::where('id', $this->uid)->first();
+    }
+
     public function download(Request $request, $token)
     {
         $file = Files::where('access_token', $token)->first();

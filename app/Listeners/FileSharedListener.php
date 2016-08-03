@@ -2,7 +2,6 @@
 namespace App\Listeners;
 
 use App\Events\FileSharedEvent;
-use App\Events\UserLoggedInEvent;
 use App\Http\SocketIO;
 
 
