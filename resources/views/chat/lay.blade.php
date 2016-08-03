@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru" @if(Request::is("*/") && !Session::has("uid"))  @endif>
     <head>
-        <title>VG Chat - @yield('title') бесплатный чат и файлообменник</title>
+        <title>Чат Джен Кота - @yield('title') бесплатный чат и файлообменник</title>
         <noscript><meta http-equiv="refresh" content="0; URL=/badbrowser"></noscript>
         <base href="https://jencat.ml"/>
         <link rel="canonical" href="{{URL::current()}}"/>
@@ -14,7 +14,7 @@
         <meta name="og:title" content="VG Chat"/>
         <meta name="og:image" content="https://jencat.ml/assets/images/logo.jpg"/>
         <!--[if lt IE 9]>
-        <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+        <script src="/assets/js/libs/css3-mediaqueries.js"></script>
         <![endif]-->
         <link rel="apple-touch-icon" sizes="57x57" href="/extra/icons/apple-icon-57x57.png">
         <link rel="apple-touch-icon" sizes="60x60" href="/extra/icons/apple-icon-60x60.png">
@@ -132,14 +132,14 @@
     </div>
     
         <div itemscope itemtype="http://schema.org/Product" style="display:none">
-          <span itemprop="brand">VG Chat</span>
-          <span itemprop="name">VG Chat</span>
+          <span itemprop="brand">Чат Джен Кота</span>
+          <span itemprop="name">Чат Джен Кота</span>
     
-          <span itemprop="description">VG Free Chat
+          <span itemprop="description">Чат Джен Кота
           </span>
           Product #: <span itemprop="mpn">5415433</span>
           <span itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
-            <span itemprop="ratingValue">5.0</span> stars, based on <span itemprop="reviewCount">4505
+            <span itemprop="ratingValue">5.0</span> stars, based on <span itemprop="reviewCount">5305
               </span> reviews
           </span>
 
