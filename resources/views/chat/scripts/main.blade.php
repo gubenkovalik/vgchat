@@ -1,4 +1,4 @@
-<script src="https://rawgit.com/danmartens/angular-pjax/master/angular-pjax.js"></script>
+
 <script>
     var player;
     var playing_id;
