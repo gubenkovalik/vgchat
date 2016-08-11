@@ -219,7 +219,7 @@
     function rebootstrap(){
 
         return;
-        $('[ng-app').each(function(){
+        $('[ng-app]').each(function(){
             angular.bootstrap(this, [$(this).attr('ng-app')])
         });
         $('[ng-controller] .ng-deferred').show();

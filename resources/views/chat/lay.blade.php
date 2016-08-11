@@ -43,12 +43,12 @@
         <link rel="stylesheet" href="/assets/css/jquery-ui.theme.min.css"/>
         <link rel="stylesheet" href="/assets/css/animate.min.css"/>
 
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.2/toastr.min.css"/>
+        <link rel="stylesheet" href="/assets/css/toastr.min.css"/>
         <link href='https://fonts.googleapis.com/css?family=Didact+Gothic&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
         {!! \Roumen\Feed\Feed::link(url('/rss/atom'), 'atom', 'Fastest ML News', 'ru') !!}
         {!! \Roumen\Feed\Feed::link(url('/rss/rss'), 'rss', 'Fastest ML News', 'ru') !!}
         @include('chat.styles.main')
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/8.3.0/nouislider.min.css" rel="stylesheet"/>
+        <link href="/assets/css/nouislider.min.css" rel="stylesheet"/>
         <link rel="stylesheet" href="/assets/css/material-icons.min.css">
 <meta name="google-site-verification" content="aAevCYBNHbnj-nOUS2bE0Qg6YD0crti-jJm_0Yh6cqA" />
         <link rel="stylesheet" href="/assets/css/chat.css"/>
@@ -98,7 +98,7 @@
 
 
         </script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/layzr.js/2.0.2/layzr.min.js"></script>
+        <script src="/assets/js/libs/layzr.min.js"></script>
     </head>
     <body  data-jkit="[background]" ng-class="{ contentLoading: loading }">
     <img id="preloader" src="/extra/anim/gears.gif" alt="Loading..."/>
@@ -198,7 +198,7 @@
         <script src="/assets/js/IMPORTANT.js"></script>
     @else
         <script src="/assets/js/LIBRARIES-min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-sanitize.min.js"></script>
+        <script src="/assets/js/libs/angular-sanitize.min.js"></script>
     @endif
 
 
@@ -210,14 +210,14 @@
     <script type="text/javascript">
         new WOW().init();
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.pjax/1.9.6/jquery.pjax.min.js"></script>
+    <script src="/assets/js/libs/jquery.pjax.min.js"></script>
 
     @if(Session::has('uid'))
         @include('chat.scripts.main')
     @endif
 
 
-        <div class="container" pjax-container style="margin-top: 49px;" id="pjaxContainer">
+        <div class="container" style="margin-top: 49px;" id="pjaxContainer">
 
             @yield('content')
 
