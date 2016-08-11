@@ -217,6 +217,8 @@
     }
 
     function rebootstrap(){
+
+        return;
         $('[ng-app').each(function(){
             angular.bootstrap(this, [$(this).attr('ng-app')])
         });
