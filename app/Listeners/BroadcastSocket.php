@@ -14,6 +14,6 @@ class BroadcastSocket
 
     public function handle(UserLoggedInEvent $event)
     {
-        SocketIO::getInstance()->send('broadcast', ['sessid' => $event->getSessid(), 'msg' => $event->getUsername().' is online']);
+//        SocketIO::getInstance()->send('broadcast', ['sessid' => $event->getSessid(), 'msg' => $event->getUsername().' is online']);
     }
 }

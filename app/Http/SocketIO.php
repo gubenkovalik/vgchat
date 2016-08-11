@@ -18,11 +18,12 @@ class SocketIO
 
     public function send($event = '', array $args = [])
     {
-        $elephant = new Elephant(new Version1X('https://jencat.ml:3000'));
-        $elephant->initialize(false)
-            ->getEngine()
-            ->emit($event, $args);
 
-        $elephant->close();
+//        $elephant = new Elephant(new Version1X('https://jencat.ml:3000'));
+//        $elephant->initialize(false)
+//            ->getEngine()
+//            ->emit($event, $args);
+//
+//        $elephant->close();
     }
 }
