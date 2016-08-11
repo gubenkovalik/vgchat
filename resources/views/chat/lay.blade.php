@@ -42,7 +42,9 @@
         <link rel="stylesheet" href="/assets/css/jquery-ui.min.css"/>
         <link rel="stylesheet" href="/assets/css/jquery-ui.theme.min.css"/>
         <link rel="stylesheet" href="/assets/css/animate.min.css"/>
-
+        <link rel="stylesheet" href="/assets/css/animate.min.css"/>
+        <link rel="stylesheet" href="/assets/css/toastr.min.css"/>
+        <link rel="stylesheet" href="/assets/css/perfect-scrollbar.min.css"/>
         <link rel="stylesheet" href="/assets/css/toastr.min.css"/>
         <link href='https://fonts.googleapis.com/css?family=Didact+Gothic&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
         {!! \Roumen\Feed\Feed::link(url('/rss/atom'), 'atom', 'Fastest ML News', 'ru') !!}
