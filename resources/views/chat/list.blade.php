@@ -32,7 +32,10 @@
         @foreach($files as $file)
         <div class="list-group-item well">
             <div class="row-action-primary">
-                <i>{{\App\Jen\JenCat::getFileExtension($file->file_name)}}</i>
+                @php
+                $ext = \App\Jen\JenCat::getFileExtension($file->file_name);
+                @endphp
+                <img src="/assets/fti/{{$ext}}.png" alt="{{$ext}}"/>
             </div>
             <div class="row-content" style="width:100% !important;">
                 <?php
