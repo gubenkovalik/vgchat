@@ -14,11 +14,13 @@
             <h3 class="panel-title text-primary"><button onclick="$('#uplpanel').slideToggle(600);" class="btn btn-inverse">{{Lang::get('files.upload')}}</button></h3>
         </div>
         <div class="panel-body" style="display:none;" id="uplpanel">
+            <blockquote>100 GB Max</blockquote>
             <form action="/files/upload" class="dropzone" id="uplf" enctype="multipart/form-data">
                 <div class="fallback">
                     <input name="file" type="file" multiple />
                 </div>
             </form>
+
             <div class="progress progress-striped active">
                 <div class="progress-bar" id="uplbar" style="width: 0%"></div>
             </div>
@@ -115,7 +117,9 @@
 
         var myDropzone = new Dropzone("#uplf",
             {
-                url: "/files/upload"
+                url: "/files/upload",
+                withCredentials: true,
+                maxFilesize: 104000
             }
         );
 
