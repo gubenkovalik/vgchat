@@ -12,6 +12,6 @@ namespace App\Jen;
 class JenCat {
 
     public static function getFileExtension($fileName) {
-        return array_last(explode(".", $fileName));
+        return strtolower(array_last(explode(".", $fileName)));
     }
 }
