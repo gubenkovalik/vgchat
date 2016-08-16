@@ -113,10 +113,13 @@
             "hideMethod": "fadeOut"
         };
 
-        var myDropzone = new Dropzone("#uplf", { url: "/files/upload"});
-        myDropzone.options = {
-            maxFilesize: 104400
-        };
+        var myDropzone = new Dropzone("#uplf",
+            {
+                url: "/files/upload"
+            }
+        );
+
+        console.log(myDropzone.options);
 
         myDropzone.on("complete", function(file) {
             setTimeout(function(){
