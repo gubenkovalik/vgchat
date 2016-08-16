@@ -1,5 +1,5 @@
 @extends('chat.lay')
-@section('title') {{Lang::get('resetting.remind')}} - @stop
+@section('title') {{trans('resetting.remind')}} - @stop
 @section('content')
     <h2>News</h2>
 
@@ -7,14 +7,14 @@
 
  
     <div class="col-md-6 well well-lg">
-        @if(Session::has('error'))
+        @if(session()->has('error'))
             <div class="alert alert-dismissible alert-danger">
                 <button type="button" class="close" data-dismiss="alert">×</button>
-                {{Session::get('error')}}
+                {{session()->get('error')}}
 
             </div>
         @endif
-		@if(Session::get('uid') == 1)
+		@if(session()->get('uid') == 1)
 			<a href="/news/add" class="btn btn-primary"><i class="material-icons">add</i> Add</a>
 		@endif
 	@foreach($news as $n)

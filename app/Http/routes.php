@@ -107,7 +107,7 @@ Route::group(['middleware' => ['web', 'locale', 'online']], function () {
 
             return redirect()->to('/news', 302);
         }
-        if (Session::get('uid') == 1) {
+        if (session()->get('uid') == 1) {
             return view('chat.addNews');
         } else {
             app()->abort(404);

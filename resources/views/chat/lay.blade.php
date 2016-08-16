@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru" @if(Request::is("*/") && !Session::has("uid"))  @endif>
+<html lang="ru" @if(Request::is("*/") && !session()->has("uid"))  @endif>
     <head>
         <title>Чат Джен Кота - @yield('title') бесплатный чат и файлообменник</title>
         <noscript><meta http-equiv="refresh" content="0; URL=/badbrowser"></noscript>
@@ -115,19 +115,19 @@
         @if(Request::is("*/"))
         <div itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
           <a href="https://jencat.ml/" itemprop="url">
-            <span itemprop="title">{{Lang::get('login.login')}}</span>
+            <span itemprop="title">{{trans('login.login')}}</span>
           </a> ›
         </div>
         @elseif(Request::is("*register"))
         <div itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
           <a href="https://jencat.ml/register" itemprop="url">
-            <span itemprop="title">{{Lang::get('register.register')}}</span>
+            <span itemprop="title">{{trans('register.register')}}</span>
           </a> ›
         </div>
         @elseif(Request::is("*remind"))
         <div itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
           <a href="https://jencat.ml/remind" itemprop="url">
-            <span itemprop="title">{{Lang::get('resetting.remind')}}</span>
+            <span itemprop="title">{{trans('resetting.remind')}}</span>
           </a> ›
         </div>
         @endif
@@ -167,25 +167,25 @@
                         <div id="sses1">
                     <ul class="nav navbar-nav">
                         <li class="dropdown">
-                            <a no-data-pjax href="javascript:void(0);" data-target="#" class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">language</i> <span class="menuitem">{{Lang::get('master.language')}}</span>
+                            <a no-data-pjax href="javascript:void(0);" data-target="#" class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">language</i> <span class="menuitem">{{trans('master.language')}}</span>
                                 <b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><a no-data-pjax @if(Session::has('uid')) data-no-instant @endif href="/lang/ru">Русский</a></li>
-                                <li><a no-data-pjax @if(Session::has('uid')) data-no-instant @endif href="/lang/en">English</a></li>
+                                <li><a no-data-pjax @if(session()->has('uid')) data-no-instant @endif href="/lang/ru">Русский</a></li>
+                                <li><a no-data-pjax @if(session()->has('uid')) data-no-instant @endif href="/lang/en">English</a></li>
                             </ul>
                         </li>
-                        @if(Session::has('uid'))
-                        <li data-no-instant @if(Request::is("*/"))class="active" @endif><a data-pjax href="/"><i class="material-icons">chat</i> <span class="menuitem">{{Lang::get('master.chat')}}</span></a></li>
-                        <li data-no-instant @if(Request::is("*files*"))class="active" @endif ><a data-pjax href="/files"><i class="material-icons">folder_open</i> <span class="menuitem">{{Lang::get('master.files')}}</span></a></li>
+                        @if(session()->has('uid'))
+                        <li data-no-instant @if(Request::is("*/"))class="active" @endif><a data-pjax href="/"><i class="material-icons">chat</i> <span class="menuitem">{{trans('master.chat')}}</span></a></li>
+                        <li data-no-instant @if(Request::is("*files*"))class="active" @endif ><a data-pjax href="/files"><i class="material-icons">folder_open</i> <span class="menuitem">{{trans('master.files')}}</span></a></li>
                         <li data-no-instant @if(Request::is("*audio*"))class="active" @endif ><a data-pjax href="/audio"><i class="material-icons">volume_up</i> <span class="menuitem">{{trans('master.music')}}</span></a></li>
-                        <li data-no-instant @if(Request::is("*users*"))class="active" @endif ><a data-pjax href="/users"><i class="material-icons">supervisor_account</i> <span class="menuitem">{{Lang::get('master.users')}}</span></a></li>
-                        <li data-no-instant @if(Request::is("*settings*"))class="active" @endif ><a data-pjax href="/settings"><i class="material-icons">settings</i> <span class="menuitem">{{Lang::get('master.settings')}}</span></a></li>
-                        <li><a data-no-instant href="/logout"><i class="material-icons">power_settings_new</i> <span class="menuitem">{{Lang::get('master.logout')}}</span></a></li>
+                        <li data-no-instant @if(Request::is("*users*"))class="active" @endif ><a data-pjax href="/users"><i class="material-icons">supervisor_account</i> <span class="menuitem">{{trans('master.users')}}</span></a></li>
+                        <li data-no-instant @if(Request::is("*settings*"))class="active" @endif ><a data-pjax href="/settings"><i class="material-icons">settings</i> <span class="menuitem">{{trans('master.settings')}}</span></a></li>
+                        <li><a data-no-instant href="/logout"><i class="material-icons">power_settings_new</i> <span class="menuitem">{{trans('master.logout')}}</span></a></li>
                         @else
-                        <li @if(Request::is("*/"))class="active"@endif><a href="/"><i class="material-icons">input</i> <span class="menuitem">{{Lang::get('master.login')}}</span></a></li>
-                        <li @if(Request::is("*register"))class="active" @endif><a href="/register"><i class="material-icons">add_circle_outline</i> <span class="menuitem">{{Lang::get('master.register')}}</span></a></li>
-                        <li @if(Request::is("*policy"))class="active" @endif><a href="/policy"><i class="material-icons">subject</i> <span class="menuitem">{{Lang::get('master.policy')}}</span></a></li>
-                            <li @if(Request::is("*news"))class="active" @endif><a href="/news"><i class="material-icons">subject</i> <span class="menuitem">{{Lang::get('master.news')}}</span></a></li>
+                        <li @if(Request::is("*/"))class="active"@endif><a href="/"><i class="material-icons">input</i> <span class="menuitem">{{trans('master.login')}}</span></a></li>
+                        <li @if(Request::is("*register"))class="active" @endif><a href="/register"><i class="material-icons">add_circle_outline</i> <span class="menuitem">{{trans('master.register')}}</span></a></li>
+                        <li @if(Request::is("*policy"))class="active" @endif><a href="/policy"><i class="material-icons">subject</i> <span class="menuitem">{{trans('master.policy')}}</span></a></li>
+                            <li @if(Request::is("*news"))class="active" @endif><a href="/news"><i class="material-icons">subject</i> <span class="menuitem">{{trans('master.news')}}</span></a></li>
                         @endif
                         {{--<li style="vertical-align:middle;display:table-row;"><img style="margin:3px" src="/assets/images/rsz_comodo.png" alt="COMODO SECURE"/></li>--}}
                         {{--<li><a no-data-pjax href="javascript:void(0);">Time: <span id="clock"></span></a></li>--}}
@@ -196,7 +196,7 @@
         </div>
     <script src="//vk.com/js/api/openapi.js" type="text/javascript"></script>
 
-    @if(Request::is("*/") && !Session::has('uid'))
+    @if(Request::is("*/") && !session()->has('uid'))
         <script src="/assets/js/IMPORTANT.js"></script>
     @else
         <script src="/assets/js/LIBRARIES-min.js"></script>
@@ -214,7 +214,7 @@
     </script>
     <script src="/assets/js/libs/jquery.pjax.min.js"></script>
 
-    @if(Session::has('uid'))
+    @if(session()->has('uid'))
         @include('chat.scripts.main')
     @endif
 

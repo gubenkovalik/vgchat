@@ -12,9 +12,9 @@ class VG
 {
     final public static function loginUser(User $user, Request $request)
     {
-        Session::put('uid', $user->id);
+        session()->put('uid', $user->id);
         $sessid = md5(rand().time().rand().sha1(rand()));
-        Session::put('sessid', $sessid);
+        session()->put('sessid', $sessid);
         $redis = new Redis();
         $redis->connect('127.0.0.1', 6379);
         $redis->set('secure:'.$sessid, true);
@@ -26,9 +26,9 @@ class VG
 
     final public static function loginUserById($userid, Request $request)
     {
-        Session::put('uid', $userid);
+        session()->put('uid', $userid);
         $sessid = md5(rand().time().rand().sha1(rand()));
-        Session::put('sessid', $sessid);
+        session()->put('sessid', $sessid);
         $redis = new Redis();
         $redis->connect('127.0.0.1', 6379);
         $redis->set('secure:'.$sessid, true);
@@ -37,7 +37,7 @@ class VG
 
     final public static function checkAuth()
     {
-        if (false === Session::has('uid')) {
+        if (false === session()->has('uid')) {
             header('Location: /', true, 302);
             exit;
         }
