@@ -32,7 +32,7 @@
         @foreach($files as $file)
         <div class="list-group-item well">
             <div class="row-action-primary">
-                <i class="material-icons" id="icon2{{$file->id}}">{{$file->user_id == Session::get('uid') ? $file->public == 0 ? "lock" : "done" : "folder_shared"}}</i>
+                <i>{{\App\Jen\JenCat::getFileExtension($file->file_name)}}</i>
             </div>
             <div class="row-content" style="width:100% !important;">
                 <?php
