@@ -114,6 +114,10 @@
         };
 
         var myDropzone = new Dropzone("#uplf", { url: "/files/upload"});
+        myDropzone.options = {
+            maxFilesize: 104400
+        };
+
         myDropzone.on("complete", function(file) {
             setTimeout(function(){
 
