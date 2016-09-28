@@ -52,7 +52,6 @@
         @include('chat.styles.main')
         <link href="/assets/css/nouislider.min.css" rel="stylesheet"/>
         <link rel="stylesheet" href="/assets/css/material-icons.min.css">
-<meta name="google-site-verification" content="aAevCYBNHbnj-nOUS2bE0Qg6YD0crti-jJm_0Yh6cqA" />
         <link rel="stylesheet" href="/assets/css/chat.css"/>
         <script type="application/ld+json">
         { "@context" : "http://schema.org",
@@ -101,6 +100,7 @@
 
         </script>
         <script src="/assets/js/libs/layzr.min.js"></script>
+	<meta name="google-site-verification" content="1x8OQUxAPYfvj2WkUoSqlmZyN-Yl7G7X__cXsl0HHrg" />
     </head>
     <body  data-jkit="[background]" ng-class="{ contentLoading: loading }">
     <img id="preloader" src="/extra/anim/gears.gif" alt="Loading..."/>
