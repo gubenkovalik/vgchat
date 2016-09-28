@@ -1,30 +1,30 @@
 @extends('chat.lay')
 
-@section('title') {{Lang::get('settings.settings')}} - @stop
+@section('title') {{trans('settings.settings')}} - @stop
 @section('content')
     <h1></h1>
 
     <form class="form-horizontal well" action="" method="post" enctype="multipart/form-data">
-        @if(Session::has('error'))
+        @if(session()->has('error'))
             <div class="alert alert-dismissible alert-danger">
                 <button type="button" class="close" data-dismiss="alert">×</button>
-                {{Session::get('error')}}
+                {{session()->get('error')}}
 
             </div>
         @endif
-            @if(Session::has('success'))
+            @if(session()->has('success'))
                 <div class="alert alert-dismissible alert-success">
                     <button type="button" class="close" data-dismiss="alert">×</button>
-                    {{Session::get('success')}}
+                    {{session()->get('success')}}
 
                 </div>@endif
         <fieldset>
-            <legend>{{Lang::get('settings.settings')}}</legend>
+            <legend>{{trans('settings.settings')}}</legend>
             <div class="form-group">
-                <label for="nck" class="col-md-2 control-label">{{Lang::get('register.nickname')}}</label>
+                <label for="nck" class="col-md-2 control-label">{{trans('register.nickname')}}</label>
 
                 <div class="col-md-10">
-                    <input autocomplete="off" class="form-control" id="nck" placeholder="{{Lang::get('register.nickname')}}" name="nickname" type="text" value="{{$user->nickname}}">
+                    <input autocomplete="off" class="form-control" id="nck" placeholder="{{trans('register.nickname')}}" name="nickname" type="text" value="{{$user->nickname}}">
                 </div>
             </div>
             <div class="form-group">
@@ -35,31 +35,31 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="inputPassword" class="col-md-2 control-label">{{Lang::get('settings.old_pass')}}</label>
+                <label for="inputPassword" class="col-md-2 control-label">{{trans('settings.old_pass')}}</label>
 
                 <div class="col-md-10">
-                    <input class="form-control" name="oldPass" id="inputPassword" placeholder="{{Lang::get('settings.old_pass')}}" type="password">
+                    <input class="form-control" name="oldPass" id="inputPassword" placeholder="{{trans('settings.old_pass')}}" type="password">
                 </div>
             </div>
             <div class="form-group">
-                <label for="inputPassword" class="col-md-2 control-label">{{Lang::get('settings.new_pass')}}</label>
+                <label for="inputPassword" class="col-md-2 control-label">{{trans('settings.new_pass')}}</label>
 
                 <div class="col-md-10">
-                    <input class="form-control" name="newPass" id="inputPassword" placeholder="{{Lang::get('settings.new_pass')}}" type="password">
+                    <input class="form-control" name="newPass" id="inputPassword" placeholder="{{trans('settings.new_pass')}}" type="password">
                 </div>
             </div>
 
 
             <div class="form-group">
 
-                <label for="inputFile" class="col-md-2 control-label">{{Lang::get('settings.avatar')}}</label>
+                <label for="inputFile" class="col-md-2 control-label">{{trans('settings.avatar')}}</label>
 
                 <div class="col-md-10">
 
-                    <a href="javascript:void(0);" class="btn btn-flat btn-success">{{Lang::get('settings.select')}}</a>
+                    <a href="javascript:void(0);" class="btn btn-flat btn-success">{{trans('settings.select')}}</a>
                     <input id="inputFile"  name="avatar" accept="image/*" type="file">
                 </div>
-                <a href="javascript:void(0);" id="saveCircle" class="btn btn-flat btn-success">{{Lang::get('settings.crop')}}</a>
+                <a href="javascript:void(0);" id="saveCircle" class="btn btn-flat btn-success">{{trans('settings.crop')}}</a>
                 <div id="crpp"></div>
 
             </div>
@@ -67,7 +67,7 @@
             <div class="form-group">
                 <div class="col-md-10 col-md-offset-2">
 
-                    <button type="submit" class="btn btn-primary">{{Lang::get('settings.save')}}</button>
+                    <button type="submit" class="btn btn-primary">{{trans('settings.save')}}</button>
                 </div>
             </div>
         </fieldset>

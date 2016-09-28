@@ -16,7 +16,7 @@ class ChatController extends Controller
     {
         VG::checkAuth();
 
-        $user = User::whereId(Session::get('uid'))->first();
+        $user = User::whereId(session()->get('uid'))->first();
         $this->uid = $user->id;
     }
 

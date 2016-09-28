@@ -10,7 +10,7 @@
         </div>
         <div class="form-group">
             <label for="inputFile" class="col-md-2 control-label">Image</label>
-            <a href="javascript:void(0);" class="btn btn-flat btn-success">{{Lang::get('settings.select')}}</a>
+            <a href="javascript:void(0);" class="btn btn-flat btn-success">{{trans('settings.select')}}</a>
             <input id="inputFile"  name="image" accept="image/*" type="file">
         </div>
         <div class="form-group">

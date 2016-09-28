@@ -1,20 +1,20 @@
 @extends('chat.lay')
-@section('title') {{Lang::get('resetting.remind')}} - @stop
+@section('title') {{trans('resetting.remind')}} - @stop
 @section('content')
-    <h2>{{Lang::get('resetting.remind')}}</h2>
+    <h2>{{trans('resetting.remind')}}</h2>
 
     <br/>
 
-    @if(Session::has('email'))
+    @if(session()->has('email'))
         <div class="alert alert-dismissible alert-success">
-            <button type="button" class="close" data-dismiss="alert">×</button>{{Lang::get('resetting.link_sent')}} <strong>{{Session::get('email')}}</strong>
+            <button type="button" class="close" data-dismiss="alert">×</button>{{trans('resetting.link_sent')}} <strong>{{session()->get('email')}}</strong>
         </div>
     @else
     <div class="col-md-6 well well-lg">
-        @if(Session::has('error'))
+        @if(session()->has('error'))
             <div class="alert alert-dismissible alert-danger">
                 <button type="button" class="close" data-dismiss="alert">×</button>
-                {{Session::get('error')}}
+                {{session()->get('error')}}
 
             </div>
         @endif
@@ -23,7 +23,7 @@
                 <input type="email" name="email" class="form-control" id="email" placeholder="E-mail">
             </div>
 
-            <button type="submit" class="btn btn-primary btn-raised">{{Lang::get('remind')}}</button>
+            <button type="submit" class="btn btn-primary btn-raised">{{trans('remind')}}</button>
         </form>
     </div>
     @endif

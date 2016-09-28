@@ -125,7 +125,7 @@
 </script>
 <script data-no-instant src="/assets/js/socket/io.js"></script>
 <script>
-    var _sessid = "{{Session::get('sessid')}}";
+    var _sessid = "{{session()->get('sessid')}}";
 
     var socket = io.connect('https://jencat.ml:3000', {secure: true});
 
@@ -150,7 +150,7 @@
     };
     socket.on("user notify", function(data){
         console.log(data);
-        if(data.uid == '{{Session::get('uid')}}'){
+        if(data.uid == '{{session()->get('uid')}}'){
 
             toastr.info(data.msg, data.nickname);
             ion.sound.play("notification");

@@ -1,12 +1,12 @@
 @extends('chat.lay')
 
 @section('content')
-    @if(Session::has('error')) <span class="text-danger">{{Session::get('error')}}</span>@endif
+    @if(session()->has('error')) <span class="text-danger">{{session()->get('error')}}</span>@endif
     <div ng-app="chatApp" class="col-md-6" style="margin-top:30px;margin: 0 auto;" ng-controller="chatCtrl">
         <form ng-submit="submitComment()">
             <div class="form-group label-floating">
                 <div class="input-group">
-                    <label class="control-label" for="message">{{Lang::get('chat.message')}}..</label>
+                    <label class="control-label" for="message">{{trans('chat.message')}}..</label>
                     <input autocomplete="off" ng-model="chatData.message" name="message" type="text" id="message" class="form-control">
                     <span class="input-group-btn">
                       <button type="submit" class="btn btn-inverse btn-fab btn-fab-mini">
@@ -64,8 +64,8 @@
         var _nickname = "{{$user->nickname}}";
         var _user_id = "{{$user->id}}";
         var _avatar = "{{$user->avatar}}";
-        var _typingLang = "{{Lang::get('chat.typing')}}";
-        var _sessid = "{{Session::get('sessid')}}";
+        var _typingLang = "{{trans('chat.typing')}}";
+        var _sessid = "{{session()->get('sessid')}}";
 
         var currentPermission;
         Notification.requestPermission(perm);

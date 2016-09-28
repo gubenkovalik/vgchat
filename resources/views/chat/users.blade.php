@@ -20,10 +20,10 @@
                     <h4 @if($user->online == true)style="float: left;position: relative; top: 46px;"@endif class="list-group-item-heading msg-left">{{$user->nickname}}</h4>
 
                     @if($user->online == true)<span style="float: right;position: relative;top:35px">
-                        <a onclick="$('#notifyModal').modal('show');$('#uid').val('{{$user->id}}');return;" data-toggle="tooltip" data-placement="bottom" title="{{Lang::get('users.notify')}}" data-original-title="{{Lang::get('users.notify')}}" href="javascript:void(0)" class="btn btn-warning btn-fab btn-fab-mini"><i class="material-icons">settings_input_antenna</i></a>
+                        <a onclick="$('#notifyModal').modal('show');$('#uid').val('{{$user->id}}');return;" data-toggle="tooltip" data-placement="bottom" title="{{trans('users.notify')}}" data-original-title="{{trans('users.notify')}}" href="javascript:void(0)" class="btn btn-warning btn-fab btn-fab-mini"><i class="material-icons">settings_input_antenna</i></a>
                     </span>
                         @else
-                        <p class="list-group-item-text" style="font-size: 8pt; color:#777">{{Lang::get('users.last_seen')}} {{\App\Http\Helper::getLastSeen($user->last_seen)}}</p>
+                        <p class="list-group-item-text" style="font-size: 8pt; color:#777">{{trans('users.last_seen')}} {{\App\Http\Helper::getLastSeen($user->last_seen)}}</p>
                     @endif
                 </div>
 
@@ -38,21 +38,21 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title">{{Lang::get('users.notify')}}</h4>
+                    <h4 class="modal-title">{{trans('users.notify')}}</h4>
                 </div>
                 <div class="modal-body">
-                    <p>{{Lang::get('users.ntext')}}</p>
+                    <p>{{trans('users.ntext')}}</p>
                     <form action="" id="notifyForm" onsubmit="event.preventDefault();notifyUser();">
                         <div class="form-group label-floating">
-                            <label class="control-label" for="text">{{Lang::get('users.text')}}</label>
+                            <label class="control-label" for="text">{{trans('users.text')}}</label>
                             <input autocomplete="off" aria-autocomplete="off" class="form-control" id="text" type="text">
                         </div>
                         <input type="hidden" id="uid">
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" onclick="notifyUser()" class="btn btn-primary">{{Lang::get('users.btn')}}</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">{{Lang::get('users.cancel')}}</button>
+                    <button type="button" onclick="notifyUser()" class="btn btn-primary">{{trans('users.btn')}}</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">{{trans('users.cancel')}}</button>
                 </div>
             </div>
         </div>
@@ -60,7 +60,7 @@
 
 
     <script data-no-instant>
-        var _sessid = "{{Session::get('sessid')}}";
+        var _sessid = "{{session()->get('sessid')}}";
 
         function notifyUser(){
             var uid = $('#uid').val();
@@ -70,7 +70,7 @@
             }
 
             $('#notifyModal').modal('hide');
-            socket.emit("user notify", {uid: uid, sessid: _sessid, msg: msg,nickname: '{{App\Http\User::find(Session::get('uid'))->nickname}}', avatar: '{{App\Http\User::find(Session::get('uid'))->avatar}}'});
+            socket.emit("user notify", {uid: uid, sessid: _sessid, msg: msg,nickname: '{{App\Http\User::find(session()->get('uid'))->nickname}}', avatar: '{{App\Http\User::find(session()->get('uid'))->avatar}}'});
         }
 
 
